@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom"; 
 import LandingPage from "./components/landingpage";
 import Plan from "./components/plan";
+import Profile from "./components/profile";
 
 class App extends Component{
     constructor(props){
@@ -16,6 +17,7 @@ class App extends Component{
                 <Switch>
                     <Route path="/" component={LandingPage} exact/>
                     <Route path="/plan" component={Plan} exact/>
+                    <Route path="/profile" component={Profile} exact/>
                 </Switch>
             </BrowserRouter>
         );

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import {NavLink} from "react-router-dom";
 
-const LandingPage = () =>{
+const Map = () =>{
     return(
-        <div>LandingPage
+        <div>Map
             <NavLink to="/plan">plan</NavLink>
             <NavLink to="/profile">planprofile</NavLink>
         </div>
     );
 };
 
-export default LandingPage;
+export default Map;

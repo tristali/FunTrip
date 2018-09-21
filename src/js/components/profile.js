@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Login from "./elements/login";
 import Header from "./elements/header";
-import PlanTrip from "./elements/plantrip";
 import Map from "./elements/map";
 
-class Plan extends Component{
+class Profile extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -17,11 +16,10 @@ class Plan extends Component{
             <div>
                 <Login />
                 <Header />
-                <PlanTrip />
                 <Map />
             </div>
         );
     }
 }
 
-export default Plan;
+export default Profile;
