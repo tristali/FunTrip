@@ -1,0 +1,30 @@
+/*color*/
+$primary-color:#1FA2FF;
+$second-color: #5D5F77;
+$color-light-gray-line: #ddd;
+
+/*font*/
+$font-size-medium: 17px;
+$font-size-medium-small: 15px;
+$font-size-small: 13px;
+
+$font-size-medium-phone: 15px;
+$font-size-small-phone: 10px;
+
+$font-family-en: "Century Gothic";
+
+/*media*/
+$pad-media: 765px;
+$phone-media: 450px;
+
+@mixin pad-width {
+    @media (max-width: $pad-media) {
+        @content;
+    }
+}
+
+@mixin phone-width {
+    @media (max-width: $phone-media) {
+        @content;
+    }
+}
