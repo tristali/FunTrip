@@ -3,6 +3,8 @@ $primary-color:#1FA2FF;
 $second-color: #5D5F77;
 $color-light-gray-line: #ddd;
 
+$primary-gradient-color: linear-gradient(#0573FE 40%,#2FD3F6);
+
 /*font*/
 $font-size-medium: 17px;
 $font-size-medium-small: 15px;
@@ -10,8 +12,6 @@ $font-size-small: 13px;
 
 $font-size-medium-phone: 15px;
 $font-size-small-phone: 10px;
-
-$font-family-en: "Century Gothic";
 
 /*media*/
 $pad-media: 765px;

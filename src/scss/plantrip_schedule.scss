@@ -1,0 +1,83 @@
+@import "./config.scss";
+
+.plantrip{
+    >div.bottom{
+        >div.schedule{
+            padding: 1.5% 0;
+            >div{
+                >h3{
+                    background-color: $primary-color;
+                    border-radius: 0 20px 20px 0;
+                    padding: 0 6%;
+                    display: inline-block;
+                    div{
+                        font-size: $font-size-medium;
+                        line-height: 2.5rem;
+                        letter-spacing: 1px;
+                        color: #fff;
+                        float: left;
+                        &:nth-child(1){
+                            padding-right: 35px;
+                        }
+                    }
+                }
+                >div{
+                    padding: 1.5% 6%;
+                    >div{
+                        >ul{
+                            >li{
+                                float: left;
+                                font-size: $font-size-medium-small;
+                            }
+                            &.location{
+                                >li{
+                                    &.time{
+                                        letter-spacing: 0;
+                                        width: 50px;
+                                        padding: 6px 0;
+                                    }
+                                    &.type_icon{
+                                        padding: 2px;
+                                        border-radius: 100%;
+                                        border: dashed 1px $primary-color;
+                                        >div{
+                                            width: 40px;
+                                            height: 40px;
+                                            background-color: $primary-color;
+                                            border-radius: 100%;
+                                        }
+                                    }
+                                    &.text{
+                                        padding: 6px 13px;
+                                    }
+                                }
+                            }
+                        }
+                        div.remarks{
+                            padding-left: 73px;
+                            >div{
+                                border-left: dashed 1px $primary-color;
+                                padding-left: 40px;
+                                font-size: $font-size-small;
+                                >ul{
+                                    padding-bottom: 5%;
+                                    >li{
+                                        >div{
+                                            float: left;
+                                            letter-spacing: 1px;
+                                            line-height: 1.5rem;
+                                            padding: 0.5% 0;
+                                            &:nth-child(1){
+                                                padding-right: 3%;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

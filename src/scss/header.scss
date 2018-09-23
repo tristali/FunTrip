@@ -52,9 +52,12 @@ header{
                 }
             }
             li:nth-child(1){
-                background-image: url(../img/my_plan.svg);
+                background-image: url(../img/add.svg);
             }
             li:nth-child(2){
+                background-image: url(../img/my_plan.svg);
+            }
+            li:nth-child(3){
                 background-image: url(../img/logout.svg);
                 letter-spacing: 34px;
             }

@@ -13,7 +13,8 @@ const Header = () =>{
             </ul>
             <div className="menu">
                 <ul>
-                    <li><NavLink to="/profile">我的行程</NavLink></li>
+                    <li>新增旅程</li>
+                    <li><NavLink to="/profile">我的旅程</NavLink></li>
                     <li>登出</li>
                 </ul>
             </div>

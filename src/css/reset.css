@@ -22,10 +22,9 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-	font-family:  "微軟正黑體","Microsoft JhengHei","PingFang TC","Century Gothic",Arial,"sans-serif";
+	font-family:  "Century Gothic","微軟正黑體","Microsoft JhengHei","PingFang TC",Arial,"sans-serif";
 	line-height: 2rem;
 	color: #5D5F77;
-	letter-spacing: 1px;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -81,4 +80,5 @@ input{
 
 * {
 	box-sizing: border-box;
+	letter-spacing: 1.5px;
 }
