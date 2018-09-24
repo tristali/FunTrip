@@ -4,6 +4,9 @@
     >div.bottom{
         >div.schedule{
             padding: 1.5% 0;
+            width: 100%;
+            height: calc(100vh - 59px - 290px - 93px);
+            overflow-y: scroll;
             >div{
                 >h3{
                     background-color: $primary-color;
@@ -19,15 +22,22 @@
                         &:nth-child(1){
                             padding-right: 35px;
                         }
+                        @include pad-width{
+                            font-size: $font-size-medium-phone;
+                        }
                     }
                 }
                 >div{
-                    padding: 1.5% 6%;
+                    padding: 3% 6%;
+                    cursor: pointer;
                     >div{
                         >ul{
                             >li{
                                 float: left;
                                 font-size: $font-size-medium-small;
+                                @include pad-width{
+                                    font-size: $font-size-medium-phone;
+                                }
                             }
                             &.location{
                                 >li{
@@ -44,11 +54,23 @@
                                             width: 40px;
                                             height: 40px;
                                             background-color: $primary-color;
+                                            background-position: center center;
+                                            background-repeat: no-repeat;
                                             border-radius: 100%;
                                         }
                                     }
                                     &.text{
-                                        padding: 6px 13px;
+                                        padding: 6px 0 6px 13px;
+                                        width: calc(100% - 50px - 46px - 44px);
+                                    }
+                                    &.edit{
+                                        width: 44px;
+                                        height: 44px;
+                                        padding: 6px;
+                                        background-image: url(../img/edit.svg);
+                                        opacity: 0.3;
+                                        float: right;
+                                        transition: opacity 0.5s;
                                     }
                                 }
                             }
@@ -59,21 +81,100 @@
                                 border-left: dashed 1px $primary-color;
                                 padding-left: 40px;
                                 font-size: $font-size-small;
+                                @include pad-width{
+                                    font-size: $font-size-small-phone;
+                                }
                                 >ul{
                                     padding-bottom: 5%;
                                     >li{
-                                        >div{
-                                            float: left;
-                                            letter-spacing: 1px;
-                                            line-height: 1.5rem;
-                                            padding: 0.5% 0;
-                                            &:nth-child(1){
-                                                padding-right: 3%;
-                                            }
-                                        }
+                                        letter-spacing: 1px;
+                                        line-height: 1.5rem;
+                                        padding: 0.5% 0;
                                     }
                                 }
                             }
+                        }
+                        /*transport*/
+                        &.transport{
+                            >ul>li.type_icon>div{
+                                background-image: url(../img/transport.svg);
+                            }
+                            &.airplane{
+                                >ul>li.type_icon>div{
+                                    background-image: url(../img/transport_airplane.svg);
+                                }
+                            }
+                            &.train{
+                                >ul>li.type_icon>div{
+                                    background-image: url(../img/transport_train.svg);
+                                }
+                            }
+                            &.car{
+                                >ul>li.type_icon>div{
+                                            background-image: url(../img/transport_car.svg);
+                                }
+                            }
+                            &.car{
+                                >ul>li.type_icon>div{
+                                            background-image: url(../img/transport_car.svg);
+                                }
+                            }
+                        }
+                        /*lodge*/
+                        &.lodge{
+                            >ul>li.type_icon>div{
+                                background-image: url(../img/lodge.svg);
+                            }
+                        }
+                        /*food*/
+                        &.food{
+                            >ul>li.type_icon>div{
+                                background-image: url(../img/food.svg);
+                            }
+                            &.drink{
+                                >ul>li.type_icon>div{
+                                    background-image: url(../img/food_drink.svg);
+                                }
+                            }
+                        }
+                        /*activity*/
+                        &.activity{
+                            >ul>li.type_icon>div{
+                                background-image: url(../img/activity.svg);
+                            }
+                            &.shopping{
+                                >ul>li.type_icon>div{
+                                    background-image: url(../img/activity_shopping.svg);
+                                }
+                            }
+                            &.ticket{
+                                >ul>li.type_icon>div{
+                                    background-image: url(../img/activity_ticket.svg);
+                                }
+                            }
+                        }
+                        /*add*/
+                        &.add{
+                            >ul{
+                                opacity: 0.6;
+                                transition: opacity 0.5s;
+                                >li.type_icon{
+                                    >div{
+                                        background-color: #fff;
+                                        background-image: url(../img/add_schedule.svg);
+                                        border: solid 1px $primary-color;
+                                    }
+                                }
+                                >li.text{
+                                    color: $primary-color;
+                                }
+                            }
+                            &:hover>ul{
+                                opacity: 1;
+                            }
+                        }
+                        &:hover>ul>li.edit{
+                            opacity: 0.8;
                         }
                     }
                 }

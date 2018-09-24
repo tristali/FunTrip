@@ -9,14 +9,25 @@ class Plan extends Component{
     constructor(props){
         super(props);
         this.state = {
-
+            menu:"",
         };
+        this.handleMenuState = this.handleMenuState.bind(this);
+    }
+    handleMenuState(){
+        if(!this.state.menu){
+            this.setState({menu:"open"});
+        }else{
+            this.setState({menu:""});
+        }
     }
     render(){
         return(
             <div>
                 <Login />
-                <Header />
+                <Header 
+                    handleMenuState={this.handleMenuState} 
+                    menu={this.state.menu}
+                />
                 <PlanTrip />
                 <Map />
             </div>

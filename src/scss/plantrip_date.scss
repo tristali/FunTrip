@@ -9,6 +9,9 @@ div.plantrip{
                     float: left;
                     &.types_of{
                         padding-top: 5px;
+                        @include pad-width{
+                            padding-top: 11px;
+                        }
                         >div{
                             width: 49px;
                             height: 48px;
@@ -16,6 +19,12 @@ div.plantrip{
                             border-radius: 13px;
                             border: dashed 1px $primary-color;
                             cursor: pointer;
+                            @include pad-width{
+                                width: 39px;
+                                height: 38px;
+                                padding: 1px;
+                                border-radius: 10px;
+                            }
                             >div{
                                 letter-spacing: 0.5px;
                                 width: 43px;
@@ -25,12 +34,22 @@ div.plantrip{
                                 text-align: center;
                                 color: #fff;
                                 padding-top: 4px;
+                                @include pad-width{
+                                    width: 35px;
+                                    height: 34px;
+                                    font-size: $font-size-small-phone;
+                                    padding-top: 0;
+                                    border-radius: 8px;
+                                }
                             }
                         }
                     }
                     &.date_detail{
                         width: calc(100% - 57px);
                         float: right;
+                        @include pad-width{
+                            width: calc(100% - 44px);
+                        }
                         >div{
                             >ul{
                                 >li{
@@ -40,6 +59,10 @@ div.plantrip{
                                         width: 357px;
                                         height: 60px;
                                         overflow: hidden;
+                                        @include pad-width{
+                                            width: 225px;
+                                            height: 60px;
+                                        }
                                         >ul{
                                             width: calc( 51px * 8);
                                             >li{
@@ -50,14 +73,23 @@ div.plantrip{
                                                 padding: 11px 0;
                                                 background-position: center center;
                                                 background-repeat: no-repeat;
+                                                @include pad-width{
+                                                    width: 45px;
+                                                }
                                                 >div{
                                                     letter-spacing: 0;
                                                     line-height: 1.2rem;
                                                     &:nth-child(1){
                                                         font-size: $font-size-medium;
+                                                        @include pad-width{
+                                                            font-size: $font-size-medium-phone;
+                                                        }
                                                     } 
                                                     &:nth-last-child(1){
                                                         font-size: $font-size-small;
+                                                        @include pad-width{
+                                                            font-size: $font-size-small-phone;
+                                                        }
                                                     }    
                                                 }
                                                 &.current{

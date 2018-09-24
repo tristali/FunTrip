@@ -1,65 +1,74 @@
 @import "./config.scss";
-
-header{
-    background-color: #fff;
-    border-bottom: solid 1px #ddd; 
-    >ul{
-        padding: 1vh 2vw;
-        >li{
-            float: left;
-            &.menu_icon{
-                float: right;
-                position: absolute;
-                cursor: pointer;
-                width: 20px;
-                padding: 10px 0;
-                >div{
-                    height: 2px;
-                    width: 100%;
-                    background-color: $second-color;
-                    border-radius: 2px;
-                    margin: 4px 0;
-                }
-            }
-            &.menu_icon.open{
-                right: calc(230px + 2vw);
-            }
-            >h1{
-                width: 125px;
-                height: 40px;
-            }           
-        }
-    }
-    >div.menu{
-        position: absolute;
-        top: 0;
-        right: 0;
+body{
+    overflow: hidden;
+    header{
         background-color: #fff;
-        border-left: solid 1px $color-light-gray-line;  
-        width: 230px;
-        height: 100vh;
+        border-bottom: solid 1px #ddd; 
         >ul{
-            padding: 4% 10%;
+            padding: 1vh 2vw;
             >li{
-                padding: 7% 10% 7% 35%;
-                border-bottom: solid 1px $color-light-gray-line;
-                cursor: pointer;
-                background-repeat: no-repeat;
-                background-size: 38px 38px;
-                background-position: 5% center;
-                >a{
-                    color: $second-color;
+                float: left;
+                &.menu_icon{
+                    float: right;
+                    position: absolute;
+                    right: 2vw;
+                    cursor: pointer;
+                    width: 20px;
+                    padding: 10px 0;
+                    transition: right 0.5s;
+                    >div{
+                        height: 2px;
+                        width: 100%;
+                        background-color: $second-color;
+                        border-radius: 2px;
+                        margin: 4px 0;
+                    }
+                }
+                &.menu_icon.open{
+                    right: calc(230px + 2vw);
+                }
+                >h1{
+                    width: 125px;
+                    height: 40px;
+                }           
+            }
+        }
+        >div.menu{
+            position: absolute;
+            top: 0;
+            right: -230px;
+            z-index: 9;
+            background-color: #fff;
+            border-left: solid 1px $color-light-gray-line;  
+            width: 230px;
+            height: 100vh;
+            transition: right 0.5s;
+            >ul{
+                padding: 4% 10%;
+                >li{
+                    padding: 7% 10% 7% 35%;
+                    border-bottom: solid 1px $color-light-gray-line;
+                    cursor: pointer;
+                    background-repeat: no-repeat;
+                    background-size: 38px 38px;
+                    background-position: 5% center;
+                    >a{
+                        color: $second-color;
+                    }
+                }
+                li:nth-child(1){
+                    background-image: url(../img/add.svg);
+                }
+                li:nth-child(2){
+                    background-image: url(../img/my_plan.svg);
+                }
+                li:nth-child(3){
+                    background-image: url(../img/logout.svg);
+                    letter-spacing: 34px;
                 }
             }
-            li:nth-child(1){
-                background-image: url(../img/add.svg);
-            }
-            li:nth-child(2){
-                background-image: url(../img/my_plan.svg);
-            }
-            li:nth-child(3){
-                background-image: url(../img/logout.svg);
-                letter-spacing: 34px;
+            &.open{
+                right: 0px;
             }
         }
     }

@@ -4,14 +4,14 @@ import {NavLink} from "react-router-dom";
 import Logo from "../../../img/funtrip_logo.svg";
 import "../../../scss/header.scss";
 
-const Header = () =>{
+const Header = ({handleMenuState,menu}) =>{
     return(
         <header>
             <ul className="clearfix">
                 <li><h1><img src={Logo} /></h1></li>
-                <li className="menu_icon open"><div></div><div></div><div></div></li>
+                <li className={`menu_icon ${menu}`} onClick={handleMenuState}><div></div><div></div><div></div></li>
             </ul>
-            <div className="menu">
+            <div className={`menu ${menu}`}>
                 <ul>
                     <li>新增旅程</li>
                     <li><NavLink to="/profile">我的旅程</NavLink></li>
@@ -22,4 +22,4 @@ const Header = () =>{
     );
 };
 
-export default Header;
+export default Header;  

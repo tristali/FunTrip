@@ -82,3 +82,9 @@ input{
 	box-sizing: border-box;
 	letter-spacing: 1.5px;
 }
+
+@media (max-width:940px) {
+	* {
+		letter-spacing: 0.5px;
+	}
+}
