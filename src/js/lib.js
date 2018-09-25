@@ -1,5 +1,15 @@
-let app = {
 
+let app = {
+    firebase:{
+        config:{
+            apiKey: "AIzaSyBpNTLNQdlFzvFinsEEghCLbYbk2GlJD7k",
+            authDomain: "funtrip-3d235.firebaseapp.com",
+            databaseURL: "https://funtrip-3d235.firebaseio.com",
+            // projectId: "funtrip-3d235",
+            storageBucket: "funtrip-3d235.appspot.com",
+            // messagingSenderId: "96865531068"
+        }
+    }
 };
 
 app.get = function(selector){
@@ -57,3 +67,5 @@ app.setEventHandlers=function(obj,eventHandlers,useCapture){
     }
     return obj;
 };
+
+export default app;

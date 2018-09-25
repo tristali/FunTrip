@@ -1,7 +1,6 @@
 @import "./config.scss";
 
-div.login {
-  display:none;
+div.login_and_signup {
   position: absolute;
   width: 100%;
   height: 100vh;
@@ -99,7 +98,7 @@ div.login {
 
         >li {
           margin-top: 3%;
-          padding: 2% 17%;
+          padding: 2% 14%;
           color: #fff;
           border-radius: 3px;
           font-size: $font-size-medium-small;
@@ -139,6 +138,21 @@ div.login {
         height: 123px;
         bottom: 15px;
         right: 12px;
+      }
+    }
+
+    &.login>div{
+      >ul.enter_information>li:nth-child(1){
+        display: none;
+      }
+    }
+
+    &.signup>div{
+      >ul.enter_information>li{
+        padding: 2.5% 0;
+      }
+      >ul.login_via{
+        display: none;
       }
     }
 
