@@ -7,6 +7,19 @@
             width: 100%;
             height: calc(100vh - 59px - 290px - 93px);
             overflow-y: scroll;
+            &::-webkit-scrollbar-thumb{
+                border-radius: 2px;
+                background-color: $color-light-gray-line;
+            }
+            &::-webkit-scrollbar-track{
+                background-color: #fff;
+            }
+
+            &::-webkit-scrollbar{
+                width: 4px;
+                background-color: #F5F5F5;
+            }
+
             @include pad-width{
                 height: calc(100vh - 48px - 197px - 82px);
             }

@@ -98,7 +98,7 @@ class App extends Component{
         app.firebase.auth.signOut();
     }
 
-    /* when the component is rendered, determine login status. */
+    /* Determine the login status when all components are rendered. */
     componentDidMount(){
         const thisStateUser = this.state.user;
         app.firebase.auth.onAuthStateChanged(firebaseUser=>{
