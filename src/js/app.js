@@ -9,11 +9,7 @@ import * as firebase from "firebase";
 
 /*initialize firebase*/
 firebase.initializeApp(app.firebase.config);
-
-const auth = firebase.auth();
-// auth.signInWithEmailAndPassword(email,pass);
-// auth.createUserWithEmailAndPassword(email,pass);
-// auth.onAuthStateChanged(firebaseUser=>{});
+app.firebase.auth = firebase.auth();
 
 class App extends Component{
     constructor(props){
@@ -24,6 +20,7 @@ class App extends Component{
                 email:"",
                 password:"",
                 auth:"",
+                uid:"",
             },
             loginOrSignup:{
                 login:"current",
@@ -31,8 +28,9 @@ class App extends Component{
             },
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(this);
-        this.handleLoginOrSignupEnter = this.handleLoginOrSignupEnter.bind(this);
         this.handleLoginAndSignupInputChange = this.handleLoginAndSignupInputChange.bind(this);
+        this.handleLoginOrSignupEnter = this.handleLoginOrSignupEnter.bind(this);
+        this.handleSignout = this.handleSignout.bind(this);
     }
 
     /* Determine if the user chooses to Login or Signup */
@@ -43,7 +41,7 @@ class App extends Component{
         LoginAndSignupDOMsArray.forEach(e => {
             e.classList.remove("current");
         });
-        let loginOrSignup ={
+        let loginOrSignup = {
             login:"",
             signup:"",
         };
@@ -55,7 +53,7 @@ class App extends Component{
 
     /* Login and Signup data input change this.state.user  */
     handleLoginAndSignupInputChange(e){
-        const userDetailKey = ["name","email","password","auth"];
+        const userDetailKey = ["name","email","password","auth","uid"];
         const userDetailState ={};
         userDetailKey.forEach(i => {
             userDetailState[i]=this.state.user[i];
@@ -68,21 +66,53 @@ class App extends Component{
 
     /* check the Login and Signup information before sending the information */
     handleLoginOrSignupEnter(){
-        if(!this.state.user.email || !this.state.user.password){
+        const thisStateUser = this.state.user;
+
+        if(!thisStateUser.email || !thisStateUser.password){
             alert("OOOpps! 有欄位忘記填囉!");
-        } else if(!this.state.user.email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)){
+        } else if(!thisStateUser.email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)){
             alert("OOOpps! E-Mail 格式有誤!");
-        } else if(!this.state.user.password.match(/.{6,}/)){
+        } else if(!thisStateUser.password.match(/.{6,}/)){
             alert("OOOpps! 密碼至少需要六碼歐!");
-        }
-        if(this.state.loginOrSignup.login === "current"){
-            console.log("login");
-        }else if(this.state.loginOrSignup.signup === "current"){
-            if(!this.state.user.name){
-                alert("OOOpps! 有欄位忘記填囉!");
+        } else {
+            if(this.state.loginOrSignup.login === "current"){
+                /* Login */
+                const promise = app.firebase.auth.signInWithEmailAndPassword(thisStateUser.email,thisStateUser.password);
+                promise.catch(e=>alert(e.message));
+
+            }else if(this.state.loginOrSignup.signup === "current"){
+                /* Signup */
+                if(!thisStateUser.name){
+                    alert("OOOpps! 有欄位忘記填囉!");
+                } else {
+                    const promise = app.firebase.auth.createUserWithEmailAndPassword(thisStateUser.email,thisStateUser.password);
+                    promise
+                        .catch(e=>alert(e.message));
+                }
             }
         }
-        console.log(this.state.user);
+    }
+
+    /* Signout */
+    handleSignout(){
+        app.firebase.auth.signOut();
+    }
+
+    /* when the component is rendered, determine login status. */
+    componentDidMount(){
+        const thisStateUser = this.state.user;
+        app.firebase.auth.onAuthStateChanged(firebaseUser=>{
+            const loginAndSignupDOM = app.get(".login_and_signup");
+            if(firebaseUser){
+                thisStateUser.email = firebaseUser.email;
+                thisStateUser.uid = firebaseUser.uid;
+                loginAndSignupDOM.classList.add("hide");
+            } else {
+                loginAndSignupDOM.classList.remove("hide");
+                thisStateUser.email = "";
+                thisStateUser.uid = "";
+            }
+        });
     }
 
     render(){
@@ -98,6 +128,7 @@ class App extends Component{
                                 handleLoginOrSignupState={this.handleLoginOrSignupState}
                                 handleLoginOrSignupEnter={this.handleLoginOrSignupEnter}
                                 handleLoginAndSignupInputChange={this.handleLoginAndSignupInputChange}
+                                handleSignout={this.handleSignout}
                             />}
                     />
                     <Route path="/profile" component={Profile} exact/>

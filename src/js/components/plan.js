@@ -33,6 +33,7 @@ class Plan extends Component{
                 <Header 
                     handleMenuState={this.handleMenuState} 
                     menu={this.state.menu}
+                    handleSignout={this.props.handleSignout}
                 />
                 <PlanTrip />
                 <Map />
