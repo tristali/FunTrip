@@ -66,7 +66,7 @@ class App extends Component{
         this.setState({user:userDetailState});
     }
 
-    /* Login and Signup data check and send out */
+    /* check the Login and Signup information before sending the information */
     handleLoginOrSignupEnter(){
         if(!this.state.user.email || !this.state.user.password){
             alert("OOOpps! 有欄位忘記填囉!");
