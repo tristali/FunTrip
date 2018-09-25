@@ -7,6 +7,9 @@
             width: 100%;
             height: calc(100vh - 59px - 290px - 93px);
             overflow-y: scroll;
+            @include pad-width{
+                height: calc(100vh - 48px - 197px - 82px);
+            }
             >div{
                 >h3{
                     background-color: $primary-color;
