@@ -8,14 +8,22 @@ class Profile extends Component{
     constructor(props){
         super(props);
         this.state = {
-
         };
     }
     render(){
         return(
             <div>
-                <Login />
-                <Header />
+                <Login 
+                    state={this.props.state}
+                    handleLoginOrSignupState={this.props.handleLoginOrSignupState}
+                    handleLoginOrSignupEnter={this.props.handleLoginOrSignupEnter}
+                    handleLoginAndSignupInputChange={this.props.handleLoginAndSignupInputChange}
+                />
+                <Header 
+                    handleMenuState={this.props.handleMenuState} 
+                    menu={this.props.state.menu}
+                    handleSignout={this.props.handleSignout}
+                />
                 <Map />
             </div>
         );

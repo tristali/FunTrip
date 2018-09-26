@@ -9,30 +9,20 @@ class Plan extends Component{
     constructor(props){
         super(props);
         this.state = {
-            menu:"",
         };
-        this.handleMenuState = this.handleMenuState.bind(this);
-    }
-    handleMenuState(){
-        if(!this.state.menu){
-            this.setState({menu:"open"});
-        }else{
-            this.setState({menu:""});
-        }
     }
     render(){
         return(
             <div>
                 <Login 
-                    loginOrSignup={this.props.state.loginOrSignup}
-                    user={this.props.state.user}
+                    state={this.props.state}
                     handleLoginOrSignupState={this.props.handleLoginOrSignupState}
                     handleLoginOrSignupEnter={this.props.handleLoginOrSignupEnter}
                     handleLoginAndSignupInputChange={this.props.handleLoginAndSignupInputChange}
                 />
                 <Header 
-                    handleMenuState={this.handleMenuState} 
-                    menu={this.state.menu}
+                    handleMenuState={this.props.handleMenuState} 
+                    menu={this.props.state.menu}
                     handleSignout={this.props.handleSignout}
                 />
                 <PlanTrip />

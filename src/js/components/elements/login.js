@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/login.scss";
 
-const Login = ({
-    loginOrSignup, 
-    user, 
+const Login = ({ 
+    state,
     handleLoginOrSignupState, 
     handleLoginOrSignupEnter, 
     handleLoginAndSignupInputChange
@@ -14,13 +13,13 @@ const Login = ({
             <div className="login">
                 <div>
                     <ul className="clearfix tab">
-                        <li className={`${loginOrSignup.login} login`} onClick={handleLoginOrSignupState}>LOG IN</li>
-                        <li className={`${loginOrSignup.signup} signup`} onClick={handleLoginOrSignupState}>SIGN UP</li>
+                        <li className={`${state.loginOrSignup.login} login`} onClick={handleLoginOrSignupState}>LOG IN</li>
+                        <li className={`${state.loginOrSignup.signup} signup`} onClick={handleLoginOrSignupState}>SIGN UP</li>
                     </ul>
                     <ul className="enter_information">
-                        <li><input id="name" value={user.name} onChange={handleLoginAndSignupInputChange} type="text" placeholder="請輸入姓名" /></li>
-                        <li><input id="email" value={user.email} onChange={handleLoginAndSignupInputChange} type="email" placeholder="example@funtrip.com" /></li>
-                        <li><input id="password" value={user.password} onChange={handleLoginAndSignupInputChange} type="password" placeholder="請輸入密碼(至少六碼)" /></li>
+                        <li><input id="name" value={state.user.name} onChange={handleLoginAndSignupInputChange} type="text" placeholder="請輸入姓名" /></li>
+                        <li><input id="email" value={state.user.email} onChange={handleLoginAndSignupInputChange} type="email" placeholder="example@funtrip.com" /></li>
+                        <li><input id="password" value={state.user.password} onChange={handleLoginAndSignupInputChange} type="password" placeholder="請輸入密碼(至少六碼)" /></li>
                     </ul>
                     <ul className="login_via">
                         <li id="fb_login">使用 Facebook 登入</li>
