@@ -10,13 +10,16 @@ const Login = ({
     handleFacebookLogin,
     handleGoogleLogin,
 }) =>{
+    let login = state.login_or_signup === "login" ? "current" : null;
+    let signup = state.login_or_signup === "signup" ? "current" : null;
+
     return(
         <div className="login_and_signup">
-            <div className="login">
+            <div className={state.login_or_signup}>
                 <div>
                     <ul className="clearfix tab">
-                        <li className={`${state.loginOrSignup.login} login`} onClick={handleLoginOrSignupState}>LOG IN</li>
-                        <li className={`${state.loginOrSignup.signup} signup`} onClick={handleLoginOrSignupState}>SIGN UP</li>
+                        <li className={`${login} login`} onClick={() => handleLoginOrSignupState("login")}>LOG IN</li>
+                        <li className={`${signup} signup`} onClick={() => handleLoginOrSignupState("signup")}>SIGN UP</li>
                     </ul>
                     <ul className="enter_information">
                         <li><input id="name" value={state.user.name} onChange={handleLoginAndSignupInputChange} type="text" placeholder="請輸入姓名" /></li>

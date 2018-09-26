@@ -19,7 +19,7 @@ class Profile extends Component{
                     handleLoginOrSignupEnter={this.props.handleLoginOrSignupEnter}
                     handleLoginAndSignupInputChange={this.props.handleLoginAndSignupInputChange}
                     handleFacebookLogin={this.props.handleFacebookLogin}
-                    handleGoogleLogin={this.props.handleGoogleLogin}  
+                    handleGoogleLogin={this.props.handleGoogleLogin}    
                 />
                 <Header 
                     handleMenuState={this.props.handleMenuState} 

@@ -21,10 +21,7 @@ class App extends Component{
                 uid:"",
                 photoURL:"", 
             },
-            loginOrSignup:{
-                login:"current",
-                signup:"",
-            },
+            login_or_signup: "signup",
             menu:"",
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(this);
@@ -37,11 +34,11 @@ class App extends Component{
         this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
         this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
     }
-
     render(){
         console.log(this.state);
+
         return(
-            <BrowserRouter>
+            <BrowserRouter>                
                 <Switch>
                     <Route path="/" component={LandingPage} exact/>
                     <Route
@@ -79,20 +76,9 @@ class App extends Component{
         );
     }
 
-    
     /* Determine if the user chooses to Login or Signup */
-    handleLoginOrSignupState(e){
-        const LoginAndSignupDOMsArray = [...app.getAll(".tab>li")];
-        const LoginAndSignupInboxDOM = app.get(".login_and_signup>div");
-
-        LoginAndSignupDOMsArray.forEach(e => {
-            e.classList.remove("current");
-        });
-        let loginOrSignup = Object.assign({},this.state.loginOrSignup,{login:"",signup:""});
-        loginOrSignup[e.currentTarget.className] = "current";
-        this.setState({loginOrSignup:loginOrSignup});
-
-        LoginAndSignupInboxDOM.className=e.currentTarget.className;
+    handleLoginOrSignupState(tabname){
+        this.setState({login_or_signup: tabname});
     }
 
     /* Login and Signup data input change this.state.user  */
@@ -119,12 +105,16 @@ class App extends Component{
         } else if(!thisStateUser.password.match(/.{6,}/)){
             alert("OOOpps! 密碼至少需要六碼歐!");
         } else {
-            if(this.state.loginOrSignup.login === "current"){
+            if(this.state.login_or_signup === "login"){
                 /* Login */
                 const promise = firebase.auth().signInWithEmailAndPassword(thisStateUser.email,thisStateUser.password);
-                promise.catch(e=>alert(e.message));
+                promise.catch(function(e){
+                    if(e.message == "The password is invalid or the user does not have a password."){
+                        alert("您好，此信箱已註冊為會員，再麻煩您使用 google 登入");
+                    }
+                });
 
-            }else if(this.state.loginOrSignup.signup === "current"){
+            }else if(this.state.login_or_signup === "signup"){
                 /* Signup */
                 if(!thisStateUser.name){
                     alert("OOOpps! 有欄位忘記填囉!");
@@ -137,8 +127,11 @@ class App extends Component{
                                 email:thisStateUser.email,
                                 uid:firebase.auth().currentUser.uid,
                             });              
-                        })
-                        .catch(e=>alert(e.message));
+                        }).catch(function(e){
+                            if(e.message == "The email address is already in use by another account."){
+                                alert("您好，此信箱已註冊為會員，再麻煩您使用 google 登入");
+                            }
+                        });
                 }
             }
         }
@@ -146,31 +139,19 @@ class App extends Component{
 
     /* Facebook Login */
     handleFacebookLogin(){
-        console.log("handleFacebookLogin");
+        let provider = new firebase.auth.FacebookAuthProvider();
+        provider.addScope("email");
+        app.firebase_signInWithPopup(firebase, provider, "Facebook");
     }
 
     /* Google Login */
     handleGoogleLogin(){
         let provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-            firebase.auth().onAuthStateChanged(firebaseUser=>{
-                firebase.database().ref("/users/" + firebaseUser.uid).on("value", function (snapshot) {
-                    if(!snapshot.val()){
-                        firebase.database().ref("/users/" + firebaseUser.uid).set({
-                            name:result.user.displayName,
-                            email:result.user.email,
-                            uid:firebaseUser.uid,
-                            photoURL:result.user.photoURL,
-                            provider:"Google",
-                        });  
-                    }
-                });
-            });
-        });
+        app.firebase_signInWithPopup(firebase, provider, "Google");
     }
 
-    /* Determine if the click menu change this.state.menu. */
+    /* Determine if the click menu change this.state.menu */
     handleMenuState(){
         if(!this.state.menu){
             this.setState({menu:"open"});
@@ -189,6 +170,7 @@ class App extends Component{
         let thisStateUser;
         firebase.auth().onAuthStateChanged(firebaseUser=>{
             const loginAndSignupDOM = app.get(".login_and_signup");
+            const plantripDOM = app.get(".plantrip");
             if(firebaseUser){
                 thisStateUser = Object.assign({},this.state.user,{
                     email:firebaseUser.email, 
@@ -203,8 +185,10 @@ class App extends Component{
                 });
                 this.setState({user:thisStateUser});
                 loginAndSignupDOM.classList.add("hide");
+                plantripDOM.classList.remove("hide");
             } else {
                 loginAndSignupDOM.classList.remove("hide");
+                plantripDOM.classList.add("hide");
                 thisStateUser = Object.assign({},this.state.user,{name:"",email:"",password:"", uid:"",photoURL:""});
                 this.setState({user:thisStateUser,
                     menu:"",});

@@ -4,7 +4,16 @@ div.plantrip{
     width: 470px;
     height: calc(100vh - 60px);
     border-right: solid 1px $color-light-gray-line;
+    position: absolute;
+    left: 0;
+    transition: left 0.8s;
     @include pad-width{
         width: 320px;
+    }
+    &.hide{
+        left: -470px;
+        @include pad-width{
+            left: -320px;
+        }
     }
 }
