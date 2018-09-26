@@ -19,7 +19,7 @@ class App extends Component{
                 email:"",
                 password:"",
                 uid:"",
-                photo:"", 
+                photoURL:"", 
             },
             loginOrSignup:{
                 login:"current",
@@ -29,9 +29,13 @@ class App extends Component{
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(this);
         this.handleLoginAndSignupInputChange = this.handleLoginAndSignupInputChange.bind(this);
-        this.handleLoginOrSignupEnter = this.handleLoginOrSignupEnter.bind(this);
         this.handleMenuState = this.handleMenuState.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
+
+        /* Log in and Sign up */
+        this.handleLoginOrSignupEnter = this.handleLoginOrSignupEnter.bind(this);
+        this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
+        this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
     }
 
     render(){
@@ -51,6 +55,8 @@ class App extends Component{
                                 handleMenuState={this.handleMenuState} 
                                 menu={this.state.menu}
                                 handleSignout={this.handleSignout}
+                                handleFacebookLogin={this.handleFacebookLogin}
+                                handleGoogleLogin={this.handleGoogleLogin}
                             />}
                     />
                     <Route
@@ -64,6 +70,8 @@ class App extends Component{
                                 handleMenuState={this.handleMenuState} 
                                 menu={this.state.menu}
                                 handleSignout={this.handleSignout}
+                                handleFacebookLogin={this.handleFacebookLogin}
+                                handleGoogleLogin={this.handleGoogleLogin}
                             />}
                     />
                 </Switch>
@@ -136,9 +144,31 @@ class App extends Component{
         }
     }
 
-    /* Google Login */
-
     /* Facebook Login */
+    handleFacebookLogin(){
+        console.log("handleFacebookLogin");
+    }
+
+    /* Google Login */
+    handleGoogleLogin(){
+        let provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            firebase.auth().onAuthStateChanged(firebaseUser=>{
+                firebase.database().ref("/users/" + firebaseUser.uid).on("value", function (snapshot) {
+                    if(!snapshot.val()){
+                        firebase.database().ref("/users/" + firebaseUser.uid).set({
+                            name:result.user.displayName,
+                            email:result.user.email,
+                            uid:firebaseUser.uid,
+                            photoURL:result.user.photoURL,
+                            provider:"Google",
+                        });  
+                    }
+                });
+            });
+        });
+    }
 
     /* Determine if the click menu change this.state.menu. */
     handleMenuState(){
@@ -167,12 +197,15 @@ class App extends Component{
                 });
                 firebase.database().ref("/users/" + firebaseUser.uid).on("value", function(snapshot) {
                     thisStateUser.name = snapshot.val().name;
+                    if(snapshot.val().photoURL){
+                        thisStateUser.photoURL = snapshot.val().photoURL;
+                    }
                 });
                 this.setState({user:thisStateUser});
                 loginAndSignupDOM.classList.add("hide");
             } else {
                 loginAndSignupDOM.classList.remove("hide");
-                thisStateUser = Object.assign({},this.state.user,{name:"",email:"",password:"", uid:"",photo:""});
+                thisStateUser = Object.assign({},this.state.user,{name:"",email:"",password:"", uid:"",photoURL:""});
                 this.setState({user:thisStateUser,
                     menu:"",});
             }

@@ -6,7 +6,9 @@ const Login = ({
     state,
     handleLoginOrSignupState, 
     handleLoginOrSignupEnter, 
-    handleLoginAndSignupInputChange
+    handleLoginAndSignupInputChange,
+    handleFacebookLogin,
+    handleGoogleLogin,
 }) =>{
     return(
         <div className="login_and_signup">
@@ -22,8 +24,8 @@ const Login = ({
                         <li><input id="password" value={state.user.password} onChange={handleLoginAndSignupInputChange} type="password" placeholder="請輸入密碼(至少六碼)" /></li>
                     </ul>
                     <ul className="login_via">
-                        <li id="fb_login">使用 Facebook 登入</li>
-                        <li id="google_login">使用 Google 登入</li>
+                        <li id="fb_login" onClick={handleFacebookLogin}>使用 Facebook 登入</li>
+                        <li id="google_login" onClick={handleGoogleLogin}>使用 Google 登入</li>
                     </ul>
                 </div>
                 <div className="enter" onClick={handleLoginOrSignupEnter}></div>
