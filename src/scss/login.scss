@@ -110,18 +110,25 @@ div.login_and_signup {
           cursor: pointer;
 
           @include phone-width {
-            padding: 2% 15%;
+            padding: 2% 18%;
+            font-size: $font-size-small-phone;
           }
         }
 
         >li#fb_login {
           background: url(../img/facebook.svg) no-repeat #254EA6 12% center;
           background-size: 33px 33px;
+          @include phone-width {
+            background-position-x: 17%;
+          }
         }
 
         >li#google_login {
           background: url(../img/google.svg) no-repeat #D84134 15% center;
           background-size: 33px 33px;
+          @include phone-width {
+            background-position-x: 20%;
+          }
         }
       }
 

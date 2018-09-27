@@ -71,7 +71,7 @@ body{
                     background-size: 38px 38px;
                     background-position: 5% center;
                     @include pad-width{
-                        font-size: $font-size-medium-phone;
+                        font-size: $font-size-small;
                         background-size: 32px 32px;
                         padding: 7% 10% 7% 35%;
                     }
