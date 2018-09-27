@@ -10,10 +10,7 @@ class Map extends Component{
         };
     }
     render(){
-        console.log(this.props.state.map_center);
-        console.log(this.props.state.map_zoom);
         return(
-            // Important! Always set the container height explicitly
             <div className="map">
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: "AIzaSyBpNTLNQdlFzvFinsEEghCLbYbk2GlJD7k" }}
