@@ -23,6 +23,11 @@ class App extends Component{
             },
             login_or_signup: "signup",
             menu:"",
+            map_center: {
+                lat: 23.6,
+                lng: 121,
+            },
+            map_zoom: 7,
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(this);
         this.handleLoginAndSignupInputChange = this.handleLoginAndSignupInputChange.bind(this);
@@ -171,6 +176,7 @@ class App extends Component{
         firebase.auth().onAuthStateChanged(firebaseUser=>{
             const loginAndSignupDOM = app.get(".login_and_signup");
             const plantripDOM = app.get(".plantrip");
+            const mapDOM = app.get(".map");
             if(firebaseUser){
                 thisStateUser = Object.assign({},this.state.user,{
                     email:firebaseUser.email, 
@@ -186,9 +192,12 @@ class App extends Component{
                 this.setState({user:thisStateUser});
                 loginAndSignupDOM.classList.add("hide");
                 plantripDOM.classList.remove("hide");
+                mapDOM.classList.remove("hide");
+                
             } else {
                 loginAndSignupDOM.classList.remove("hide");
                 plantripDOM.classList.add("hide");
+                mapDOM.classList.add("hide");
                 thisStateUser = Object.assign({},this.state.user,{name:"",email:"",password:"", uid:"",photoURL:""});
                 this.setState({user:thisStateUser,
                     menu:"",});

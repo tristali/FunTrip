@@ -1,9 +1,11 @@
 @import "./config.scss";
+
 body{
     overflow: hidden;
     header{
         background-color: #fff;
-        border-bottom: solid 1px #ddd; 
+        position: relative;
+        z-index: 99;
         >ul{
             padding: 1vh 2vw;
             >li{

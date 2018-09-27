@@ -28,7 +28,9 @@ class Plan extends Component{
                     handleSignout={this.props.handleSignout}
                 />
                 <PlanTrip />
-                <Map />
+                <Map 
+                    state={this.props.state}
+                />
             </div>
         );
     }

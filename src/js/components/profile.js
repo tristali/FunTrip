@@ -26,7 +26,9 @@ class Profile extends Component{
                     menu={this.props.state.menu}
                     handleSignout={this.props.handleSignout}
                 />
-                <Map />
+                <Map 
+                    state={this.props.state}
+                />
             </div>
         );
     }

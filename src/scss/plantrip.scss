@@ -3,10 +3,12 @@
 div.plantrip{
     width: 470px;
     height: calc(100vh - 60px);
-    border-right: solid 1px $color-light-gray-line;
+    // border-right: solid 1px $color-light-gray-line;
     position: absolute;
     left: 0;
     transition: left 0.8s;
+    z-index: 9;
+    background-color: #fff;
     @include pad-width{
         width: 320px;
     }

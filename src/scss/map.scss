@@ -1,0 +1,27 @@
+@import "./config.scss";
+
+.map{
+    width: calc(100vw - 470px);
+    height: calc(100vh - 58px);
+    position: absolute;
+    right: 0;
+    // transition: width 0.8s;
+    &.hide{
+        width: 100vw;
+    }
+    @include pad-width{
+        width: calc(100vw - 320px);
+        height: calc(100vh - 38px);
+    }
+    // >.map_default_center{
+    //     color: #fff;
+    //     background: "grey";
+    //     padding: "15px 10px";
+    //     display: "inline-flex";
+    //     textAlign: "center";
+    //     alignItems: "center";
+    //     justifyContent: "center";
+    //     borderRadius: "100%";
+    //     transform: "translate(-50%, -50%)";
+    // }
+}
