@@ -2,7 +2,19 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/plantrip_top.scss";
 
-const PlanTripTop = () =>{
+const PlanTripTop = ({
+    handleCategoryChange,
+    state
+}) =>{
+    
+    const categoryArray = ["All","Transport","Lodge","Food","Activity"];
+    let categoryArrayDOM = categoryArray.map((item,index) => (
+        <li key = {`category_${index}`}
+            onClick={() => handleCategoryChange(item)} 
+            className={state.category === item ? "current" : null}
+        >{item}</li>
+    ));
+
     return(
         <div className="top">
             <div className="del">
@@ -17,11 +29,7 @@ const PlanTripTop = () =>{
                 </div>
                 <div className="tab">
                     <ul className="clearfix">
-                        <li className="current">All</li>
-                        <li>Transport</li>
-                        <li>Lodge</li>
-                        <li>Food</li>
-                        <li>Activity</li>
+                        {categoryArrayDOM}
                     </ul>
                 </div>
             </div>

@@ -8,16 +8,24 @@ class PlanTrip extends Component{
     constructor(props){
         super(props);
         this.state = {
-
+            category: "All",
         };
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
     render(){
         return(
             <div className="plantrip">
-                <PlanTripTop />
+                <PlanTripTop 
+                    handleCategoryChange={this.handleCategoryChange}
+                    state={this.state}
+                />
                 <PlanTripBottom />
             </div>
         );
+    }
+
+    handleCategoryChange(category_name){
+        this.setState({category: category_name});
     }
 }
 

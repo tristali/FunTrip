@@ -82,8 +82,8 @@ class App extends Component{
     }
 
     /* Determine if the user chooses to Login or Signup */
-    handleLoginOrSignupState(tabname){
-        this.setState({login_or_signup: tabname});
+    handleLoginOrSignupState(tab_name){
+        this.setState({login_or_signup: tab_name});
     }
 
     /* Login and Signup data input change this.state.user  */

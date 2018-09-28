@@ -50,7 +50,7 @@
         >.top_text{
             bottom: 0;
             width: 100%;
-            padding: 0 1%;
+            padding: 0 0.7%;
             >div.title_date{
                 padding: 3.5% 4%;
                 text-shadow: 2px 2px 2px rgba(0,0,0,.2);
@@ -90,7 +90,7 @@
                         border-radius: 10px 10px 0 0;
                         background-color: rgba(0,0,0,0);
                         border: solid 1px rgba(255,255,255,0);
-                        transition: background-color 0.8s,border-color 0.8s;
+                        transition: background-color 0.5s,border-color 0.5s;
                         letter-spacing: 0.5px;
                         @include pad-width{
                             font-size: $font-size-small-phone;
