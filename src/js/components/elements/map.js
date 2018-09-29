@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact from "google-map-react";
 import "../../../scss/map.scss";
 
 class Map extends Component{

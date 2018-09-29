@@ -8,8 +8,8 @@ const PlanTripSchedule = () =>{
             <div>
                 <h3 className="clearfix"><div>Day01</div><div>Sep 19 , 2018</div></h3>
                 <div>
-                    {/*  */}
-                    <div className="transport">
+                    {/*  點選該編輯 <div> 新增 current */}
+                    <div className="transport  current">
                         <ul className="clearfix location">
                             <li className="time">17:10</li>
                             <li className="type_icon  "><div></div></li>

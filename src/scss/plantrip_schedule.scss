@@ -44,9 +44,13 @@
                     }
                 }
                 >div{
-                    padding: 3% 6%;
+                    padding: 3% 0;
                     cursor: pointer;
                     >div{
+                        padding: 0 6%;
+                        &.current{
+                            background-color: $color-light-blue-background;
+                        }
                         >ul{
                             >li{
                                 float: left;
@@ -180,7 +184,8 @@
                                     color: $primary-color;
                                 }
                             }
-                            &:hover>ul{
+                            &:hover>ul,
+                            &.current>ul{
                                 opacity: 1;
                             }
                         }

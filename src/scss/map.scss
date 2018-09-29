@@ -6,7 +6,7 @@
     position: absolute;
     right: 0;
     // transition: width 0.8s;
-    &.hide{
+    &.hide_plantrip {
         width: 100vw;
     }
     @include pad-width{

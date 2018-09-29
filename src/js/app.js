@@ -192,12 +192,12 @@ class App extends Component{
                 this.setState({user:thisStateUser});
                 loginAndSignupDOM.classList.add("hide");
                 plantripDOM.classList.remove("hide");
-                mapDOM.classList.remove("hide");
+                mapDOM.classList.remove("hide_plantrip");
                 
             } else {
                 loginAndSignupDOM.classList.remove("hide");
                 plantripDOM.classList.add("hide");
-                mapDOM.classList.add("hide");
+                mapDOM.classList.add("hide_plantrip");
                 thisStateUser = Object.assign({},this.state.user,{name:"",email:"",password:"", uid:"",photoURL:""});
                 this.setState({user:thisStateUser,
                     menu:"",});

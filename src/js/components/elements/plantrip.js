@@ -10,6 +10,7 @@ class PlanTrip extends Component{
         super(props);
         this.state = {
             category: "All",
+            // creact_plantrip: "hide",
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
