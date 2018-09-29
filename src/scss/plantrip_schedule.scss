@@ -1,7 +1,7 @@
 @import "./config.scss";
 
 .plantrip{
-    >div.bottom{
+    div>div.bottom{
         >div.schedule{
             padding: 1.5% 0;
             width: 100%;
@@ -123,11 +123,6 @@
                             &.train{
                                 >ul>li.type_icon>div{
                                     background-image: url(../img/transport_train.svg);
-                                }
-                            }
-                            &.car{
-                                >ul>li.type_icon>div{
-                                            background-image: url(../img/transport_car.svg);
                                 }
                             }
                             &.car{

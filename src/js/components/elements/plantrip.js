@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PlanTripTop from "./plantrip_top";
 import PlanTripBottom from "./plantrip_bottom";
+import CreactPlanTrip from "./creact_plantrip";
 import "../../../scss/plantrip.scss";
 
 class PlanTrip extends Component{
@@ -14,12 +15,17 @@ class PlanTrip extends Component{
     }
     render(){
         return(
-            <div className="plantrip">
-                <PlanTripTop 
-                    handleCategoryChange={this.handleCategoryChange}
-                    state={this.state}
-                />
-                <PlanTripBottom />
+            <div className="plantrip clearfix">
+                <div>
+                    <PlanTripTop 
+                        handleCategoryChange={this.handleCategoryChange}
+                        state={this.state}
+                    />
+                    <PlanTripBottom />
+                </div>
+                <div>
+                    <CreactPlanTrip />
+                </div>
             </div>
         );
     }

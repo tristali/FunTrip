@@ -1,21 +1,27 @@
 @import "./config.scss";
 
 div.plantrip{
-    width: 470px;
     height: calc(100vh - 60px);
-    // border-right: solid 1px $color-light-gray-line;
     position: absolute;
     left: 0;
     transition: left 0.8s;
     z-index: 9;
     background-color: #fff;
-    @include pad-width{
-        width: 320px;
-    }
     &.hide{
         left: -470px;
         @include pad-width{
             left: -320px;
+        }
+    }
+    >div{
+        float: left;
+        height: 100%;
+        box-shadow:2px 0 10px rgba(93,95,119,0.1);
+        &:nth-child(1){
+            width: 470px;
+            @include pad-width{
+                width: 320px;
+            }
         }
     }
 }
