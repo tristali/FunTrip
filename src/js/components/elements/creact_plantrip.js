@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import InformationDetailed from "./creact_plantrip_information_detailed";
 import app from "../../lib";
 import "../../../scss/creact_plantrip.scss";
 
@@ -19,19 +20,16 @@ class CreactPlanTrip extends Component{
             select_category:"Transport",
             /* 當前行程小類別 */
             category_detail:"transport",
+            /* 當前地點名稱 */
+            lcation_name:"",
         };
 
-        this.handleSelectCategory 
-        = this.handleSelectCategory.bind(this);
-
-        this.handleDetailedCategory 
-        = this.handleDetailedCategory.bind(this);
-
-        this.handleInformationInputStateOnClick 
-        = this.handleInformationInputStateOnClick.bind(this);
-
-        this.handleInformationInputStateOnBlur 
-        = this.handleInformationInputStateOnBlur.bind(this);
+        this.handleSelectCategory = this.handleSelectCategory.bind(this);
+        this.handleDetailedCategory = this.handleDetailedCategory.bind(this);
+        this.handleInformationInputStateOnClick = this.handleInformationInputStateOnClick.bind(this);
+        this.handleInformationInputStateOnBlur = this.handleInformationInputStateOnBlur.bind(this);
+        this.handleLocationChange = this.handleLocationChange.bind(this);
+        this.handleSetDatebase = this.handleSetDatebase.bind(this);
     }
 
     render(){
@@ -42,8 +40,8 @@ class CreactPlanTrip extends Component{
         let selectCategoryArrayDOM 
             = selectCategoryArray.map((item,index)=>(
                 <li key = {`select_category_${index}`} 
-                    onClick={() => this.handleSelectCategory(item)}
-                    className={this.state.select_category === item ? "current" : null}
+                    onClick = {() => this.handleSelectCategory(item)}
+                    className = {this.state.select_category === item ? "current" : null}
                 >
                     {item}
                 </li>
@@ -101,7 +99,7 @@ class CreactPlanTrip extends Component{
             Activity:["lodge"],    
         };
         
-        /* Create Information 輸入框 Li Element JSX*/
+        /* Create Information 輸入框 <li> Element JSX*/
         function InformationDetailedDOM(
             item,
             handleInformationInputStateOnClick,
@@ -123,7 +121,7 @@ class CreactPlanTrip extends Component{
             ));
         }
 
-        /* Create Information 輸入框 Ul Element JSX*/
+        /* Create Information 輸入框 <ul> Element JSX*/
         let informationDOM = Object.keys(INFORMATION_OBJ).map((item,index)=>(
             <ul key = {`input_information_${index}`}
                 className={informationClass(this.state.select_category,item)}
@@ -135,7 +133,7 @@ class CreactPlanTrip extends Component{
             </ul>
         ));
 
-        /* Creact Information 輸入框 Ul Element className */
+        /* Creact Information 輸入框 <ul> Element className */
         function informationClass(currentCategory,item){
             let thisInformation;
             HIDE_INFORMATION_OBJ[currentCategory].map((i,index)=>{
@@ -168,7 +166,12 @@ class CreactPlanTrip extends Component{
                             <li className="location clearfix">
                                 <div></div>
                                 <div>
-                                    <input type="text" placeholder="請在此輸入地點名稱"/>
+                                    <input 
+                                        type="text" 
+                                        value={this.state.lcation_name} 
+                                        placeholder="請在此輸入地點名稱"
+                                        onChange={this.handleLocationChange}
+                                    />
                                 </div>
                             </li>
                         </ul>
@@ -179,8 +182,12 @@ class CreactPlanTrip extends Component{
                     <div className="button">
                         <ul className="clearfix">
                             <li><div>RESET</div></li>
-                            {/* 如果已經有地點地址可以送出則 <li> 新增 ok */}
-                            <li className="ok"><div>ADD</div></li>
+                            <li 
+                                className={this.state.lcation_name? "ok" : ""}
+                                onClick={this.handleSetDatebase}
+                            >
+                                <div>ADD</div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -188,12 +195,14 @@ class CreactPlanTrip extends Component{
         );
     }
 
+    /* 當行程類別被點擊時改變該類別樣式 */
     handleSelectCategory(category_name){
         this.setState({select_category:category_name});
         this.setState({category_detail:DETAIL_CATEGORY_OBJ[category_name][0]});
 
     }
 
+    /* 當行程小類別被點擊時改變該小類別樣式 */
     handleDetailedCategory(category_name){
         this.setState({category_detail:category_name});
     }
@@ -215,33 +224,26 @@ class CreactPlanTrip extends Component{
                 .remove("current");
         }
     }
+
+    /* 當使用者改變地點名稱時改變 this.state.location_name */
+    handleLocationChange(e){
+        this.setState({lcation_name: e.currentTarget.value});
+    }
+
+    /* Datebase 資料更新 */
+    handleSetDatebase(){
+        if(this.state.lcation_name){
+            alert("資料更新中");
+            // 連接 Datebase
+        } else {
+            alert("麻煩請協助填入地點名稱，謝謝");
+        }
+    }
 }
 
 export default CreactPlanTrip;
 
-/* Information 輸入資訊 Component */
-const InformationDetailed = ({detailedItemName,
-    index,
-    item,
-    handleInformationInputStateOnClick,
-    handleInformationInputStateOnBlur
-})=>{
-    return(
-        <li 
-            className="clearfix"
-            onClick={()=>handleInformationInputStateOnClick(item+"-"+index)}
-            onBlur={()=>handleInformationInputStateOnBlur(item+"-"+index)}
-        >
-            <div><div>{detailedItemName}</div></div>
-            <div>
-                <form><textarea type="text" />
-                </form>
-            </div>
-        </li>
-    );
-};
-
-/* 判斷當前的 Information 輸入框在哪一個 li Element 下面 */
+/* 判斷當前的 Information 輸入框在哪一個 <li> Element 下面 */
 function splitItemGetCurrentElementLi(item){
     return app.get(
         `.information>ul.${item.split("-")[0]}>li:nth-child(${Number(item.split("-")[1])+1}`

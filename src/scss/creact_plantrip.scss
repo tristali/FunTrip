@@ -7,9 +7,7 @@
         display: none;
     }
     >ul{
-        // background-color: rgba(31,162,255,.75);
         background-color: #fafafa;
-        // border-bottom: solid 1px #eee;
         padding: 0 2%;
         >li{
             float: left;
@@ -40,7 +38,6 @@
                 line-height: 4rem;
                 text-align: center;
                 width: calc(100% - 8rem);
-                // color: #fff;
             }
         }
     }
@@ -70,8 +67,6 @@
                         text-align: center;
                         padding-top: 2%;
                         background-color: $color-light-blue-background;
-                        // border-bottom: solid 1px rgba(31,162,255,.075);
-                        // border-top: solid 1px rgba(31,162,255,.1);
                         >li{
                             display: inline-block;
                             padding: 2px;
@@ -273,7 +268,6 @@
                                     &:nth-child(1){
                                         border: dashed 1px #1FA2FF;
                                         >div{
-                                            // background: $second-gradient-color;
                                             background: $primary-color;
                                             color: #fff;
                                             border: solid 1px #1FA2FF;
@@ -302,7 +296,6 @@
                                     padding: 15px 10px;
                                     font-size: $font-size-medium-small;
                                     font-family: $font-family;
-                                    // border: solid 1px $color-light-gray-line;
                                     border-radius: 3px;
                                     color: $second-color;
                                     &::placeholder{
@@ -348,26 +341,34 @@
                             border-radius: 4px;
                             margin: 5px;
                             line-height: 2.5rem;
-                            cursor: pointer;
-                            transition: background-color 0.5s;
+                            transition: opacity 0.3s;
                         }
                         &:nth-child(1){
+                            cursor: pointer;
                             width: 30%;
                             >div{
                                 border: solid 1px $color-light-gray-line;
-                                // &:hover{
-                                //     background-color: $color-light-gray-line;
-                                // }
+                                opacity: .6;
+                                &:hover{
+                                    opacity: 1;
+                                }
                             }
                         }
                         &:nth-child(2){
                             width: 70%;
                             >div{
                                 background: $primary-color;
+                                border: solid 1px $primary-color;
                                 color: #fff;
+                                opacity: .4;
                             }
                             &.ok>div{
+                                cursor: pointer;
+                                opacity: .8;
                                 background: $second-gradient-color;
+                                &:hover{
+                                    opacity: 1;
+                                }
                             }
                         }
                     }
