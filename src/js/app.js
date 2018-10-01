@@ -41,7 +41,6 @@ class App extends Component{
     }
     render(){
         console.log(this.state);
-
         return(
             <BrowserRouter>                
                 <Switch>
@@ -175,9 +174,10 @@ class App extends Component{
     handleSignout(){
         firebase.auth().signOut();
     }
-
+    
     /* Determine the login status when all components are rendered. */
     componentDidMount(){
+        /* 判斷登入狀態決定登入視窗是否顯示*/
         let thisStateUser;
         firebase.auth().onAuthStateChanged(firebaseUser=>{
             const loginAndSignupDOM = app.get(".login_and_signup");
@@ -199,12 +199,33 @@ class App extends Component{
                 loginAndSignupDOM.classList.add("hide");
                 plantripDOM.classList.remove("hide");
                 mapDOM.classList.remove("hide_plantrip");
-                
+
+                /* 判斷使用者是否有同意分享目前座標權限 */
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            console.log(position.coords);                  
+                            let nowMapCenterObj = Object.assign({},this.state.map_center,{
+                                lat: position.coords.latitude, 
+                                lng: position.coords.longitude
+                            });
+                            this.setState({map_center:nowMapCenterObj});
+                            this.setState({map_zoom:10});               
+                        }
+                    );
+                } else {
+                    error => console.log(error);
+                }             
             } else {
                 loginAndSignupDOM.classList.remove("hide");
                 plantripDOM.classList.add("hide");
                 mapDOM.classList.add("hide_plantrip");
-                thisStateUser = Object.assign({},this.state.user,{name:"",email:"",password:"", uid:"",photoURL:""});
+                thisStateUser = Object.assign({},this.state.user,{
+                    name:"",
+                    email:"",
+                    password:"", 
+                    uid:"",photoURL:""
+                });
                 this.setState({user:thisStateUser,
                     menu:"",});
             }

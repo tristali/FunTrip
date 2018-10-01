@@ -17,15 +17,14 @@
         width: calc(100vw - 320px);
         height: calc(100vh - 38px);
     }
-    // >.map_default_center{
-    //     color: #fff;
-    //     background: "grey";
-    //     padding: "15px 10px";
-    //     display: "inline-flex";
-    //     textAlign: "center";
-    //     alignItems: "center";
-    //     justifyContent: "center";
-    //     borderRadius: "100%";
-    //     transform: "translate(-50%, -50%)";
-    // }
+    .map_center{
+        width: 50px;
+        height: 50px;
+        background: #1FA2FF;
+        border-radius: 100%;
+        color: #fff;
+        border: solid 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        line-height: 40px;
+    }
 }

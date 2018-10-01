@@ -15,13 +15,13 @@ class Map extends Component{
             <div className="map">
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: api.google }}
-                    defaultCenter={this.props.state.map_center}
-                    defaultZoom={this.props.state.map_zoom}
+                    center={this.props.state.map_center}
+                    zoom={this.props.state.map_zoom}
                 >
                     <AnyReactComponent
-                        lat={23.5948988}
-                        lng={119.8961738}
-                        text={"Taiwan"}
+                        lat={this.props.state.map_center.lat}
+                        lng={this.props.state.map_center.lng}
+                        text={"Here"}
                     />
                 </GoogleMapReact>
             </div>
@@ -30,7 +30,7 @@ class Map extends Component{
 }
 
 const AnyReactComponent = ({ text }) => (
-    <div className="map_default_center">
+    <div className="map_center">
         {text}
     </div>
 );
