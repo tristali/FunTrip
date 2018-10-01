@@ -5,7 +5,11 @@
     height: calc(100vh - 58px);
     position: absolute;
     right: 0;
-    // transition: width 0.8s;
+    transition: width 0.8s;
+    z-index: 0;
+    &.creact_plantrip {
+        width: calc(100vw - 470px - 400px);
+    }
     &.hide_plantrip {
         width: 100vw;
     }

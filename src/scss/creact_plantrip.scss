@@ -3,9 +3,13 @@
 .creact_plantrip{
     width: 400px;
     height: 100%;
-    &.hide{
-        display: none;
-    }
+    position: absolute;
+    // left: 0;
+    z-index: 99;
+    transition: left 0.7s;
+    // &.hide{
+    //     left: -400px;
+    // }
     >ul{
         background-color: #fafafa;
         padding: 0 2%;

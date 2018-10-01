@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/plantrip_schedule.scss";
 
-const PlanTripSchedule = () =>{
+const PlanTripSchedule = ({AddPlanTrip,EditPlanTrip}) =>{
     return(
         <div className="schedule">
             <div>
@@ -167,7 +167,7 @@ const PlanTripSchedule = () =>{
                             <li className="time"></li>
                             <li className="type_icon"><div></div></li>
                             <li className="text">桃園國際機場 (T2)</li>
-                            <li className="edit"></li>
+                            <li className="edit" onClick={EditPlanTrip}></li>
                         </ul>
                         <div className="clearfix remarks">
                             <div>
@@ -179,7 +179,7 @@ const PlanTripSchedule = () =>{
                         </div>
                     </div>
                     {/*  */}
-                    <div className="add">
+                    <div className="add" onClick={AddPlanTrip}>
                         <ul className="clearfix location">
                             <li className="time"></li>
                             <li className="type_icon"><div></div></li>

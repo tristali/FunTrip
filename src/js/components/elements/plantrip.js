@@ -3,16 +3,22 @@ import ReactDOM from "react-dom";
 import PlanTripTop from "./plantrip_top";
 import PlanTripBottom from "./plantrip_bottom";
 import CreactPlanTrip from "./creact_plantrip";
+import app from "../../lib";
 import "../../../scss/plantrip.scss";
 
 class PlanTrip extends Component{
     constructor(props){
         super(props);
         this.state = {
+            /* 檢視當前行程類別 */
             category: "All",
-            // creact_plantrip: "hide",
+            /* 當前為關閉 "hide" 新增 "Add" 或修改 "Edit" 行程狀態 */
+            creact_plantrip: "hide",
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
+        this.AddPlanTrip = this.AddPlanTrip.bind(this);
+        this.EditPlanTrip = this.EditPlanTrip.bind(this);
+        this.handleHideCreactPlanTrip = this.handleHideCreactPlanTrip.bind(this);
     }
     render(){
         return(
@@ -22,10 +28,16 @@ class PlanTrip extends Component{
                         handleCategoryChange={this.handleCategoryChange}
                         state={this.state}
                     />
-                    <PlanTripBottom />
+                    <PlanTripBottom 
+                        AddPlanTrip={this.AddPlanTrip}
+                        EditPlanTrip={this.EditPlanTrip}
+                    />
                 </div>
-                <div>
-                    <CreactPlanTrip />
+                <div className={this.state.creact_plantrip}>
+                    <CreactPlanTrip 
+                        creactPlantrip={this.state.creact_plantrip}
+                        handleHideCreactPlanTrip={this.handleHideCreactPlanTrip}
+                    />
                 </div>
             </div>
         );
@@ -33,6 +45,24 @@ class PlanTrip extends Component{
 
     handleCategoryChange(category_name){
         this.setState({category: category_name});
+    }
+
+    AddPlanTrip(){
+        const mapDOM = app.get(".map"); 
+        this.setState({creact_plantrip:"Add"});
+        mapDOM.classList.add("creact_plantrip");
+    }
+
+    EditPlanTrip(){
+        const mapDOM = app.get(".map"); 
+        this.setState({creact_plantrip:"Edit"});
+        mapDOM.classList.add("creact_plantrip");
+    }
+
+    handleHideCreactPlanTrip(){
+        const mapDOM = app.get(".map"); 
+        this.setState({creact_plantrip:"hide"});
+        mapDOM.classList.remove("creact_plantrip");
     }
 }
 

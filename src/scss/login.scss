@@ -1,5 +1,9 @@
 @import "./config.scss";
-
+div#app{
+  >div{
+    position: relative;
+  }
+}
 div.login_and_signup {
   position: absolute;
   width: 100%;

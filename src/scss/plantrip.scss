@@ -6,7 +6,7 @@ div.plantrip{
     left: 0;
     transition: left 0.8s;
     z-index: 9;
-    background-color: #fff;
+    // width: 470px;
     &.hide{
         left: -470px;
         @include pad-width{
@@ -17,10 +17,23 @@ div.plantrip{
         float: left;
         height: 100%;
         box-shadow:2px 0 10px rgba(93,95,119,0.1);
+        background-color: #fff;
         &:nth-child(1){
+            position: relative;
             width: 470px;
+            z-index: 999;
             @include pad-width{
                 width: 320px;
+            }
+        }
+        &:nth-child(2){
+            position: relative;
+            left: 0;
+            z-index: 99;
+            width: 400px;
+            transition: left 0.7s;
+            &.hide{
+                left: -400px;
             }
         }
     }

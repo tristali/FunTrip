@@ -148,8 +148,8 @@ class CreactPlanTrip extends Component{
         // 一般不需調整新增行程時 <div> 需增加 hide
             <div className="creact_plantrip">
                 <ul className="clearfix">
-                    <li><div></div></li>
-                    <li>Add a node</li>
+                    <li onClick={this.props.handleHideCreactPlanTrip}><div></div></li>
+                    <li>{this.props.creactPlantrip} a node</li>
                     <li></li>
                 </ul>
                 <div>
@@ -181,12 +181,12 @@ class CreactPlanTrip extends Component{
                     </div>
                     <div className="button">
                         <ul className="clearfix">
-                            <li><div>RESET</div></li>
+                            <li><div>Rest</div></li>
                             <li 
                                 className={this.state.lcation_name? "ok" : ""}
                                 onClick={this.handleSetDatebase}
                             >
-                                <div>ADD</div>
+                                <div>{this.props.creactPlantrip}</div>
                             </li>
                         </ul>
                     </div>
@@ -235,6 +235,7 @@ class CreactPlanTrip extends Component{
         if(this.state.lcation_name){
             alert("資料更新中");
             // 連接 Datebase
+            // 資料初始化
         } else {
             alert("麻煩請協助填入地點名稱，謝謝");
         }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import GoogleMapReact from "google-map-react";
 import "../../../scss/map.scss";
+import api from "../../../../api/google";
 
 class Map extends Component{
     constructor(props){
@@ -13,7 +14,7 @@ class Map extends Component{
         return(
             <div className="map">
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyBpNTLNQdlFzvFinsEEghCLbYbk2GlJD7k" }}
+                    bootstrapURLKeys={{ key: api.google }}
                     defaultCenter={this.props.state.map_center}
                     defaultZoom={this.props.state.map_zoom}
                 >

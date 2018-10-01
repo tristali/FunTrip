@@ -103,11 +103,17 @@ class App extends Component{
     handleLoginOrSignupEnter(){
         const thisStateUser = this.state.user;
 
-        if(!thisStateUser.email || !thisStateUser.password){
+        if(!thisStateUser.email 
+            || !thisStateUser.password
+        ){
             alert("OOOpps! 有欄位忘記填囉!");
-        } else if(!thisStateUser.email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)){
+        } else if(!thisStateUser.email
+            .match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)
+        ){
             alert("OOOpps! E-Mail 格式有誤!");
-        } else if(!thisStateUser.password.match(/.{6,}/)){
+        } else if(!thisStateUser.password
+            .match(/.{6,}/)
+        ){
             alert("OOOpps! 密碼至少需要六碼歐!");
         } else {
             if(this.state.login_or_signup === "login"){
