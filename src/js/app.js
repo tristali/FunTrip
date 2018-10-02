@@ -9,7 +9,6 @@ import * as firebase from "firebase";
 
 /*initialize firebase*/
 firebase.initializeApp(app.firebase.config);
-
 class App extends Component{
     constructor(props){
         super(props);
@@ -204,18 +203,21 @@ class App extends Component{
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         position => {
-                            console.log(position.coords);                  
+                            console.log(position.coords);  
+                            const userGeolocation = app.get(".map_center");           
                             let nowMapCenterObj = Object.assign({},this.state.map_center,{
                                 lat: position.coords.latitude, 
                                 lng: position.coords.longitude
                             });
                             this.setState({map_center:nowMapCenterObj});
-                            this.setState({map_zoom:10});               
+                            this.setState({map_zoom:10});      
+                            userGeolocation.classList.add("user_geolocation");         
                         }
                     );
                 } else {
                     error => console.log(error);
-                }             
+                }    
+
             } else {
                 loginAndSignupDOM.classList.remove("hide");
                 plantripDOM.classList.add("hide");

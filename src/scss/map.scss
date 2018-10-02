@@ -26,5 +26,9 @@
         border: solid 5px rgba(0, 0, 0, 0.1);
         text-align: center;
         line-height: 40px;
+        /* 使用者當前座標樣式 */
+        &.user_geolocation{
+            border: solid 5px rgba(0, 0, 0, 0.1);
+        }
     }
 }
