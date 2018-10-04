@@ -166,7 +166,8 @@ class CreactPlanTrip extends Component{
                             <li className="location clearfix">
                                 <div></div>
                                 <div>
-                                    <input 
+                                    <input
+                                        className = "search_input"
                                         type="text" 
                                         value={this.state.lcation_name} 
                                         placeholder="請在此輸入地點名稱"

@@ -1,3 +1,5 @@
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
 let app = {
     firebase:{
@@ -45,52 +47,124 @@ app.firebase_signInWithPopup = function(firebase, provider, provider_name){
     });
 };
 
-// app.createElement=function(tagName,settings,parentElement){
-//     let obj=document.createElement(tagName);
-//     if(settings.atrs){app.setAttributes(obj,settings.atrs);}
-//     if(settings.stys){app.setStyles(obj,settings.stys);}
-//     if(settings.evts){app.setEventHandlers(obj,settings.evts);}
-//     if(parentElement instanceof Element){parentElement.appendChild(obj);}
-//     return obj;
-// };
-// app.modifyElement=function(obj,settings,parentElement){
-//     if(settings.atrs){
-//         app.setAttributes(obj,settings.atrs);
-//     }
-//     if(settings.stys){
-//         app.setStyles(obj,settings.stys);
-//     }
-//     if(settings.evts){
-//         app.setEventHandlers(obj,settings.evts);
-//     }
-//     if(parentElement instanceof Element&&parentElement!==obj.parentNode){
-//         parentElement.appendChild(obj);
-//     }
-//     return obj;
-// };
-// app.setStyles=function(obj,styles){
-//     for(let name in styles){
-//         obj.style[name]=styles[name];
-//     }
-//     return obj;
-// };
-// app.setAttributes=function(obj,attributes){
-//     for(let name in attributes){
-//         obj[name]=attributes[name];
-//     }
-//     return obj;
-// };
-// app.setEventHandlers=function(obj,eventHandlers,useCapture){
-//     for(let name in eventHandlers){
-//         if(eventHandlers[name] instanceof Array){			
-//             for(let i=0;i<eventHandlers[name].length;i++){
-//                 obj.addEventListener(name,eventHandlers[name][i],useCapture);
-//             }
-//         }else{
-//             obj.addEventListener(name,eventHandlers[name],useCapture);
-//         }
-//     }
-//     return obj;
-// };
+/* google map init */
+app.initMap = function(map_center_lat,map_center_lng,map_zoom,locations,labels) {
+    const input = app.get(".search_input");
+    /* 座標中心 */
+    let map_center = {
+        lat: map_center_lat, 
+        lng: map_center_lng
+    };
+    let options = {
+        zoom: map_zoom,
+        center: map_center,
+    };
+    let map = new google.maps.Map(app.get(".map"),options);
+   
+    /* 標記地點 */
+    addMarker({
+        coords:map_center,
+        map:map,
+        icon:"",
+    });
 
+    var markers = locations.map(function(location, i) {
+        return new google.maps.Marker({
+            position: location,
+            label: labels[i % labels.length]
+        });
+    });
+
+    var markerCluster = new MarkerClusterer(map, markers,
+        {imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"});
+    
+    var autocomplete = new google.maps.places.Autocomplete(
+        input, 
+        {placeIdOnly: true}
+    );
+    autocomplete.bindTo("bounds", map);
+    
+    var geocoder = new google.maps.Geocoder;
+    let marker = new google.maps.Marker({
+        map: map
+    });
+ 
+    autocomplete.addListener("place_changed", function() {
+        var place = autocomplete.getPlace();
+
+        if (!place.place_id) {
+            return;
+        }
+        geocoder.geocode({"placeId": place.place_id}, function(results, status) {
+
+            if (status !== "OK") {
+                window.alert("Geocoder failed due to: " + status);
+                return;
+            }
+            map.setZoom(11);
+            map.setCenter(results[0].geometry.location);
+            // Set the position of the marker using the place ID and location.
+            marker.setPlace({
+                placeId: place.place_id,
+                location: results[0].geometry.location
+            });
+            marker.setVisible(true);
+
+            var service = new google.maps.places.PlacesService(map);
+
+            service.getDetails({
+                placeId: place.place_id,
+                fields: ["name",
+                    "opening_hours",
+                    "international_phone_number",
+                    "website"
+                ]
+            }, function(place, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    console.log("營業時間",place.opening_hours.weekday_text);
+
+                    let placeDetailsArray = ["",
+                        results[0].formatted_address,
+                        place.international_phone_number,
+                        place.website
+                    ];
+                    input.value = place.name;
+                    for(let i =1; i<5; i++){
+                        app.get(`.general>li:nth-child(${i})`).classList.add("current");
+                        app.get(`.general>li:nth-child(${i}) textarea`).value = placeDetailsArray[i-1];
+                    }
+
+                }
+            });
+
+        });
+    });
+};
 export default app;
+
+  
+/* 標記地點 */
+function addMarker(props){
+    let marker = new google.maps.Marker({ 
+        map: props.map,
+    });
+
+    if(props.coords){
+        marker.setPosition(props.coords);
+    }
+
+    /* 標記地點小圖像 */
+    if(props.icon){
+        marker.setIcon(props.icon);
+    }
+
+    /* 標記地點小標籤可以填入想填的內容 */
+    if(props.content){
+        let infoWindow = new google.maps.InfoWindow({
+            content:props.content,
+        });
+        marker.addListener("click",function(){
+            infoWindow.open(props.map, marker);
+        });
+    }
+}    
