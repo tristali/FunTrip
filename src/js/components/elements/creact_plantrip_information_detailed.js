@@ -12,13 +12,15 @@ const InformationDetailed = ({detailedItemName,
     return(
         <li 
             className="clearfix"
-            onClick={()=>handleInformationInputStateOnClick(item+"-"+index)}
             onBlur={()=>handleInformationInputStateOnBlur(item+"-"+index)}
         >
             <div><div>{detailedItemName}</div></div>
             <div>
-                <form><textarea type="text" />
-                </form>
+                <div 
+                    onClick={()=>handleInformationInputStateOnClick(item+"-"+index)}
+                    className="textarea"
+                    contenteditable="true"
+                />
             </div>
         </li>
     );

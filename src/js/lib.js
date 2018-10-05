@@ -1,6 +1,3 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-
 let app = {
     firebase:{
         config:{
@@ -14,14 +11,17 @@ let app = {
     }
 };
 
+/* Get Element */
 app.get = function(selector){
     return document.querySelector(selector);
 };
 
+/* Get Elements */
 app.getAll = function(selector){
     return document.querySelectorAll(selector);
 };
 
+/* Firebase */
 app.firebase_signInWithPopup = function(firebase, provider, provider_name){
     firebase.auth().signInWithPopup(provider).then(function(result) {
         firebase.auth().onAuthStateChanged(firebaseUser=>{
@@ -47,73 +47,81 @@ app.firebase_signInWithPopup = function(firebase, provider, provider_name){
     });
 };
 
-/* google map init */
-app.initMap = function(map_center_lat,map_center_lng,map_zoom,locations,labels) {
-    const input = app.get(".search_input");
-    /* 座標中心 */
-    let map_center = {
-        lat: map_center_lat, 
-        lng: map_center_lng
-    };
-    let options = {
-        zoom: map_zoom,
-        center: map_center,
-    };
-    let map = new google.maps.Map(app.get(".map"),options);
-   
-    /* 標記地點 */
-    addMarker({
-        coords:map_center,
-        map:map,
-        icon:"",
-    });
+/* Google map */
+/* 修改標記地點 */
+app.setMarker = function(props){
+    /* 定位 */
+    if(props.coords){
+        props.marker.setPosition(props.coords);
+    }
 
-    var markers = locations.map(function(location, i) {
-        return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
+    /* 小圖像 */
+    if(props.icon){
+        props.marker.setIcon(props.icon);
+    }
+
+    /* 小標籤 */
+    if(props.content){
+        let infoWindow = new google.maps.InfoWindow({
+            content:props.content,
         });
-    });
+        props.marker.addListener("click",function(){
+            infoWindow.open(props.map, props.marker);
+        });
+    }
 
-    var markerCluster = new MarkerClusterer(map, markers,
-        {imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"});
-    
-    var autocomplete = new google.maps.places.Autocomplete(
+    /* 自動搜尋 id與座標 */
+    if(props.placeId && props.location){
+        props.marker.setPlace({
+            placeId: props.placeId,
+            location: props.location
+        });
+    }
+}; 
+
+/* 自動輸入地點名稱 */
+app.autocomplete = function(map,marker){
+    const input = app.get(".search_input");
+
+    let autocomplete = new google.maps.places.Autocomplete(
         input, 
         {placeIdOnly: true}
     );
     autocomplete.bindTo("bounds", map);
     
-    var geocoder = new google.maps.Geocoder;
-    let marker = new google.maps.Marker({
-        map: map
-    });
+    let geocoder = new google.maps.Geocoder;
  
     autocomplete.addListener("place_changed", function() {
-        var place = autocomplete.getPlace();
+        let place = autocomplete.getPlace();
 
         if (!place.place_id) {
             return;
         }
+
+        /* 使用 placeId 設定訊息 */
         geocoder.geocode({"placeId": place.place_id}, function(results, status) {
 
             if (status !== "OK") {
                 window.alert("Geocoder failed due to: " + status);
                 return;
             }
+
+            /* 顯示所在地點 */
             map.setZoom(11);
             map.setCenter(results[0].geometry.location);
-            // Set the position of the marker using the place ID and location.
-            marker.setPlace({
+
+            app.setMarker({
+                marker:marker,
                 placeId: place.place_id,
                 location: results[0].geometry.location
             });
             marker.setVisible(true);
 
-            var service = new google.maps.places.PlacesService(map);
-
+            /* 自動填入名稱、營業時間、電話號碼、地址 */
+            let service = new google.maps.places.PlacesService(map);
             service.getDetails({
                 placeId: place.place_id,
+                /* 設定需要資訊 */
                 fields: ["name",
                     "opening_hours",
                     "international_phone_number",
@@ -121,50 +129,38 @@ app.initMap = function(map_center_lat,map_center_lng,map_zoom,locations,labels) 
                 ]
             }, function(place, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    console.log("營業時間",place.opening_hours.weekday_text);
 
-                    let placeDetailsArray = ["",
+                    /* 營業時間 */
+                    let opening ="";
+                    if(place.opening_hours){
+                        let openingArray = place.opening_hours.weekday_text;
+                        for(let i =0;i<openingArray.length;i+=1){
+                            opening += openingArray[i] + "<br />";                        
+                        }
+                    }
+
+                    /* 名稱、營業時間、電話號碼、地址 */
+                    let placeDetailsArray = [opening,
                         results[0].formatted_address,
                         place.international_phone_number,
                         place.website
                     ];
+
                     input.value = place.name;
                     for(let i =1; i<5; i++){
-                        app.get(`.general>li:nth-child(${i})`).classList.add("current");
-                        app.get(`.general>li:nth-child(${i}) textarea`).value = placeDetailsArray[i-1];
+                        if(placeDetailsArray[i-1]){
+                            app.get(`.general>li:nth-child(${i})`)
+                                .classList
+                                .add("current");
+                            app.get(`.general>li:nth-child(${i}) div.textarea`)
+                                .innerHTML = placeDetailsArray[i-1];
+                        }
                     }
-
                 }
             });
 
         });
     });
 };
+
 export default app;
-
-  
-/* 標記地點 */
-function addMarker(props){
-    let marker = new google.maps.Marker({ 
-        map: props.map,
-    });
-
-    if(props.coords){
-        marker.setPosition(props.coords);
-    }
-
-    /* 標記地點小圖像 */
-    if(props.icon){
-        marker.setIcon(props.icon);
-    }
-
-    /* 標記地點小標籤可以填入想填的內容 */
-    if(props.content){
-        let infoWindow = new google.maps.InfoWindow({
-            content:props.content,
-        });
-        marker.addListener("click",function(){
-            infoWindow.open(props.map, marker);
-        });
-    }
-}    

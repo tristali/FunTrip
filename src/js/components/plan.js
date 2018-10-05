@@ -26,11 +26,12 @@ class Plan extends Component{
                     handleMenuState={this.props.handleMenuState} 
                     menu={this.props.state.menu}
                     handleSignout={this.props.handleSignout}
+                    handleAddPlan={this.props.handleAddPlan}//
                 />
-                <PlanTrip />
-                <Map 
+                <PlanTrip
                     state={this.props.state}
                 />
+                <Map />
             </div>
         );
     }
