@@ -1,6 +1,6 @@
 @import "./config.scss";
 
-.map{
+.map {
     width: calc(100vw - 470px);
     height: calc(100vh - 58px);
     position: absolute;
@@ -13,21 +13,21 @@
     &.hide_plantrip {
         width: 100vw;
     }
-    @include pad-width{
+    @include pad-width {
         width: calc(100vw - 320px);
         height: calc(100vh - 38px);
     }
-    .map_center{
+    .map_center {
         width: 50px;
         height: 50px;
-        background: #1FA2FF;
+        background: #1fa2ff;
         border-radius: 100%;
         color: #fff;
         border: solid 5px rgba(0, 0, 0, 0.1);
         text-align: center;
         line-height: 40px;
         /* 使用者當前座標樣式 */
-        &.user_geolocation{
+        &.user_geolocation {
             border: solid 5px rgba(0, 0, 0, 0.1);
         }
     }

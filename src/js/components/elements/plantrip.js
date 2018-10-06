@@ -57,22 +57,35 @@ class PlanTrip extends Component {
         this.setState({ category: category_name });
     }
 
-    AddPlanTrip() {
+    AddPlanTrip(index) {
         const mapDOM = app.get(".map");
+        const thisPlanDetailedDOM = app.get(
+            `.all_plan_detailed>div:nth-child(${index})`
+        );
+        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
+        thisPlanDetailedDOM.classList.add("current");
         this.setState({ creact_plantrip: "Add" });
         mapDOM.classList.add("creact_plantrip");
+        console.log(thisPlanDetailedDOM);
     }
 
-    EditPlanTrip() {
+    EditPlanTrip(index) {
         const mapDOM = app.get(".map");
+        const thisPlanDetailedDOM = app.get(
+            `.all_plan_detailed>div:nth-child(${index})`
+        );
+        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
+        thisPlanDetailedDOM.classList.add("current");
         this.setState({ creact_plantrip: "Edit" });
         mapDOM.classList.add("creact_plantrip");
+        console.log(thisPlanDetailedDOM);
     }
 
     handleHideCreactPlanTrip() {
         const mapDOM = app.get(".map");
         this.setState({ creact_plantrip: "hide" });
         mapDOM.classList.remove("creact_plantrip");
+        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
     }
 
     /* 改變 this.state.creact_plantrip */

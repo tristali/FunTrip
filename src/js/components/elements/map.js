@@ -2,17 +2,13 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/map.scss";
 
-class Map extends Component{
-    constructor(props){
+class Map extends Component {
+    constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
-    render(){
-        return(
-            <div className="map">
-            </div>
-        );
+    render() {
+        return <div className="map" />;
     }
 }
 export default Map;

@@ -5,32 +5,35 @@ import Header from "./elements/header";
 import PlanTrip from "./elements/plantrip";
 import Map from "./elements/map";
 
-class Plan extends Component{
-    constructor(props){
+class Plan extends Component {
+    constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
-    render(){
-        return(
+    render() {
+        return (
             <div>
-                <Login 
+                <Login
                     state={this.props.state}
-                    handleLoginOrSignupState={this.props.handleLoginOrSignupState}
-                    handleLoginOrSignupEnter={this.props.handleLoginOrSignupEnter}
-                    handleLoginAndSignupInputChange={this.props.handleLoginAndSignupInputChange}
+                    handleLoginOrSignupState={
+                        this.props.handleLoginOrSignupState
+                    }
+                    handleLoginOrSignupEnter={
+                        this.props.handleLoginOrSignupEnter
+                    }
+                    handleLoginAndSignupInputChange={
+                        this.props.handleLoginAndSignupInputChange
+                    }
                     handleFacebookLogin={this.props.handleFacebookLogin}
-                    handleGoogleLogin={this.props.handleGoogleLogin}    
+                    handleGoogleLogin={this.props.handleGoogleLogin}
                 />
-                <Header 
-                    handleMenuState={this.props.handleMenuState} 
+                <Header
+                    handleMenuState={this.props.handleMenuState}
                     menu={this.props.state.menu}
                     handleSignout={this.props.handleSignout}
-                    handleAddPlan={this.props.handleAddPlan}//
+                    handleAddPlan={this.props.handleAddPlan} //
                 />
-                <PlanTrip
-                    state={this.props.state}
-                />
+                <PlanTrip state={this.props.state} />
                 <Map />
             </div>
         );

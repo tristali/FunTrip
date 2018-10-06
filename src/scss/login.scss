@@ -1,178 +1,177 @@
 @import "./config.scss";
-div#app{
-  >div{
-    position: relative;
-  }
+div#app {
+    > div {
+        position: relative;
+    }
 }
 div.login_and_signup {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, .35);
-  z-index: 999;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 999;
 
-  &.hide{
-    display: none;
-  }
-
-  >div {
-    width: 380px;
-    height: 632px;
-    background-image: url(../img/login_bg.svg);
-    border-radius: 5px;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    @include phone-width {
-      width: 310px;
-      height: 515px;
+    &.hide {
+        display: none;
     }
 
-    >div:nth-child(1) {
-      max-width: 275px;
-      margin: 0 auto;
-      padding-top: 16%;
+    > div {
+        width: 380px;
+        height: 632px;
+        background-image: url(../img/login_bg.svg);
+        border-radius: 5px;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
 
-      @include phone-width {
-        width: 80%;
-      }
-
-      ul.enter_information,
-      ul.login_via {
-        padding: 0 3%;
-      }
-
-      >ul.tab {
-        border-bottom: solid 1px $color-light-gray-line;
-
-        >li {
-          color: #bbb;
-          float: left;
-          width: 50%;
-          text-align: center;
-          font-size: $font-size-medium;
-          font-weight: 550;
-          padding-bottom: 8px;
-          cursor: pointer;
-
-          @include phone-width {
-            font-size: $font-size-medium-phone;
-          }
-
-          &.current {
-            color: $second-color;
-            border-bottom: solid 2px $second-color;
-          }
+        @include phone-width {
+            width: 310px;
+            height: 515px;
         }
-      }
 
-      >ul.enter_information {
-        padding-top: 15%;
-
-        >li {
-          padding: 2% 0;
-
-          >input {
-            width: 100%;
-            border: solid 1px $color-light-gray-line;
-            padding: 4% 4% 4% 19%;
-            font-size: $font-size-small;
-            border-radius: 3px;
-            background: no-repeat 4% center;
+        > div:nth-child(1) {
+            max-width: 275px;
+            margin: 0 auto;
+            padding-top: 16%;
 
             @include phone-width {
-              font-size: $font-size-small-phone;
+                width: 80%;
             }
-          }
 
-          >input#name {
-            background-image: url(../img/name.svg);
-          }
+            ul.enter_information,
+            ul.login_via {
+                padding: 0 3%;
+            }
 
-          >input#email {
-            background-image: url(../img/email.svg);
-          }
+            > ul.tab {
+                border-bottom: solid 1px $color-light-gray-line;
 
-          >input#password {
-            background-image: url(../img/password.svg);
-          }
+                > li {
+                    color: #bbb;
+                    float: left;
+                    width: 50%;
+                    text-align: center;
+                    font-size: $font-size-medium;
+                    font-weight: 550;
+                    padding-bottom: 8px;
+                    cursor: pointer;
+
+                    @include phone-width {
+                        font-size: $font-size-medium-phone;
+                    }
+
+                    &.current {
+                        color: $second-color;
+                        border-bottom: solid 2px $second-color;
+                    }
+                }
+            }
+
+            > ul.enter_information {
+                padding-top: 15%;
+
+                > li {
+                    padding: 2% 0;
+
+                    > input {
+                        width: 100%;
+                        border: solid 1px $color-light-gray-line;
+                        padding: 4% 4% 4% 19%;
+                        font-size: $font-size-small;
+                        border-radius: 3px;
+                        background: no-repeat 4% center;
+
+                        @include phone-width {
+                            font-size: $font-size-small-phone;
+                        }
+                    }
+
+                    > input#name {
+                        background-image: url(../img/name.svg);
+                    }
+
+                    > input#email {
+                        background-image: url(../img/email.svg);
+                    }
+
+                    > input#password {
+                        background-image: url(../img/password.svg);
+                    }
+                }
+            }
+
+            > ul.login_via {
+                padding-top: 10%;
+
+                > li {
+                    margin-top: 3%;
+                    padding: 2% 14%;
+                    color: #fff;
+                    border-radius: 3px;
+                    font-size: $font-size-medium-small;
+                    text-align: right;
+                    cursor: pointer;
+
+                    @include phone-width {
+                        padding: 2% 18%;
+                        font-size: $font-size-small-phone;
+                    }
+                }
+
+                > li#fb_login {
+                    background: url(../img/facebook.svg) no-repeat #254ea6 12%
+                        center;
+                    background-size: 33px 33px;
+                    @include phone-width {
+                        background-position-x: 17%;
+                    }
+                }
+
+                > li#google_login {
+                    background: url(../img/google.svg) no-repeat #d84134 15%
+                        center;
+                    background-size: 33px 33px;
+                    @include phone-width {
+                        background-position-x: 20%;
+                    }
+                }
+            }
         }
-      }
 
-      >ul.login_via {
-        padding-top: 10%;
+        > div.enter {
+            position: absolute;
+            bottom: 23px;
+            right: 20px;
+            width: 194px;
+            height: 194px;
+            background: url(../img/login_button.svg);
+            background-size: 100% 100%;
+            cursor: pointer;
 
-        >li {
-          margin-top: 3%;
-          padding: 2% 14%;
-          color: #fff;
-          border-radius: 3px;
-          font-size: $font-size-medium-small;
-          text-align: right;
-          cursor: pointer;
-
-          @include phone-width {
-            padding: 2% 18%;
-            font-size: $font-size-small-phone;
-          }
+            @include phone-width {
+                width: 123px;
+                height: 123px;
+                bottom: 15px;
+                right: 12px;
+            }
         }
 
-        >li#fb_login {
-          background: url(../img/facebook.svg) no-repeat #254EA6 12% center;
-          background-size: 33px 33px;
-          @include phone-width {
-            background-position-x: 17%;
-          }
+        &.login > div {
+            > ul.enter_information > li:nth-child(1) {
+                display: none;
+            }
         }
 
-        >li#google_login {
-          background: url(../img/google.svg) no-repeat #D84134 15% center;
-          background-size: 33px 33px;
-          @include phone-width {
-            background-position-x: 20%;
-          }
+        &.signup > div {
+            > ul.enter_information > li {
+                padding: 2.5% 0;
+            }
+            > ul.login_via {
+                display: none;
+            }
         }
-      }
-
     }
 
-    >div.enter {
-      position: absolute;
-      bottom: 23px;
-      right: 20px;
-      width: 194px;
-      height: 194px;
-      background: url(../img/login_button.svg);
-      background-size: 100% 100%;
-      cursor: pointer;
-
-      @include phone-width {
-        width: 123px;
-        height: 123px;
-        bottom: 15px;
-        right: 12px;
-      }
-    }
-
-    &.login>div{
-      >ul.enter_information>li:nth-child(1){
-        display: none;
-      }
-    }
-
-    &.signup>div{
-      >ul.enter_information>li{
-        padding: 2.5% 0;
-      }
-      >ul.login_via{
-        display: none;
-      }
-    }
-
-  }
-
-  /*login彈跳視窗結束*/
-
+    /*login彈跳視窗結束*/
 }

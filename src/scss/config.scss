@@ -1,12 +1,11 @@
 /*color*/
-$primary-color:#1FA2FF;
-$second-color: #5D5F77;
-$color-light-gray-line: rgba(93,95,119,.15);
-$color-light-blue-background: rgba(31,162,255,.05);
+$primary-color: #1fa2ff;
+$second-color: #5d5f77;
+$color-light-gray-line: rgba(93, 95, 119, 0.15);
+$color-light-blue-background: rgba(31, 162, 255, 0.05);
 
-$primary-gradient-color: linear-gradient(#0573FE 40%,#2FD3F6);
-$second-gradient-color: linear-gradient(#0573FE 1%,#2FD3F6);
-
+$primary-gradient-color: linear-gradient(#0573fe 40%, #2fd3f6);
+$second-gradient-color: linear-gradient(#0573fe 1%, #2fd3f6);
 
 /*font*/
 $font-size-medium: 18px;
@@ -16,7 +15,8 @@ $font-size-small: 13px;
 $font-size-medium-phone: 14px;
 $font-size-small-phone: 10px;
 
-$font-family: "Century Gothic","微軟正黑體","Microsoft JhengHei","PingFang TC",Arial,"sans-serif";
+$font-family: "Century Gothic", "微軟正黑體", "Microsoft JhengHei",
+    "PingFang TC", Arial, "sans-serif";
 
 /*media*/
 $pad-media: 940px;

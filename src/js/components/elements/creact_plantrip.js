@@ -15,6 +15,7 @@ const DETAIL_CATEGORY_OBJ = {
 
 /* Information 輸入框 */
 const INFORMATION_OBJ = {
+    time:["預計時間"],
     lodge: ["住宿資訊", "入住時間", "退房時間"],
     bonus: ["優惠資訊"],
     wishlist: ["願望清單"],
@@ -238,7 +239,7 @@ class CreactPlanTrip extends Component {
         const currentPlanID = this.props.state.current_plan;
         if (this.state.lcation_name) {
             /* name */
-            const inputValue = app.get(".search_input").value;
+            const inputDOM = app.get(".search_input");
 
             /* category */
             const selectCategoryArray = app
@@ -247,6 +248,12 @@ class CreactPlanTrip extends Component {
             const selectCategory = `${selectCategoryArray[0]}_${
                 selectCategoryArray[1]
             }`;
+
+            /* location */
+            const locationObj = {
+                lat: inputDOM.id.split("_")[1],
+                lng: inputDOM.id.split("_")[3]
+            };
 
             /* information */
             const informationObj = {};
@@ -267,9 +274,10 @@ class CreactPlanTrip extends Component {
                 .database()
                 .ref(`${detailedPath}/${detailedKey}`)
                 .set({
-                    name: inputValue,
+                    name: inputDOM.value,
                     category: selectCategory,
                     itemID: detailedKey,
+                    location: locationObj,
                     information: informationObj
                 });
 
@@ -291,6 +299,7 @@ class CreactPlanTrip extends Component {
             });
             /* 改變上層 creact_plantrip state */
             this.props.changeCreactPlantripState("hide");
+            app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         } else {
             alert("麻煩請協助填入地點名稱，謝謝");
         }
