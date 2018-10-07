@@ -4,13 +4,14 @@ import "../../../scss/plantrip_date.scss";
 import PlanTripDate from "./plantrip_date";
 import PlanTripSchedule from "./plantrip_schedule";
 
-const PlanTripBottom = ({ AddPlanTrip, EditPlanTrip }) => {
+const PlanTripBottom = props => {
     return (
         <div className="bottom">
             <PlanTripDate />
             <PlanTripSchedule
-                AddPlanTrip={AddPlanTrip}
-                EditPlanTrip={EditPlanTrip}
+                addPlanTrip={props.addPlanTrip}
+                editPlanTrip={props.editPlanTrip}
+                state={props.state}
             />
         </div>
     );

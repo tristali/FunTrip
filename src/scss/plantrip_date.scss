@@ -77,7 +77,7 @@ div.plantrip {
                                                 @include pad-width {
                                                     width: 45px;
                                                 }
-                                                > div {
+                                                > a > div {
                                                     letter-spacing: 0;
                                                     line-height: 1.2rem;
                                                     &:nth-child(1) {
@@ -95,7 +95,7 @@ div.plantrip {
                                                 }
                                                 &.current {
                                                     background-image: url(../img/date_bg.svg);
-                                                    > div {
+                                                    > a > div {
                                                         color: #fff;
                                                     }
                                                     &:hover {

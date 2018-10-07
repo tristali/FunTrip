@@ -23,11 +23,6 @@ class App extends Component {
             },
             login_or_signup: "signup",
             menu: "",
-            map_center: {
-                lat: 23.6,
-                lng: 121
-            },
-            map_zoom: 8,
             current_plan: "-LNyxY4e2Gs0k6Q-IDOx" //
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(
@@ -243,27 +238,13 @@ class App extends Component {
 
     /* Determine the login status when all components are rendered. */
     componentDidMount() {
-        //
-        /* google map 初始化 */
-        const mapDOM = app.get(".map");
-        const state = this.state;
-
-        let map_center = {
-            lat: state.map_center.lat,
-            lng: state.map_center.lng,
-        };
-        let options = {
-            zoom:state.map_zoom,
-            center: map_center,
-        };
-        let map = new google.maps.Map(app.get(".map"),options);
-        //
 
         /* 判斷登入狀態決定登入視窗是否顯示*/
         let thisStateUser;
         firebase.auth().onAuthStateChanged(firebaseUser => {
             const loginAndSignupDOM = app.get(".login_and_signup");
             const plantripDOM = app.get(".plantrip");
+            const mapDOM = app.get(".map");
             if (firebaseUser) {
                 thisStateUser = Object.assign({}, this.state.user, {
                     email: firebaseUser.email,
@@ -284,51 +265,6 @@ class App extends Component {
                 plantripDOM.classList.remove("hide");
                 mapDOM.classList.remove("hide_plantrip");
 
-                //
-                /* 標記地點起手式 */
-                let marker = new google.maps.Marker({
-                    map: map,
-                });
-
-                /* google map 標記位置 */
-                app.setMarker({
-                    coords:map_center,
-                    marker:marker,
-                    map:map,
-                });
-
-                /* google map 自動輸入並抓取資料 */
-                app.autocomplete(map,marker);
-
-                /* google map 標記多個位置 */
-                let markers = locations.map((location)=>{
-                    return new google.maps.Marker({
-                        position: location[0],
-                        icon:location[1]
-                    });
-                });
-                let markerCluster = new MarkerClusterer(map, markers,
-                    {imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"});
-
-                /* 判斷使用者是否有同意分享目前座標權限 */
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        position => {
-                            console.log(position.coords);
-                            map.setZoom(11);
-                            map.setCenter({lat: position.coords.latitude,
-                                lng:position.coords.longitude});
-                            marker.setPosition({lat: position.coords.latitude,
-                                lng:position.coords.longitude});
-                            app.setMarker({
-                                coords:{lat: position.coords.latitude,
-                                    lng:position.coords.longitude},
-                                marker:marker,
-                            });
-                        }
-                    );
-                }
-                //
             } else {
                 /* 沒有登入狀態 */
                 loginAndSignupDOM.classList.remove("hide");
@@ -351,10 +287,3 @@ class App extends Component {
 }
 
 ReactDOM.render(<App />, document.getElementById("app"));
-
-/* 每個行程點經緯度 */
-var locations = [
-    // [{lat: -42.734358, lng: 147.501315},"../src/img/transport.svg"],
-    // [{lat: -42.735258, lng: 147.438000},"../src/img/transport.svg"],
-    [{ lat: -43.999792, lng: 170.463352 }, "../src/img/transport.svg"]
-];

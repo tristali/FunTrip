@@ -8,9 +8,11 @@ import Map from "./elements/map";
 class Plan extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+        };
     }
     render() {
+        console.log(this.state, "----");
         return (
             <div>
                 <Login
@@ -33,8 +35,12 @@ class Plan extends Component {
                     handleSignout={this.props.handleSignout}
                     handleAddPlan={this.props.handleAddPlan} //
                 />
-                <PlanTrip state={this.props.state} />
-                <Map />
+                <PlanTrip
+                    state={this.props.state}
+                />
+                <Map 
+                    state={this.state}
+                />
             </div>
         );
     }

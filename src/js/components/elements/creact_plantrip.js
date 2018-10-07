@@ -15,12 +15,12 @@ const DETAIL_CATEGORY_OBJ = {
 
 /* Information 輸入框 */
 const INFORMATION_OBJ = {
-    time:["預計時間"],
+    time: ["預計時間"],
     lodge: ["住宿資訊", "入住時間", "退房時間"],
     bonus: ["優惠資訊"],
     wishlist: ["願望清單"],
     ticket: ["票務資訊"],
-    general: ["營業時間", "服務地址", "服務電話", "官方網站"],
+    general: ["服務地址", "服務電話", "營業時間", "官方網站"],
     remarks: ["附註事項"]
 };
 
@@ -251,9 +251,14 @@ class CreactPlanTrip extends Component {
 
             /* location */
             const locationObj = {
-                lat: inputDOM.id.split("_")[1],
-                lng: inputDOM.id.split("_")[3]
+                lat: Number(inputDOM.id.split("_")[1]),
+                lng: Number(inputDOM.id.split("_")[3])
             };
+
+            /* day and number */
+            const thisDayNumberArray = app
+                .get(".all_plan_detailed > div.current")
+                .id.split("_");
 
             /* information */
             const informationObj = {};
@@ -275,6 +280,8 @@ class CreactPlanTrip extends Component {
                 .ref(`${detailedPath}/${detailedKey}`)
                 .set({
                     name: inputDOM.value,
+                    day: thisDayNumberArray[1],
+                    number: thisDayNumberArray[3],
                     category: selectCategory,
                     itemID: detailedKey,
                     location: locationObj,
@@ -338,7 +345,7 @@ function setInformation(props) {
             ).innerHTML;
             if (thisItemInput) {
                 props.Obj[`${OverviewObjKey[j]}_${i}`] =
-                    thisItemName + "<br />" + thisItemInput;
+                `${thisItemName} <br /> ${thisItemInput}`;
             }
         }
     }

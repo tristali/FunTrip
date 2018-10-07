@@ -44,10 +44,10 @@
                     }
                 }
                 > div {
-                    padding: 3% 0;
-                    cursor: pointer;
+                    padding: 3% 0 6%;
                     > div {
                         padding: 0 6%;
+                        cursor: pointer;
                         &.current {
                             background-color: $color-light-blue-background;
                         }
@@ -110,6 +110,9 @@
                                         letter-spacing: 1px;
                                         line-height: 1.5rem;
                                         padding: 1% 0;
+                                        &.time_0{
+                                            display: none;
+                                        }
                                     }
                                 }
                             }

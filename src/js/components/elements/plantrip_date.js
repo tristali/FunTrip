@@ -19,36 +19,52 @@ const PlanTripDate = () => {
                                 <div>
                                     <ul className="clearfix day">
                                         <li className="current">
-                                            <div>01</div>
-                                            <div>WED</div>
+                                            <a href="#D_1">
+                                                <div>01</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>02</div>
-                                            <div>WED</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>03</div>
-                                            <div>THU</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>04</div>
-                                            <div>FRI</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>05</div>
-                                            <div>SAT</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>06</div>
-                                            <div>SUN</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>07</div>
-                                            <div>MON</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                         <li>
-                                            <div>08</div>
-                                            <div>TUE</div>
+                                            <a href="#D_2">
+                                                <div>02</div>
+                                                <div>WED</div>
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
