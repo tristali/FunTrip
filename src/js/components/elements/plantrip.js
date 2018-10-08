@@ -7,6 +7,14 @@ import app from "../../lib";
 import "../../../scss/plantrip.scss";
 import * as firebase from "firebase";
 
+/* 行程的類別及較小類別 */
+const DETAIL_CATEGORY_OBJ = {
+    Transport: ["transport", "airplane", "train", "car"],
+    Lodge: ["lodge"],
+    Food: ["food", "drink"],
+    Activity: ["activity", "shopping", "ticket"]
+};
+
 /* Information 輸入框 */
 const INFORMATION_OBJ = {
     time: ["預計時間"],
@@ -34,6 +42,12 @@ class PlanTrip extends Component {
             name: "",
             /* 當前行程起始日期 */
             start: "",
+            /* 當前行程類別 */
+            select_category: "Transport",
+            /* 當前行程小類別 */
+            category_detail: "transport",
+            /* 當前地點名稱 */
+            lcation_name: ""
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.addPlanTrip = this.addPlanTrip.bind(this);
@@ -42,6 +56,13 @@ class PlanTrip extends Component {
             this
         );
         this.changeCreactPlantripState = this.changeCreactPlantripState.bind(
+            this
+        );
+
+        this.handleSelectCategory = this.handleSelectCategory.bind(this);
+        this.handleDetailedCategory = this.handleDetailedCategory.bind(this);
+        this.handleLocationChange = this.handleLocationChange.bind(this);
+        this.handleCleanCategoryAndLcation = this.handleCleanCategoryAndLcation.bind(
             this
         );
     }
@@ -68,6 +89,12 @@ class PlanTrip extends Component {
                         changeCreactPlantripState={
                             this.changeCreactPlantripState
                         }
+                        handleLocationChange={this.handleLocationChange}
+                        handleSelectCategory={this.handleSelectCategory}
+                        handleDetailedCategory={this.handleDetailedCategory}
+                        handleCleanCategoryAndLcation={
+                            this.handleCleanCategoryAndLcation
+                        }
                     />
                 </div>
             </div>
@@ -79,6 +106,13 @@ class PlanTrip extends Component {
     }
 
     addPlanTrip(thisPlan) {
+        app.cleanCreactPlanTrip();
+        this.setState({
+            select_category: "Transport",
+            category_detail: "transport",
+            lcation_name: "",
+            creact_plantrip: "hide"
+        });
         const mapDOM = app.get(".map");
         const thisPlanDetailedDOM = app.get(
             `.all_plan_detailed>div#${thisPlan}`
@@ -91,6 +125,13 @@ class PlanTrip extends Component {
     }
 
     editPlanTrip(thisPlan) {
+        app.cleanCreactPlanTrip();
+        this.setState({
+            select_category: "Transport",
+            category_detail: "transport",
+            lcation_name: "",
+            creact_plantrip: "hide"
+        });
         const mapDOM = app.get(".map");
         const thisPlanDetailedDOM = app.get(`#${thisPlan}`);
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
@@ -98,9 +139,24 @@ class PlanTrip extends Component {
         this.setState({ creact_plantrip: "Edit" });
         mapDOM.classList.add("creact_plantrip");
         /* 設定現有資料到編輯 */
-        /* 填入經緯度 */
-        app.get("input.search_input").id = app.get(`#${thisPlan} li.text`).id;
-
+        /* 填入經緯度及 location_name */
+        const thisPlanClassArray = app.get(`#${thisPlan}`).classList;
+        const thisPlanTextDOM = app.get(`#${thisPlan} li.text`);
+        app.get("input.search_input").id = thisPlanTextDOM.id;
+        /* 大類別 */
+        let selectCategory =
+            thisPlanClassArray[0][0].toUpperCase() +
+            thisPlanClassArray[0].slice(1);
+        /* 小類別 */
+        let categoryDetail =
+            thisPlanClassArray[1] === "current"
+                ? thisPlanClassArray[0]
+                : thisPlanClassArray[1];
+        this.setState({
+            lcation_name: thisPlanTextDOM.textContent,
+            select_category: selectCategory,
+            category_detail: categoryDetail
+        });
         /* information 各項目 */
         let OverviewObjKey = Object.keys(INFORMATION_OBJ);
         for (let i = 0; i < OverviewObjKey.length; i++) {
@@ -118,24 +174,18 @@ class PlanTrip extends Component {
                     app.get(
                         `ul.${OverviewObjKey[i]} li:nth-child(${j +
                             1}) div.textarea`
-                    ).innerHTML = thisInformationDOM.innerHTML.split(
-                        "&lt;br /&gt;"
-                    )[1];
+                    ).innerHTML = thisInformationDOM.innerHTML.slice(8);
                 }
             }
         }
     }
 
+    /* 隱藏新增 / 修改 (回上一頁)) */
     handleHideCreactPlanTrip() {
         const mapDOM = app.get(".map");
         this.setState({ creact_plantrip: "hide" });
         mapDOM.classList.remove("creact_plantrip");
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
-    }
-
-    /* 改變 this.state.creact_plantrip */
-    changeCreactPlantripState(value) {
-        this.setState({ creact_plantrip: value });
     }
 
     componentDidMount() {
@@ -155,6 +205,39 @@ class PlanTrip extends Component {
                     });
                 });
             }
+        });
+    }
+
+    /* CreactPlanTrip */
+    /* 當行程類別被點擊時改變該類別樣式 */
+    handleSelectCategory(category_name) {
+        this.setState({ select_category: category_name });
+        this.setState({
+            category_detail: DETAIL_CATEGORY_OBJ[category_name][0]
+        });
+    }
+
+    /* 當行程小類別被點擊時改變該小類別樣式 */
+    handleDetailedCategory(category_name) {
+        this.setState({ category_detail: category_name });
+    }
+
+    /* 當使用者改變地點名稱時改變 this.props.planTripState.location_name */
+    handleLocationChange(e) {
+        this.setState({ lcation_name: e.currentTarget.value });
+    }
+
+    /* 改變 this.state.creact_plantrip */
+    changeCreactPlantripState(value) {
+        this.setState({ creact_plantrip: value });
+    }
+
+    /* 清除 修改/新增 location 和類別 */
+    handleCleanCategoryAndLcation(props) {
+        this.setState({
+            select_category: props.select_category,
+            category_detail: props.category_detail,
+            lcation_name: props.lcation_name
         });
     }
 }

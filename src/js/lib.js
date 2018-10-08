@@ -69,6 +69,23 @@ app.cleanAllCurrent = function(props) {
     });
 };
 
+/* 清除 新增/編輯 欄位 除了 name 及類別 */
+
+app.cleanCreactPlanTrip = function() {
+    /* 修改/新增行程資料清空 */
+    const allInformationLiDOM = [...app.getAll("div.information>ul>li")];
+    const allTextareaDOM = [...app.getAll("div.textarea")];
+    const inputDOM = app.get(".search_input");
+    allInformationLiDOM.map(item => {
+        item.classList.remove("current");
+    });
+    allTextareaDOM.map(item => {
+        item.innerHTML = "";
+    });
+    inputDOM.id = "";
+    app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
+};
+
 /* Google map */
 /* 修改標記地點 */
 app.setMarker = function(props) {
@@ -167,9 +184,9 @@ app.autocomplete = function(map, marker) {
 
                         /* 名稱、營業時間、電話號碼、地址、經緯度 */
                         let placeDetailsArray = [
-                            opening,
                             results[0].formatted_address,
                             place.international_phone_number,
+                            opening,
                             place.website
                         ];
                         input.value = place.name;

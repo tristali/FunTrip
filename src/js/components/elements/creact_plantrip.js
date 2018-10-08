@@ -35,25 +35,17 @@ const HIDE_INFORMATION_OBJ = {
 class CreactPlanTrip extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            /* 當前行程類別 */
-            select_category: "Transport",
-            /* 當前行程小類別 */
-            category_detail: "transport",
-            /* 當前地點名稱 */
-            lcation_name: ""
-        };
+        this.state = {};
 
-        this.handleSelectCategory = this.handleSelectCategory.bind(this);
-        this.handleDetailedCategory = this.handleDetailedCategory.bind(this);
         this.handleInformationInputStateOnClick = this.handleInformationInputStateOnClick.bind(
             this
         );
         this.handleInformationInputStateOnBlur = this.handleInformationInputStateOnBlur.bind(
             this
         );
-        this.handleLocationChange = this.handleLocationChange.bind(this);
         this.handleSetDatebase = this.handleSetDatebase.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+        this.handleDelCreactPlanTrip = this.handleDelCreactPlanTrip.bind(this);
     }
 
     render() {
@@ -63,9 +55,11 @@ class CreactPlanTrip extends Component {
         let selectCategoryArrayDOM = selectCategoryArray.map((item, index) => (
             <li
                 key={`select_category_${index}`}
-                onClick={() => this.handleSelectCategory(item)}
+                onClick={() => this.props.handleSelectCategory(item)}
                 className={
-                    this.state.select_category === item ? "current" : null
+                    this.props.planTripState.select_category === item
+                        ? "current"
+                        : null
                 }
             >
                 {item}
@@ -74,17 +68,17 @@ class CreactPlanTrip extends Component {
 
         /* Create 行程小類別 JSX */
         let thisCategoryDetailArray =
-            DETAIL_CATEGORY_OBJ[this.state.select_category];
+            DETAIL_CATEGORY_OBJ[this.props.planTripState.select_category];
 
-        let selectCategory = this.state.select_category.toLowerCase();
+        let selectCategory = this.props.planTripState.select_category.toLowerCase();
 
-        let detailedCategory = this.state.category_detail;
+        let detailedCategory = this.props.planTripState.category_detail;
 
         let thisDetailedCategoryDOM = thisCategoryDetailArray.map(
             (item, index) => (
                 <li
                     key={`category_detail_${index}`}
-                    onClick={() => this.handleDetailedCategory(item)}
+                    onClick={() => this.props.handleDetailedCategory(item)}
                     className={thisDetailedCategoryClass(
                         detailedCategory,
                         selectCategory,
@@ -129,7 +123,10 @@ class CreactPlanTrip extends Component {
         let informationDOM = Object.keys(INFORMATION_OBJ).map((item, index) => (
             <ul
                 key={`input_information_${index}`}
-                className={informationClass(this.state.select_category, item)}
+                className={informationClass(
+                    this.props.planTripState.select_category,
+                    item
+                )}
             >
                 {InformationDetailedDOM(
                     item,
@@ -161,7 +158,14 @@ class CreactPlanTrip extends Component {
                         <div />
                     </li>
                     <li>{this.props.creactPlantrip} a node</li>
-                    <li />
+                    <li
+                        className={this.props.creactPlantrip}
+                        onClick={this.handleDelCreactPlanTrip}
+                    >
+                        <div>
+                            <div>del</div>
+                        </div>
+                    </li>
                 </ul>
                 <div>
                     <div className="select_category">
@@ -176,9 +180,14 @@ class CreactPlanTrip extends Component {
                                     <input
                                         className="search_input"
                                         type="text"
-                                        value={this.state.lcation_name}
+                                        value={
+                                            this.props.planTripState
+                                                .lcation_name
+                                        }
                                         placeholder="請在此輸入地點名稱"
-                                        onChange={this.handleLocationChange}
+                                        onChange={
+                                            this.props.handleLocationChange
+                                        }
                                     />
                                 </div>
                             </li>
@@ -188,10 +197,14 @@ class CreactPlanTrip extends Component {
                     <div className="button">
                         <ul className="clearfix">
                             <li>
-                                <div>Rest</div>
+                                <div onClick={this.handleReset}>Reset</div>
                             </li>
                             <li
-                                className={this.state.lcation_name ? "ok" : ""}
+                                className={
+                                    this.props.planTripState.lcation_name
+                                        ? "ok"
+                                        : ""
+                                }
                                 onClick={this.handleSetDatebase}
                             >
                                 <div>{this.props.creactPlantrip}</div>
@@ -201,19 +214,6 @@ class CreactPlanTrip extends Component {
                 </div>
             </div>
         );
-    }
-
-    /* 當行程類別被點擊時改變該類別樣式 */
-    handleSelectCategory(category_name) {
-        this.setState({ select_category: category_name });
-        this.setState({
-            category_detail: DETAIL_CATEGORY_OBJ[category_name][0]
-        });
-    }
-
-    /* 當行程小類別被點擊時改變該小類別樣式 */
-    handleDetailedCategory(category_name) {
-        this.setState({ category_detail: category_name });
     }
 
     /* 當 Information 輸入框被點擊時改變該輸入框樣式 */
@@ -229,15 +229,55 @@ class CreactPlanTrip extends Component {
         }
     }
 
-    /* 當使用者改變地點名稱時改變 this.state.location_name */
-    handleLocationChange(e) {
-        this.setState({ lcation_name: e.currentTarget.value });
+    /* 重設 新增 / 編輯 */
+    handleReset() {
+        /* 修改/新增行程資料清空 */
+        app.cleanCreactPlanTrip();
+        /* 清除 修改/新增 location 和類別 */
+        this.props.handleCleanCategoryAndLcation({
+            select_category: "Transport",
+            category_detail: "transport",
+            lcation_name: ""
+        });
+        /* 改變上層 creact_plantrip state */
+        this.props.changeCreactPlantripState("hide");
+    }
+
+    /* 刪除 */
+    handleDelCreactPlanTrip() {
+        const currentPlanID = this.props.state.current_plan;
+        /* 把資料推進 Database */
+        let detailedPath = `plans/${currentPlanID}/detailed`;
+        /* 判斷此改變行程是否已經有id */
+        let detailedKey;
+        const currentPlanDOM = app.get("div.all_plan_detailed>div.current>ul")
+            .id;
+        if (currentPlanDOM) {
+            detailedKey = currentPlanDOM;
+            alert("此景點已刪除");
+        } else {
+            alert("無此景點可以刪除");
+        }
+        firebase
+            .database()
+            .ref(`${detailedPath}/${detailedKey}`)
+            .remove();
+        /* 修改/新增行程資料清空 */
+        app.cleanCreactPlanTrip();
+        /* 清除 修改/新增 location 和類別 */
+        this.props.handleCleanCategoryAndLcation({
+            select_category: "Transport",
+            category_detail: "transport",
+            lcation_name: ""
+        });
+        /* 改變上層 creact_plantrip state */
+        this.props.changeCreactPlantripState("hide");
     }
 
     /* Datebase 資料更新 */
     handleSetDatebase() {
         const currentPlanID = this.props.state.current_plan;
-        if (this.state.lcation_name) {
+        if (this.props.planTripState.lcation_name) {
             /* name */
             const inputDOM = app.get(".search_input");
 
@@ -271,10 +311,19 @@ class CreactPlanTrip extends Component {
 
             /* 把資料推進 Database */
             let detailedPath = `plans/${currentPlanID}/detailed`;
-            let detailedKey = firebase
-                .database()
-                .ref(detailedPath)
-                .push().key;
+            /* 判斷此改變行程是否已經有id */
+            let detailedKey;
+            const currentPlanDOM = app.get(
+                "div.all_plan_detailed>div.current>ul"
+            ).id;
+            if (currentPlanDOM) {
+                detailedKey = currentPlanDOM;
+            } else {
+                detailedKey = firebase
+                    .database()
+                    .ref(detailedPath)
+                    .push().key;
+            }
             firebase
                 .database()
                 .ref(`${detailedPath}/${detailedKey}`)
@@ -289,24 +338,15 @@ class CreactPlanTrip extends Component {
                 });
 
             /* 修改/新增行程資料清空 */
-            const allInformationLiDOM = [
-                ...app.getAll("div.information>ul>li")
-            ];
-            const allTextareaDOM = [...app.getAll("div.textarea")];
-            allInformationLiDOM.map(item => {
-                item.classList.remove("current");
-            });
-            allTextareaDOM.map(item => {
-                item.innerHTML = "";
-            });
-            this.setState({
+            app.cleanCreactPlanTrip();
+            /* 清除 修改/新增 location 和類別 */
+            this.props.handleCleanCategoryAndLcation({
                 select_category: "Transport",
                 category_detail: "transport",
                 lcation_name: ""
             });
             /* 改變上層 creact_plantrip state */
             this.props.changeCreactPlantripState("hide");
-            app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         } else {
             alert("麻煩請協助填入地點名稱，謝謝");
         }
@@ -344,8 +384,9 @@ function setInformation(props) {
                 `.${OverviewObjKey[j]}>li:nth-child(${i + 1}) div.textarea`
             ).innerHTML;
             if (thisItemInput) {
-                props.Obj[`${OverviewObjKey[j]}_${i}`] =
-                `${thisItemName} <br /> ${thisItemInput}`;
+                props.Obj[
+                    `${OverviewObjKey[j]}_${i}`
+                ] = `${thisItemName}<br />${thisItemInput}`;
             }
         }
     }

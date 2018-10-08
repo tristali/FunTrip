@@ -97,10 +97,11 @@ class PlanTripDetails extends Component {
         for (let i = 0; i < informationKeyArray.length; i++) {
             let informationContent = informationObj[informationKeyArray[i]];
             PlanInformationDOM.push(
-                <PlanInformation
-                    class={informationKeyArray[i]}
-                    informationContent={informationContent}
-                />
+                <li
+                    className={informationKeyArray[i]}
+                    dangerouslySetInnerHTML={{ __html: informationContent }}
+                >
+                </li>
             );
         }
         /* 如果有預計時間的話只顯示預計時間 */
@@ -138,21 +139,6 @@ class PlanTripDetails extends Component {
                     </div>
                 </div>
             </div>
-        );
-    }
-}
-
-class PlanInformation extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    render() {
-        return (
-            <li className={this.props.class}>
-                {this.props.informationContent}
-            </li>
         );
     }
 }

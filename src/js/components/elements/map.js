@@ -33,6 +33,7 @@ class Map extends Component {
         //     center: map_center
         // };
         // let map = new google.maps.Map(app.get(".map"), options);
+
         // /* 標記地點起手式 */
         // let marker = new google.maps.Marker({
         //     map: map
