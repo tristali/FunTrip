@@ -1,0 +1,86 @@
+@import "./config.scss";
+div.add_plan_trip {
+    > div {
+        background-image: url(../img/add_plan_trip_bg.svg);
+        > div {
+            &:nth-child(1) {
+                padding-top: 20%;
+                > ul {
+                    &.tab {
+                        border-bottom: none;
+                        li {
+                            color: $primary-color;
+                            font-size: 25px;
+                            text-align: left;
+                        }
+                        @include phone-width {
+                            font-size: 20px;
+                        }
+                    }
+                    &.enter_information {
+                        max-width: 230px;
+                        @include phone-width {
+                            max-width: 200px;
+                        }
+                        > li {
+                            padding: 0;
+                                border-bottom: solid 1px $color-light-gray-line;
+                            > input {
+                                border: none;
+                                border-bottom: solid 1px $color-light-gray-line;
+                                font-size: $font-size-medium-small;
+                                padding: 7% 5% 7% 25%;
+                                margin: 2% 0;
+                                border-bottom: none;
+                                color: $second-color;
+                                font-family: $font-family;
+                                background: no-repeat 0 center;
+                                text-align: center;
+                                @include phone-width {
+                                    font-size: $font-size-small-phone;
+                                }
+                            }
+                            &:nth-child(1) {
+                                > input {
+                                    background-image: url(../img/add_plan_trip_name.svg);
+                                }
+                            }
+                            &:nth-child(2) {
+                                > input {
+                                    padding: 6% 0 6% 25%;
+                                    background-image: url(../img/add_plan_trip_from.svg);
+                                    &::-webkit-inner-spin-button,
+                                    &::-webkit-clear-button{
+                                        display: none;
+                                    }
+
+                                }
+                            }
+                            &:nth-child(3) {
+                                > input {
+                                    background-image: url(../img/add_plan_trip_day.svg);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        > div.enter {
+            background-image: url(../img/add_plan_trip_button.svg);
+            width: 277px;
+            height: 63px;
+            right: 50%;
+            transform: translateX(50%);
+            bottom: 184px;
+            box-shadow: 2px 0 10px rgba(93, 95, 119, 0.1);
+            border-radius: 32px;
+
+            @include phone-width {
+                width: 224px;
+                height: 50px;
+                bottom: 150px;
+            }
+        }
+    }
+}

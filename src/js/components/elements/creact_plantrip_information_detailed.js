@@ -24,7 +24,7 @@ const InformationDetailed = ({
                         handleInformationInputStateOnClick(item + "-" + index)
                     }
                     className="textarea"
-                    contenteditable="true"
+                    contentEditable="true"
                 />
             </div>
         </li>

@@ -21,9 +21,13 @@ class App extends Component {
                 uid: "",
                 photoURL: ""
             },
+            /* 登入或註冊狀態 */
             login_or_signup: "signup",
+            /* 選單開啟或隱藏狀態 */
             menu: "",
-            current_plan: "-LNyxY4e2Gs0k6Q-IDOx" //
+            current_plan: "-LONhD9yTaDCTH4ynzz0", //
+            /* 新增旅程 DOM 狀態 */
+            add_plantrip: "hide"
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(
             this
@@ -32,7 +36,6 @@ class App extends Component {
             this
         );
         this.handleMenuState = this.handleMenuState.bind(this);
-        this.handleSignout = this.handleSignout.bind(this);
 
         /* Log in and Sign up */
         this.handleLoginOrSignupEnter = this.handleLoginOrSignupEnter.bind(
@@ -41,7 +44,8 @@ class App extends Component {
         this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
         this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
 
-        this.handleAddPlan = this.handleAddPlan.bind(this); //
+        this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this);
+        this.handleStateChange = this.handleStateChange.bind(this);
     }
     render() {
         console.log(this.state);
@@ -65,10 +69,10 @@ class App extends Component {
                                 }
                                 handleMenuState={this.handleMenuState}
                                 menu={this.state.menu}
-                                handleSignout={this.handleSignout}
                                 handleFacebookLogin={this.handleFacebookLogin}
                                 handleGoogleLogin={this.handleGoogleLogin}
-                                handleAddPlan={this.handleAddPlan} //
+                                handleOpenAddPlan={this.handleOpenAddPlan}
+                                handleStateChange={this.handleStateChange}
                             />
                         )}
                     />
@@ -88,7 +92,6 @@ class App extends Component {
                                 }
                                 handleMenuState={this.handleMenuState}
                                 menu={this.state.menu}
-                                handleSignout={this.handleSignout}
                                 handleFacebookLogin={this.handleFacebookLogin}
                                 handleGoogleLogin={this.handleGoogleLogin}
                             />
@@ -99,24 +102,25 @@ class App extends Component {
         );
     }
 
-    handleAddPlan() {
-        let key = firebase
-            .database()
-            .ref("plans/")
-            .push().key;
-        firebase
-            .database()
-            .ref(`plans/${key}`)
-            .set({
-                name: "日本沖繩五日遊",
-                start: "2018/09/20",
-                day: 5,
-                author: this.state.user.uid,
-                planID: key
-            });
-        this.setState({ current_plan: key });
-        alert("新增旅程");
-    } //
+    /* 打開新增旅程視窗 */
+    handleOpenAddPlan() {
+        this.setState({
+            add_plantrip: "",
+            menu: ""
+        });
+    }
+
+    /* 改變 state 狀態 
+    { 
+        stateName : 要改變的 state 名稱, 
+        value : 要改變這個 state 名稱得值
+    } 
+    */
+    handleStateChange(props) {
+        let thisState = {};
+        thisState[props.stateName] = props.value;
+        this.setState(thisState);
+    }
 
     /* Determine if the user chooses to Login or Signup */
     handleLoginOrSignupState(tab_name) {
@@ -231,14 +235,8 @@ class App extends Component {
         }
     }
 
-    /* Signout */
-    handleSignout() {
-        firebase.auth().signOut();
-    }
-
     /* Determine the login status when all components are rendered. */
     componentDidMount() {
-
         /* 判斷登入狀態決定登入視窗是否顯示*/
         let thisStateUser;
         firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -264,7 +262,6 @@ class App extends Component {
                 loginAndSignupDOM.classList.add("hide");
                 plantripDOM.classList.remove("hide");
                 mapDOM.classList.remove("hide_plantrip");
-
             } else {
                 /* 沒有登入狀態 */
                 loginAndSignupDOM.classList.remove("hide");

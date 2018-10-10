@@ -23,7 +23,9 @@ const PlanTripTop = props => {
                 <div className="title_date">
                     <ul>
                         <li className="title">{props.state.name}</li>
-                        <li className="date">09/20/2018-10/02/2018</li>
+                        <li className="date">{`${props.state.start}-${
+                            props.state.end
+                        }`}</li>
                     </ul>
                 </div>
                 <div className="tab">

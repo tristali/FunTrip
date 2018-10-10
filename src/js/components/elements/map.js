@@ -21,7 +21,6 @@ class Map extends Component {
         return <div className="map" />;
     }
     componentDidMount() {
-
         // /* google map 初始化 */
         // const state = this.state;
         // let map_center = {
@@ -54,7 +53,7 @@ class Map extends Component {
         //     if (firebaseUser) {
         //         const planPath = firebase
         //             .database()
-        //             .ref("plans/-LNyxY4e2Gs0k6Q-IDOx");
+        //             .ref(`plans/${this.props.state.current_plan}`);
         //         planPath.on("value", snapshot => {
         //             const plan = snapshot.val();
         //             let locations = plan.detailed;

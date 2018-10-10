@@ -7,7 +7,7 @@ import PlanTripSchedule from "./plantrip_schedule";
 const PlanTripBottom = props => {
     return (
         <div className="bottom">
-            <PlanTripDate />
+            <PlanTripDate state={props.state} />
             <PlanTripSchedule
                 addPlanTrip={props.addPlanTrip}
                 editPlanTrip={props.editPlanTrip}

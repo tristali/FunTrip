@@ -80,13 +80,13 @@ div.plantrip {
                                                 > a > div {
                                                     letter-spacing: 0;
                                                     line-height: 1.2rem;
-                                                    &:nth-child(1) {
+                                                    &:nth-child(2) {
                                                         font-size: $font-size-medium;
                                                         @include pad-width {
                                                             font-size: $font-size-medium-phone;
                                                         }
                                                     }
-                                                    &:nth-last-child(1) {
+                                                    &:nth-last-child(2) {
                                                         font-size: $font-size-small;
                                                         @include pad-width {
                                                             font-size: $font-size-small-phone;
@@ -118,6 +118,22 @@ div.plantrip {
                                         &:nth-last-child(1) {
                                             transform: rotate(180deg);
                                             float: right;
+                                        }
+                                    }
+                                    &.Day > div > ul > li > a > div {
+                                        letter-spacing: 0;
+                                        line-height: 1.2rem;
+                                        &:nth-child(1) {
+                                            font-size: $font-size-medium;
+                                            @include pad-width {
+                                                font-size: $font-size-medium-phone;
+                                            }
+                                        }
+                                        &:nth-last-child(1) {
+                                            font-size: $font-size-small;
+                                            @include pad-width {
+                                                font-size: $font-size-small-phone;
+                                            }
                                         }
                                     }
                                 }

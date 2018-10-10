@@ -9,7 +9,7 @@ class PlanTripAllDetails extends Component {
     }
     render() {
         /* 處理景點資料 */
-        const allDetailedObj = this.props.allDetailedObj;
+        const allDetailedObj = this.props.state.all_detailed_obj;
         let planDetailsDOM = [];
         /* 如果有景點資料 */
         if (allDetailedObj) {
@@ -24,6 +24,7 @@ class PlanTripAllDetails extends Component {
                     thisDayPlanDetailsCount += 1;
                     planDetailsDOM.push(
                         <PlanTripDetails
+                            key={`PlanTripDetails_${i}`}
                             name={detailedObj.name}
                             category={`${detailedCategoryArray[0]} ${
                                 detailedCategoryArray[1]
@@ -98,10 +99,10 @@ class PlanTripDetails extends Component {
             let informationContent = informationObj[informationKeyArray[i]];
             PlanInformationDOM.push(
                 <li
+                    key={`PlanInformationDOM_${i}`}
                     className={informationKeyArray[i]}
                     dangerouslySetInnerHTML={{ __html: informationContent }}
-                >
-                </li>
+                />
             );
         }
         /* 如果有預計時間的話只顯示預計時間 */

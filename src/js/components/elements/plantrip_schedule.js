@@ -2,18 +2,34 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/plantrip_schedule.scss";
 import PlanTripAllDetails from "./plantrip_all_details";
-import app from "../../lib";
-import * as firebase from "firebase";
+
+/* 月份縮寫對照 */
+const MONTH_ABBEVIATION = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+];
 
 class PlanTripSchedule extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            
+        };
     }
 
     render() {
         let PlanTripDayArray = [];
-        for (let i = 1; i < this.props.state.totalDay + 1; i++) {
+        for (let i = 1; i < Number(this.props.state.totalDay) + 1; i++) {
             let number;
             if (i < 10) {
                 number = "0" + i;
@@ -22,7 +38,7 @@ class PlanTripSchedule extends Component {
             }
             PlanTripDayArray.push(
                 <PlanTripDay
-                    allDetailedObj={this.state.allDetailedObj}
+                    key={`PlanTripDay_${i}`}
                     editPlanTrip={this.props.editPlanTrip}
                     addPlanTrip={this.props.addPlanTrip}
                     state={this.props.state}
@@ -43,14 +59,20 @@ class PlanTripDay extends Component {
         this.state = {};
     }
     render() {
+        let thisDate = this.props.state.all_day_array[this.props.day - 1];
+        let year = thisDate.split("/")[0];
+        let month = MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
+        let date = thisDate.split("/")[2];
         return (
             <div id={`D_${this.props.day}`}>
                 <h3 className="clearfix">
                     <div>{`Day${this.props.number}`}</div>
-                    <div>Sep 19 , 2018</div>
+                    <div>
+                        {`${month} ${date} , ${year}`}
+                    </div>
                 </h3>
                 <PlanTripAllDetails
-                    allDetailedObj={this.props.state.allDetailedObj}
+                    state={this.props.state}
                     editPlanTrip={this.props.editPlanTrip}
                     addPlanTrip={this.props.addPlanTrip}
                     day={this.props.day}

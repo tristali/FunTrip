@@ -12,7 +12,7 @@ class Profile extends Component {
     render() {
         return (
             <div>
-                <Login
+                {/* <Login
                     state={this.props.state}
                     handleLoginOrSignupState={
                         this.props.handleLoginOrSignupState
@@ -28,10 +28,10 @@ class Profile extends Component {
                 />
                 <Header
                     handleMenuState={this.props.handleMenuState}
-                    menu={this.props.state.menu}
-                    handleSignout={this.props.handleSignout}
+                    state={this.props.state}
+                    handleAddPlan={this.props.handleAddPlan} //
                 />
-                <Map />
+                <Map /> */}
             </div>
         );
     }
