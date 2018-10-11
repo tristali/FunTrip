@@ -22,13 +22,12 @@ const MONTH_ABBEVIATION = [
 class PlanTripSchedule extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            
-        };
+        this.state = {};
     }
 
     render() {
         let PlanTripDayArray = [];
+        console.log(this.props.state,"fdff");
         for (let i = 1; i < Number(this.props.state.totalDay) + 1; i++) {
             let number;
             if (i < 10) {
@@ -47,7 +46,7 @@ class PlanTripSchedule extends Component {
                 />
             );
         }
-        return <div className="schedule">{PlanTripDayArray}</div>;
+        return <div className={`schedule ${this.props.state.category}`}>{PlanTripDayArray}</div>;
     }
 }
 
@@ -67,9 +66,7 @@ class PlanTripDay extends Component {
             <div id={`D_${this.props.day}`}>
                 <h3 className="clearfix">
                     <div>{`Day${this.props.number}`}</div>
-                    <div>
-                        {`${month} ${date} , ${year}`}
-                    </div>
+                    <div>{`${month} ${date} , ${year}`}</div>
                 </h3>
                 <PlanTripAllDetails
                     state={this.props.state}

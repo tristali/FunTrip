@@ -25,7 +25,7 @@ class App extends Component {
             login_or_signup: "signup",
             /* 選單開啟或隱藏狀態 */
             menu: "",
-            current_plan: "-LONhD9yTaDCTH4ynzz0", //
+            current_plan: "-LORZRD_aJZOJx8v-GVU", //
             /* 新增旅程 DOM 狀態 */
             add_plantrip: "hide"
         };

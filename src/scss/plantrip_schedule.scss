@@ -30,13 +30,13 @@
                     padding: 0 6%;
                     display: inline-block;
                     div {
-                        font-size: $font-size-medium;
+                        font-size: 16px;
                         line-height: 2.5rem;
                         letter-spacing: 1px;
                         color: #fff;
                         float: left;
                         &:nth-child(1) {
-                            padding-right: 35px;
+                            padding-right: 20px;
                         }
                         @include pad-width {
                             font-size: $font-size-medium-phone;
@@ -46,6 +46,7 @@
                 > div {
                     padding: 3% 0 6%;
                     > div {
+                        display: none;
                         padding: 0 6%;
                         cursor: pointer;
                         &.current {
@@ -173,6 +174,7 @@
                         }
                         /*add*/
                         &.add {
+                            display: block;
                             > ul {
                                 opacity: 0.6;
                                 transition: opacity 0.5s;
@@ -197,6 +199,32 @@
                             opacity: 0.8;
                         }
                     }
+                }
+            }
+            /* 點擊到該頁籤顯示 */
+            &.All{
+                >div>div.all_plan_detailed>div{
+                    display: block;
+                }
+            }
+            &.Transport{
+                >div>div.all_plan_detailed>div.transport{
+                    display: block;
+                }
+            }
+            &.Lodge{
+                >div>div.all_plan_detailed>div.lodge{
+                    display: block;
+                }
+            }
+            &.Food{
+                >div>div.all_plan_detailed>div.food{
+                    display: block;
+                }
+            }
+            &.Activity{
+                >div>div.all_plan_detailed>div.activity{
+                    display: block;
                 }
             }
         }

@@ -23,11 +23,18 @@ class PlanTripDate extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            /* 當前顯示日曆型態 */
             current_type: "Day",
-            current_day: "#D_1"
+            /* 當前顯示日曆第幾天 */
+            current_day: "#D_1",
+            /* 抓取每張日曆寬度 */
+            every_date_width: "",
+            /* 當前輪播定位 */
+            current_left: ""
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleCurrentType = this.handleCurrentType.bind(this);
+        this.handleSlider = this.handleSlider.bind(this);
     }
     render() {
         /* 日曆 element Array */
@@ -36,6 +43,8 @@ class PlanTripDate extends Component {
         let all_day_array = this.props.state.all_day_array;
         /* 此旅程所有星期 */
         let all_week_array = this.props.state.all_week_array;
+        /* 抓取每張日曆寬度 */
+        let everyDateWidth = this.state.every_date_width;
         /* 按照日期/星期 creact 日曆 element */
         for (let i = 1; i < all_day_array.length + 1; i++) {
             /* 如果 Day 小於 10 補 10 位數為 0 */
@@ -63,6 +72,7 @@ class PlanTripDate extends Component {
                     className={
                         this.state.current_day === `#D_${i}` ? "current" : null
                     }
+                    style={{ width: everyDateWidth }}
                 >
                     <a href={`#D_${i}`}>
                         <div>{top}</div>
@@ -81,16 +91,32 @@ class PlanTripDate extends Component {
                     </li>
                     <li className="date_detail">
                         <div>
-                            <ul className="clearfix">
-                                <li className="carousel_button" />
+                            <ul className="clearfix all_carousel">
+                                <li
+                                    className="carousel_button"
+                                    onClick={() => this.handleSlider("add")}
+                                />
                                 <li className={this.state.current_type}>
                                     <div>
-                                        <ul className="clearfix day">
+                                        <ul
+                                            className="clearfix day"
+                                            style={{
+                                                width:
+                                                    everyDateWidth *
+                                                    all_day_array.length,
+                                                left: this.state.current_left
+                                            }}
+                                        >
                                             {calendarArray}
                                         </ul>
                                     </div>
                                 </li>
-                                <li className="carousel_button" />
+                                <li
+                                    className="carousel_button"
+                                    onClick={() =>
+                                        this.handleSlider("subtract")
+                                    }
+                                />
                             </ul>
                         </div>
                     </li>
@@ -121,6 +147,34 @@ class PlanTripDate extends Component {
         } else {
             this.setState({ current_type: "Day" });
         }
+    }
+    /* 控制輪播移動 */
+    handleSlider(AddOrSubtract) {
+        /* 此旅程所有日期 */
+        let all_day_array = this.props.state.all_day_array;
+        /* 當前輪播定位 */
+        let currentLeft = this.state.current_left;
+        /* 抓取每張日曆寬度 */
+        let everyDateWidth = this.state.every_date_width;
+        if (AddOrSubtract === "add") {
+            currentLeft = currentLeft + everyDateWidth * 7;
+        } else {
+            currentLeft = currentLeft - everyDateWidth * 7;
+        }
+        /* 判斷修改後的 current_left 是否還可以一次看到七張日曆 */
+        if (currentLeft >= 0) {
+            currentLeft = 0;
+        } else if (
+            currentLeft * -1 >
+            everyDateWidth * (all_day_array.length - 7)
+        ) {
+            currentLeft = everyDateWidth * (all_day_array.length - 7) * -1;
+        }
+        this.setState({ current_left: currentLeft });
+    }
+    componentDidMount() {
+        const carouselBoxWidth = app.get(".all_carousel>li>div").offsetWidth;
+        this.setState({ every_date_width: carouselBoxWidth / 7 });
     }
 }
 export default PlanTripDate;
