@@ -9,26 +9,37 @@ class Map extends Component {
         super(props);
         this.state = {
             map_center: {
-                lat: 23.6,
-                lng: 121
+                lat: "",
+                lng: ""
             },
-            map_zoom: 8,
+            map_zoom: "",
             locations: ""
         };
     }
     render() {
-        console.log(this.state);
-        return <div className="map" />;
+        return <div className={`map ${this.props.state.map}`} />;
     }
     componentDidMount() {
         // /* google map 初始化 */
         // const state = this.state;
+        // let lat;
+        // let lng;
+        // let map_zoom;
+        // if (!state.map_center.lat && !state.map_center.lng && !state.map_zoom) {
+        //     lat = 23.6;
+        //     lng = 121;
+        //     map_zoom = 8;
+        // } else {
+        //     lat = state.map_center.lat;
+        //     lng = state.map_center.lng;
+        //     map_zoom = state.map_zoom;
+        // }
         // let map_center = {
-        //     lat: state.map_center.lat,
-        //     lng: state.map_center.lng
+        //     lat: lat,
+        //     lng: lng
         // };
         // let options = {
-        //     zoom: state.map_zoom,
+        //     zoom: map_zoom,
         //     center: map_center
         // };
         // let map = new google.maps.Map(app.get(".map"), options);
@@ -45,9 +56,7 @@ class Map extends Component {
         // });
         // /* google map 自動輸入並抓取資料 */
         // app.autocomplete(map, marker);
-
         // /* google map 標記多個位置 */
-
         // /* 抓取 Database 所有此旅程資料 */
         // firebase.auth().onAuthStateChanged(firebaseUser => {
         //     if (firebaseUser) {
@@ -63,7 +72,6 @@ class Map extends Component {
         //                 let location = locations[locationsKeyArray[i]].location;
         //                 locationsArray.push([location]);
         //             }
-        //             // this.setState({ locations: locationsArray });
         //             let markers = locationsArray.map(location => {
         //                 return new google.maps.Marker({
         //                     position: location[0],
@@ -77,7 +85,6 @@ class Map extends Component {
         //         });
         //     }
         // });
-
         // /* 判斷使用者是否有同意分享目前座標權限 */
         // if (navigator.geolocation) {
         //     navigator.geolocation.getCurrentPosition(position => {

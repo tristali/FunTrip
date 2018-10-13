@@ -19,15 +19,24 @@ class App extends Component {
                 email: "",
                 password: "",
                 uid: "",
-                photoURL: ""
+                photoURL: "",
+                plan: ""
             },
             /* 登入或註冊狀態 */
-            login_or_signup: "signup",
-            /* 選單開啟或隱藏狀態 */
-            menu: "",
-            current_plan: "-LORZRD_aJZOJx8v-GVU", //
+            login_or_signup: "login",
+            /* 當下的旅程 */
+            current_plan: "",
             /* 新增旅程 DOM 狀態 */
-            add_plantrip: "hide"
+            add_plantrip: "hide",
+            /* 展示旅程景點 DOM 狀態 */
+            plan_trip: "hide",
+            plan_trip_width: "hide_creact_plantrip",
+            /* 選單 DOM 狀態 */
+            menu: "",
+            /* 登入 DOM 狀態 */
+            login_and_signup: "",
+            /* 地圖 DOM 狀態 */
+            map: ""
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(
             this
@@ -46,7 +55,10 @@ class App extends Component {
 
         this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this);
         this.handleStateChange = this.handleStateChange.bind(this);
+
+        this.handleDelTrip = this.handleDelTrip.bind(this);
     }
+
     render() {
         console.log(this.state);
         return (
@@ -73,6 +85,7 @@ class App extends Component {
                                 handleGoogleLogin={this.handleGoogleLogin}
                                 handleOpenAddPlan={this.handleOpenAddPlan}
                                 handleStateChange={this.handleStateChange}
+                                handleDelTrip={this.handleDelTrip}
                             />
                         )}
                     />
@@ -94,6 +107,8 @@ class App extends Component {
                                 menu={this.state.menu}
                                 handleFacebookLogin={this.handleFacebookLogin}
                                 handleGoogleLogin={this.handleGoogleLogin}
+                                handleOpenAddPlan={this.handleOpenAddPlan}
+                                handleStateChange={this.handleStateChange}
                             />
                         )}
                     />
@@ -106,8 +121,42 @@ class App extends Component {
     handleOpenAddPlan() {
         this.setState({
             add_plantrip: "",
-            menu: ""
+            menu: "",
+            plan_trip: "hide",
+            plan_trip_width: "hide_creact_plantrip",
+            map: ""
         });
+    }
+
+    /* 刪除旅程 */
+    handleDelTrip() {
+        /* 上傳此 ID */
+        let uid = this.state.user.uid;
+        let planArray;
+        let key = this.state.current_plan;
+        /* 上傳此旅程 ID 到此使用者資料 */
+        firebase
+            .database()
+            .ref(`users/${uid}`)
+            .once("value", snapshot => {
+                /* 先確定要刪除的 value index */
+                planArray = snapshot.val().plan;
+                let index = planArray.indexOf(key);
+                if (index > -1) {
+                    planArray.splice(index, 1);
+                }
+                firebase
+                    .database()
+                    .ref(`users/${uid}`)
+                    .update({ plan: planArray });
+            });
+        /* 上傳此旅程資訊 */
+        firebase
+            .database()
+            .ref(`plans/${key}`)
+            .remove();
+        location.href = "profile";
+        alert("已刪除此旅程");
     }
 
     /* 改變 state 狀態 
@@ -216,7 +265,12 @@ class App extends Component {
     handleFacebookLogin() {
         let provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope("email");
-        app.firebase_signInWithPopup(firebase, provider, "Facebook");
+        app.firebase_signInWithPopup(
+            firebase,
+            provider,
+            "Facebook",
+            "/?width=640"
+        );
     }
 
     /* Google Login */
@@ -239,15 +293,17 @@ class App extends Component {
     componentDidMount() {
         /* 判斷登入狀態決定登入視窗是否顯示*/
         let thisStateUser;
+        /* 儲存當前環境 */
+        let thisEnvironment = this;
+        let thisStatePlanTrip = "hide";
+        let thisStatecurrentPlan = "";
         firebase.auth().onAuthStateChanged(firebaseUser => {
-            const loginAndSignupDOM = app.get(".login_and_signup");
-            const plantripDOM = app.get(".plantrip");
-            const mapDOM = app.get(".map");
             if (firebaseUser) {
                 thisStateUser = Object.assign({}, this.state.user, {
                     email: firebaseUser.email,
                     uid: firebaseUser.uid,
-                    password: ""
+                    password: "",
+                    photoURL: firebaseUser.photoURL
                 });
                 firebase
                     .database()
@@ -257,26 +313,62 @@ class App extends Component {
                         if (snapshot.val().photoURL) {
                             thisStateUser.photoURL = snapshot.val().photoURL;
                         }
+
+                        if (snapshot.val().plan) {
+                            thisStateUser.plan = snapshot.val().plan;
+                            /* 判斷是否為 plan 頁面 */
+                            if (location.href.includes("plan")) {
+                                /* 判斷此旅程是否為此使用者擁有 */
+                                let thisCurrentPlan = location.href.split(
+                                    "="
+                                )[1];
+                                if (thisCurrentPlan.includes("#")) {
+                                    thisCurrentPlan = thisCurrentPlan.split(
+                                        "#"
+                                    )[0];
+                                }
+                                snapshot.val().plan.map(item => {
+                                    if (thisCurrentPlan === item) {
+                                        thisStatecurrentPlan = thisCurrentPlan;
+                                        thisStatePlanTrip = "";
+                                    }
+                                });
+                            }
+                        }
+                        if (
+                            !thisStatecurrentPlan &&
+                            location.href.includes("plan")
+                        ) {
+                            location.href = "profile";
+                        }
+                        thisEnvironment.setState({
+                            user: thisStateUser,
+                            current_plan: thisStatecurrentPlan,
+                            plan_trip: thisStatePlanTrip
+                        });
                     });
-                this.setState({ user: thisStateUser });
-                loginAndSignupDOM.classList.add("hide");
-                plantripDOM.classList.remove("hide");
-                mapDOM.classList.remove("hide_plantrip");
+
+                this.setState({
+                    user: thisStateUser,
+                    login_and_signup: "hide",
+                    map: "plantrip_open"
+                });
             } else {
                 /* 沒有登入狀態 */
-                loginAndSignupDOM.classList.remove("hide");
-                plantripDOM.classList.add("hide");
-                mapDOM.classList.add("hide_plantrip");
                 thisStateUser = Object.assign({}, this.state.user, {
                     name: "",
                     email: "",
                     password: "",
                     uid: "",
-                    photoURL: ""
+                    photoURL: "",
+                    plan: ""
                 });
                 this.setState({
                     user: thisStateUser,
-                    menu: ""
+                    menu: "",
+                    plan_trip: "hide",
+                    login_and_signup: "",
+                    map: ""
                 });
             }
         });

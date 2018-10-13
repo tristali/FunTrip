@@ -17,7 +17,7 @@ const PlanTripTop = props => {
     return (
         <div className="top">
             <div className="del">
-                <div>del</div>
+                <div onClick={props.handleDelTrip}>del</div>
             </div>
             <div className="top_text">
                 <div className="title_date">

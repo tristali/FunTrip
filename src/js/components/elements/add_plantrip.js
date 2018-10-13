@@ -18,6 +18,7 @@ class AddPlanTrip extends Component {
         this.handleAddPlan = this.handleAddPlan.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.getToday = this.getToday.bind(this);
+        this.handleCloseAddPlan = this.handleCloseAddPlan.bind(this);
     }
 
     render() {
@@ -26,6 +27,7 @@ class AddPlanTrip extends Component {
                 className={`login_and_signup add_plan_trip ${
                     this.props.state.add_plantrip
                 }`}
+                onClick={this.handleCloseAddPlan}
             >
                 <div>
                     <div>
@@ -74,6 +76,15 @@ class AddPlanTrip extends Component {
                 </div>
             </div>
         );
+    }
+    /* 關閉新增旅程 */
+    handleCloseAddPlan(e) {
+        if (e.target.className.split(" ")[0] === "login_and_signup") {
+            this.props.handleStateChange({
+                stateName: "add_plantrip",
+                value: "hide"
+            });
+        }
     }
 
     /* 新增旅程推到 database */
@@ -140,16 +151,11 @@ class AddPlanTrip extends Component {
                     all_day_array: allDayArray,
                     all_week_array: allWeekArray
                 });
-            /* 改變當前顯示旅程 */
-            this.props.handleStateChange({
-                stateName: "current_plan",
-                value: key
-            });
+            location.href = `plan?id=${key}`;
             this.props.handleStateChange({
                 stateName: "add_plantrip",
                 value: "hide"
             });
-
             alert("已新增旅程");
         }
     }

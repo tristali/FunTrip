@@ -12,7 +12,9 @@ class Plan extends Component {
         this.state = {};
     }
     render() {
-        console.log(this.state, "----");
+        /* 判斷當前是否有選擇的旅程 */
+        let thisCurrentPlan = this.props.state.current_plan;
+
         return (
             <div>
                 <Login
@@ -37,9 +39,16 @@ class Plan extends Component {
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
+                    handleStateChange={this.props.handleStateChange}
                 />
-                <PlanTrip state={this.props.state} />
-                <Map state={this.props.state} />
+                {thisCurrentPlan && (
+                    <PlanTrip
+                        state={this.props.state}
+                        handleStateChange={this.props.handleStateChange}
+                        handleDelTrip={this.props.handleDelTrip}
+                    />
+                )}
+                {thisCurrentPlan && <Map state={this.props.state} />}
             </div>
         );
     }

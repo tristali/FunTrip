@@ -151,7 +151,6 @@ class CreactPlanTrip extends Component {
         }
 
         return (
-            // 一般不需調整新增行程時 <div> 需增加 hide
             <div className="creact_plantrip">
                 <ul className="clearfix">
                     <li onClick={this.props.handleHideCreactPlanTrip}>
@@ -272,6 +271,15 @@ class CreactPlanTrip extends Component {
         });
         /* 改變上層 creact_plantrip state */
         this.props.changeCreactPlantripState("hide");
+
+        this.props.handleStateChange({
+            stateName: "map",
+            value: "plantrip_open"
+        });
+        this.props.handleStateChange({
+            stateName: "plan_trip_width",
+            value: "hide_creact_plantrip"
+        });
     }
 
     /* Datebase 資料更新 */
@@ -347,6 +355,15 @@ class CreactPlanTrip extends Component {
             });
             /* 改變上層 creact_plantrip state */
             this.props.changeCreactPlantripState("hide");
+
+            this.props.handleStateChange({
+                stateName: "map",
+                value: "plantrip_open"
+            });
+            this.props.handleStateChange({
+                stateName: "plan_trip_width",
+                value: "hide_creact_plantrip"
+            });
         } else {
             alert("麻煩請協助填入地點名稱，謝謝");
         }

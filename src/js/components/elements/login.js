@@ -12,9 +12,8 @@ const Login = ({
 }) => {
     let login = state.login_or_signup === "login" ? "current" : null;
     let signup = state.login_or_signup === "signup" ? "current" : null;
-
     return (
-        <div className="login_and_signup">
+        <div className={`login_and_signup ${state.login_and_signup}`}>
             <div className={state.login_or_signup}>
                 <div>
                     <ul className="clearfix tab">

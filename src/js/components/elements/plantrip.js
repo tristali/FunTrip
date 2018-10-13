@@ -74,11 +74,16 @@ class PlanTrip extends Component {
     }
     render() {
         return (
-            <div className="plantrip clearfix">
+            <div
+                className={`plantrip clearfix ${this.props.state.plan_trip} ${
+                    this.props.state.plan_trip_width
+                }`}
+            >
                 <div>
                     <PlanTripTop
                         handleCategoryChange={this.handleCategoryChange}
                         state={this.state}
+                        handleDelTrip={this.props.handleDelTrip}
                     />
                     <PlanTripBottom
                         addPlanTrip={this.addPlanTrip}
@@ -101,6 +106,7 @@ class PlanTrip extends Component {
                         handleCleanCategoryAndLcation={
                             this.handleCleanCategoryAndLcation
                         }
+                        handleStateChange={this.props.handleStateChange}
                     />
                 </div>
             </div>
@@ -119,14 +125,21 @@ class PlanTrip extends Component {
             lcation_name: "",
             creact_plantrip: "hide"
         });
-        const mapDOM = app.get(".map");
         const thisPlanDetailedDOM = app.get(
             `.all_plan_detailed>div#${thisPlan}`
         );
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         thisPlanDetailedDOM.classList.add("current");
         this.setState({ creact_plantrip: "Add" });
-        mapDOM.classList.add("creact_plantrip");
+
+        this.props.handleStateChange({
+            stateName: "plan_trip_width",
+            value: ""
+        });
+        this.props.handleStateChange({
+            stateName: "map",
+            value: "plantrip_creactplantrip_open"
+        });
     }
 
     editPlanTrip(thisPlan) {
@@ -137,12 +150,10 @@ class PlanTrip extends Component {
             lcation_name: "",
             creact_plantrip: "hide"
         });
-        const mapDOM = app.get(".map");
         const thisPlanDetailedDOM = app.get(`#${thisPlan}`);
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         thisPlanDetailedDOM.classList.add("current");
         this.setState({ creact_plantrip: "Edit" });
-        mapDOM.classList.add("creact_plantrip");
         /* 設定現有資料到編輯 */
         /* 填入經緯度及 location_name */
         const thisPlanClassArray = app.get(`#${thisPlan}`).classList;
@@ -183,14 +194,28 @@ class PlanTrip extends Component {
                 }
             }
         }
+        this.props.handleStateChange({
+            stateName: "plan_trip_width",
+            value: ""
+        });
+        this.props.handleStateChange({
+            stateName: "map",
+            value: "plantrip_creactplantrip_open"
+        });
     }
 
     /* 隱藏新增 / 修改 (回上一頁)) */
     handleHideCreactPlanTrip() {
-        const mapDOM = app.get(".map");
         this.setState({ creact_plantrip: "hide" });
-        mapDOM.classList.remove("creact_plantrip");
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
+        this.props.handleStateChange({
+            stateName: "map",
+            value: "plantrip_open"
+        });
+        this.props.handleStateChange({
+            stateName: "plan_trip_width",
+            value: "hide_creact_plantrip"
+        });
     }
 
     componentDidMount() {
@@ -200,7 +225,7 @@ class PlanTrip extends Component {
                 const planPath = firebase
                     .database()
                     .ref(`plans/${this.props.state.current_plan}`);
-                planPath.once("value", snapshot => {
+                planPath.on("value", snapshot => {
                     const plan = snapshot.val();
                     this.setState({
                         all_detailed_obj: plan.detailed,
@@ -224,7 +249,7 @@ class PlanTrip extends Component {
                     const planPath = firebase
                         .database()
                         .ref(`plans/${this.props.state.current_plan}`);
-                    planPath.once("value", snapshot => {
+                    planPath.on("value", snapshot => {
                         const plan = snapshot.val();
                         this.setState({
                             all_detailed_obj: plan.detailed,

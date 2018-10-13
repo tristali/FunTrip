@@ -22,7 +22,7 @@ app.getAll = function(selector) {
 };
 
 /* Firebase */
-app.firebase_signInWithPopup = function(firebase, provider, provider_name) {
+app.firebase_signInWithPopup = function(firebase, provider, provider_name,fbPhotoSize) {
     firebase
         .auth()
         .signInWithPopup(provider)
@@ -40,7 +40,7 @@ app.firebase_signInWithPopup = function(firebase, provider, provider_name) {
                                     name: result.user.displayName,
                                     email: result.user.email,
                                     uid: firebaseUser.uid,
-                                    photoURL: result.user.photoURL,
+                                    photoURL: result.user.photoURL + fbPhotoSize,
                                     provider: provider_name
                                 });
                         }

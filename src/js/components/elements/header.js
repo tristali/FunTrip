@@ -32,7 +32,7 @@ class Header extends Component {
                 <div className={`menu ${this.props.state.menu}`}>
                     <ul>
                         <li onClick={this.props.handleOpenAddPlan}>新增旅程</li>
-                        <li>
+                        <li onClick={this.props.handleMenuState}>
                             <NavLink to="/profile">我的旅程</NavLink>
                         </li>
                         <li onClick={this.handleSignout}>登出</li>

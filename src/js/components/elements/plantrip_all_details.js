@@ -24,7 +24,7 @@ class PlanTripAllDetails extends Component {
                     thisDayPlanDetailsCount += 1;
                     planDetailsDOM.push(
                         <PlanTripDetails
-                            key={`PlanTripDetails_${i}`}
+                            key={`plan_trip_details_${i}`}
                             name={detailedObj.name}
                             category={`${detailedCategoryArray[0]} ${
                                 detailedCategoryArray[1]
@@ -44,6 +44,7 @@ class PlanTripAllDetails extends Component {
             }
             planDetailsDOM.push(
                 <div
+                    key={detailedKeyArray.length}
                     className="add"
                     onClick={() =>
                         this.props.addPlanTrip(
@@ -99,7 +100,7 @@ class PlanTripDetails extends Component {
             let informationContent = informationObj[informationKeyArray[i]];
             PlanInformationDOM.push(
                 <li
-                    key={`PlanInformationDOM_${i}`}
+                    key={`plan_information_DOM_${i}`}
                     className={informationKeyArray[i]}
                     dangerouslySetInnerHTML={{ __html: informationContent }}
                 />

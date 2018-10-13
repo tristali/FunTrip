@@ -27,7 +27,6 @@ class PlanTripSchedule extends Component {
 
     render() {
         let PlanTripDayArray = [];
-        console.log(this.props.state,"fdff");
         for (let i = 1; i < Number(this.props.state.totalDay) + 1; i++) {
             let number;
             if (i < 10) {

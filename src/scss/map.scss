@@ -1,17 +1,17 @@
 @import "./config.scss";
 
 .map {
-    width: calc(100vw - 470px);
+    width: 100vw;
     height: calc(100vh - 58px);
     position: absolute;
     right: 0;
     transition: width 0.8s;
     z-index: 0;
-    &.creact_plantrip {
-        width: calc(100vw - 470px - 400px);
+    &.plantrip_open {
+        width: calc(100vw - 470px);
     }
-    &.hide_plantrip {
-        width: 100vw;
+    &.plantrip_creactplantrip_open {
+        width: calc(100vw - 470px - 400px);
     }
     @include pad-width {
         width: calc(100vw - 320px);

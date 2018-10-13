@@ -1,8 +1,8 @@
 @import "./config.scss";
 
 div.plantrip {
-    height: calc(100vh - 60px);
-    position: absolute;
+    min-height: calc(100vh - 60px);
+    position: fixed;
     left: 0;
     transition: left 0.8s;
     z-index: 9;
@@ -12,6 +12,9 @@ div.plantrip {
         @include pad-width {
             left: -320px;
         }
+    }
+    &.hide_creact_plantrip{
+        width: 470px;
     }
     > div {
         float: left;

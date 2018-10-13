@@ -74,7 +74,7 @@ class PlanTripDate extends Component {
                     }
                     style={{ width: everyDateWidth }}
                 >
-                    <a href={`#D_${i}`}>
+                    <a id={i}>
                         <div>{top}</div>
                         <div>{bottom}</div>
                     </a>
@@ -126,7 +126,11 @@ class PlanTripDate extends Component {
     }
     /* 改變 current_day 狀態 */
     handleCategoryChange(current_day) {
-        let thisDay = current_day.split("_")[1];
+        app.get(current_day).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+        let thisDay = current_day.split("#D_")[1];
         let thisDate = this.props.state.all_day_array[Number(thisDay) - 1];
         let thisMonth = MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
         if (this.state.current_type !== "Day") {
@@ -139,7 +143,7 @@ class PlanTripDate extends Component {
         if (this.state.current_type === "Day") {
             let thisDay = app
                 .get("li.date_detail div>ul>li.current>a")
-                .href.split("_")[1];
+                .id;
             let thisDate = this.props.state.all_day_array[Number(thisDay) - 1];
             let thisMonth =
                 MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
