@@ -40,9 +40,9 @@ class PlanTripDate extends Component {
         /* 日曆 element Array */
         let calendarArray = [];
         /* 此旅程所有日期 */
-        let all_day_array = this.props.state.all_day_array;
+        let all_day_array = this.props.planState.all_day_array;
         /* 此旅程所有星期 */
-        let all_week_array = this.props.state.all_week_array;
+        let all_week_array = this.props.planState.all_week_array;
         /* 抓取每張日曆寬度 */
         let everyDateWidth = this.state.every_date_width;
         /* 按照日期/星期 creact 日曆 element */
@@ -131,7 +131,7 @@ class PlanTripDate extends Component {
             block: "start"
         });
         let thisDay = current_day.split("#D_")[1];
-        let thisDate = this.props.state.all_day_array[Number(thisDay) - 1];
+        let thisDate = this.props.planState.all_day_array[Number(thisDay) - 1];
         let thisMonth = MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
         if (this.state.current_type !== "Day") {
             this.setState({ current_type: thisMonth });
@@ -141,10 +141,10 @@ class PlanTripDate extends Component {
     /* 改變 current_type 狀態 */
     handleCurrentType() {
         if (this.state.current_type === "Day") {
-            let thisDay = app
-                .get("li.date_detail div>ul>li.current>a")
-                .id;
-            let thisDate = this.props.state.all_day_array[Number(thisDay) - 1];
+            let thisDay = app.get("li.date_detail div>ul>li.current>a").id;
+            let thisDate = this.props.planState.all_day_array[
+                Number(thisDay) - 1
+            ];
             let thisMonth =
                 MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
             this.setState({ current_type: thisMonth });
@@ -155,7 +155,7 @@ class PlanTripDate extends Component {
     /* 控制輪播移動 */
     handleSlider(AddOrSubtract) {
         /* 此旅程所有日期 */
-        let all_day_array = this.props.state.all_day_array;
+        let all_day_array = this.props.planState.all_day_array;
         /* 當前輪播定位 */
         let currentLeft = this.state.current_left;
         /* 抓取每張日曆寬度 */

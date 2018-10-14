@@ -13,7 +13,6 @@ const PlanTripTop = props => {
             {item}
         </li>
     ));
-
     return (
         <div className="top">
             <div className="del">
@@ -22,9 +21,9 @@ const PlanTripTop = props => {
             <div className="top_text">
                 <div className="title_date">
                     <ul>
-                        <li className="title">{props.state.name}</li>
-                        <li className="date">{`${props.state.start}-${
-                            props.state.end
+                        <li className="title">{props.planState.name}</li>
+                        <li className="date">{`${props.planState.start}-${
+                            props.planState.end
                         }`}</li>
                     </ul>
                 </div>

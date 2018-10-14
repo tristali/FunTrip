@@ -8,8 +8,9 @@ class PlanTripAllDetails extends Component {
         this.state = {};
     }
     render() {
+        const state = this.props.planState;
         /* 處理景點資料 */
-        const allDetailedObj = this.props.state.all_detailed_obj;
+        const allDetailedObj = state.all_detailed_obj;
         let planDetailsDOM = [];
         /* 如果有景點資料 */
         if (allDetailedObj) {
@@ -38,6 +39,9 @@ class PlanTripAllDetails extends Component {
                             day={this.props.day}
                             time={detailedObj.information.time_0}
                             itemID={detailedObj.itemID}
+                            handlePlanStateChange={
+                                this.props.handlePlanStateChange
+                            }
                         />
                     );
                 }
@@ -91,6 +95,7 @@ class PlanTripDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handleMapDisplay = this.handleMapDisplay.bind(this);
     }
     render() {
         const informationObj = this.props.informationObj;
@@ -117,6 +122,11 @@ class PlanTripDetails extends Component {
             <div
                 className={this.props.category}
                 id={`D_${this.props.day}_NO_${this.props.index}`}
+                onClick={() =>
+                    this.handleMapDisplay(
+                        `D_${this.props.day}_NO_${this.props.index}`
+                    )
+                }
             >
                 <ul className="clearfix location" id={this.props.itemID}>
                     <li className="time">{checkTime()}</li>
@@ -142,5 +152,22 @@ class PlanTripDetails extends Component {
                 </div>
             </div>
         );
+    }
+
+    /* 改變 map 顯示為目前點擊景點 */
+    handleMapDisplay(id) {
+        let thisLocationLatLngArray = app.get(`#${id} li.text`).id.split("_");
+        let map_canter = {
+            lat: Number(thisLocationLatLngArray[1]),
+            lng: Number(thisLocationLatLngArray[3])
+        };
+        this.props.handlePlanStateChange({
+            stateName: "map_center",
+            value: map_canter
+        });
+        this.props.handlePlanStateChange({
+            stateName: "map_zoom",
+            value: 17
+        });
     }
 }

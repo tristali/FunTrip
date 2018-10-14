@@ -27,7 +27,7 @@ class PlanTripSchedule extends Component {
 
     render() {
         let PlanTripDayArray = [];
-        for (let i = 1; i < Number(this.props.state.totalDay) + 1; i++) {
+        for (let i = 1; i < Number(this.props.planState.totalDay) + 1; i++) {
             let number;
             if (i < 10) {
                 number = "0" + i;
@@ -39,13 +39,18 @@ class PlanTripSchedule extends Component {
                     key={`PlanTripDay_${i}`}
                     editPlanTrip={this.props.editPlanTrip}
                     addPlanTrip={this.props.addPlanTrip}
-                    state={this.props.state}
+                    planState={this.props.planState}
                     number={number}
                     day={i}
+                    handlePlanStateChange={this.props.handlePlanStateChange}
                 />
             );
         }
-        return <div className={`schedule ${this.props.state.category}`}>{PlanTripDayArray}</div>;
+        return (
+            <div className={`schedule ${this.props.state.category}`}>
+                {PlanTripDayArray}
+            </div>
+        );
     }
 }
 
@@ -57,7 +62,7 @@ class PlanTripDay extends Component {
         this.state = {};
     }
     render() {
-        let thisDate = this.props.state.all_day_array[this.props.day - 1];
+        let thisDate = this.props.planState.all_day_array[this.props.day - 1];
         let year = thisDate.split("/")[0];
         let month = MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
         let date = thisDate.split("/")[2];
@@ -68,11 +73,12 @@ class PlanTripDay extends Component {
                     <div>{`${month} ${date} , ${year}`}</div>
                 </h3>
                 <PlanTripAllDetails
-                    state={this.props.state}
+                    planState={this.props.planState}
                     editPlanTrip={this.props.editPlanTrip}
                     addPlanTrip={this.props.addPlanTrip}
                     day={this.props.day}
                     handleLocations={this.props.handleLocations}
+                    handlePlanStateChange={this.props.handlePlanStateChange}
                 />
             </div>
         );

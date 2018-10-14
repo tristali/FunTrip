@@ -34,20 +34,6 @@ class PlanTrip extends Component {
             category: "All",
             /* 當前為關閉 "hide" 新增 "Add" 或修改 "Edit" 行程狀態 */
             creact_plantrip: "hide",
-            /* 當前行程各景點資料 */
-            all_detailed_obj: "",
-            /* 當前行程總天數 */
-            totalDay: "",
-            /* 當前行程名稱 */
-            name: "",
-            /* 當前行程起始日期 */
-            start: "",
-            /* 當前行程結束日期 */
-            end: "",
-            /* 當前行程所有日期 */
-            all_day_array: "",
-            /* 當前行程所有星期 */
-            all_week_array: "",
             /* 當前行程類別 */
             select_category: "Transport",
             /* 當前行程小類別 */
@@ -84,11 +70,14 @@ class PlanTrip extends Component {
                         handleCategoryChange={this.handleCategoryChange}
                         state={this.state}
                         handleDelTrip={this.props.handleDelTrip}
+                        planState={this.props.planState}
                     />
                     <PlanTripBottom
                         addPlanTrip={this.addPlanTrip}
                         editPlanTrip={this.editPlanTrip}
                         state={this.state}
+                        planState={this.props.planState}
+                        handlePlanStateChange={this.props.handlePlanStateChange}
                     />
                 </div>
                 <div className={this.state.creact_plantrip}>
@@ -216,54 +205,6 @@ class PlanTrip extends Component {
             stateName: "plan_trip_width",
             value: "hide_creact_plantrip"
         });
-    }
-
-    componentDidMount() {
-        /* 抓取 Database 所有此旅程資料 */
-        firebase.auth().onAuthStateChanged(firebaseUser => {
-            if (firebaseUser) {
-                const planPath = firebase
-                    .database()
-                    .ref(`plans/${this.props.state.current_plan}`);
-                planPath.on("value", snapshot => {
-                    const plan = snapshot.val();
-                    this.setState({
-                        all_detailed_obj: plan.detailed,
-                        totalDay: plan.day,
-                        name: plan.name,
-                        start: plan.start,
-                        end: plan.end,
-                        all_day_array: plan.all_day_array,
-                        all_week_array: plan.all_week_array
-                    });
-                });
-            }
-        });
-    }
-
-    componentDidUpdate(prevProps) {
-        /* 抓取 Database 所有此旅程資料 */
-        if (prevProps.state.current_plan !== this.props.state.current_plan) {
-            firebase.auth().onAuthStateChanged(firebaseUser => {
-                if (firebaseUser) {
-                    const planPath = firebase
-                        .database()
-                        .ref(`plans/${this.props.state.current_plan}`);
-                    planPath.on("value", snapshot => {
-                        const plan = snapshot.val();
-                        this.setState({
-                            all_detailed_obj: plan.detailed,
-                            totalDay: plan.day,
-                            name: plan.name,
-                            start: plan.start,
-                            end: plan.end,
-                            all_day_array: plan.all_day_array,
-                            all_week_array: plan.all_week_array
-                        });
-                    });
-                }
-            });
-        }
     }
 
     /* CreactPlanTrip */

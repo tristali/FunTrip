@@ -22,7 +22,12 @@ app.getAll = function(selector) {
 };
 
 /* Firebase */
-app.firebase_signInWithPopup = function(firebase, provider, provider_name,fbPhotoSize) {
+app.firebase_signInWithPopup = function(
+    firebase,
+    provider,
+    provider_name,
+    fbPhotoSize
+) {
     firebase
         .auth()
         .signInWithPopup(provider)
@@ -40,7 +45,8 @@ app.firebase_signInWithPopup = function(firebase, provider, provider_name,fbPhot
                                     name: result.user.displayName,
                                     email: result.user.email,
                                     uid: firebaseUser.uid,
-                                    photoURL: result.user.photoURL + fbPhotoSize,
+                                    photoURL:
+                                        result.user.photoURL + fbPhotoSize,
                                     provider: provider_name
                                 });
                         }
@@ -87,36 +93,36 @@ app.cleanCreactPlanTrip = function() {
 };
 
 /* Google map */
-/* 修改標記地點 */
-app.setMarker = function(props) {
-    /* 定位 */
-    if (props.coords) {
-        props.marker.setPosition(props.coords);
-    }
+// /* 修改標記地點 */
+// app.setMarker = function(props) {
+//     /* 定位 */
+//     if (props.coords) {
+//         props.marker.setPosition(props.coords);
+//     }
 
-    /* 小圖像 */
-    if (props.icon) {
-        props.marker.setIcon(props.icon);
-    }
+//     /* 小圖像 */
+//     if (props.icon) {
+//         props.marker.setIcon(props.icon);
+//     }
 
-    /* 小標籤 */
-    if (props.content) {
-        let infoWindow = new google.maps.InfoWindow({
-            content: props.content
-        });
-        props.marker.addListener("click", function() {
-            infoWindow.open(props.map, props.marker);
-        });
-    }
+//     /* 小標籤 */
+//     if (props.content) {
+//         let infoWindow = new google.maps.InfoWindow({
+//             content: props.content
+//         });
+//         props.marker.addListener("click", function() {
+//             infoWindow.open(props.map, props.marker);
+//         });
+//     }
 
-    /* 自動搜尋 id與座標 */
-    if (props.placeId && props.location) {
-        props.marker.setPlace({
-            placeId: props.placeId,
-            location: props.location
-        });
-    }
-};
+//     /* 自動搜尋 id與座標 */
+//     if (props.placeId && props.location) {
+//         props.marker.setPlace({
+//             placeId: props.placeId,
+//             location: props.location
+//         });
+//     }
+// };
 
 /* 自動輸入地點名稱 */
 app.autocomplete = function(map, marker) {

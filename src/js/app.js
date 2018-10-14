@@ -296,7 +296,8 @@ class App extends Component {
         /* 儲存當前環境 */
         let thisEnvironment = this;
         let thisStatePlanTrip = "hide";
-        let thisStatecurrentPlan = "";
+        let thisStateCurrentPlan = "";
+        let thisStateMap = "";
         firebase.auth().onAuthStateChanged(firebaseUser => {
             if (firebaseUser) {
                 thisStateUser = Object.assign({}, this.state.user, {
@@ -329,29 +330,30 @@ class App extends Component {
                                 }
                                 snapshot.val().plan.map(item => {
                                     if (thisCurrentPlan === item) {
-                                        thisStatecurrentPlan = thisCurrentPlan;
+                                        thisStateCurrentPlan = thisCurrentPlan;
                                         thisStatePlanTrip = "";
+                                        thisStateMap = "plantrip_open";
                                     }
                                 });
                             }
                         }
                         if (
-                            !thisStatecurrentPlan &&
+                            !thisStateCurrentPlan &&
                             location.href.includes("plan")
                         ) {
                             location.href = "profile";
                         }
                         thisEnvironment.setState({
                             user: thisStateUser,
-                            current_plan: thisStatecurrentPlan,
-                            plan_trip: thisStatePlanTrip
+                            current_plan: thisStateCurrentPlan,
+                            plan_trip: thisStatePlanTrip,
+                            map: thisStateMap
                         });
                     });
 
                 this.setState({
                     user: thisStateUser,
-                    login_and_signup: "hide",
-                    map: "plantrip_open"
+                    login_and_signup: "hide"
                 });
             } else {
                 /* 沒有登入狀態 */
