@@ -31,4 +31,62 @@
             border: solid 5px rgba(0, 0, 0, 0.1);
         }
     }
+    .title {
+        font-size: $font-size-medium-small;
+        padding: 10px 0 5px;
+        div {
+            float: left;
+            &:nth-child(1) {
+                width: 32px;
+                height: 32px;
+                background-color: $primary-color;
+                border-radius: 100%;
+                margin-right: 10px;
+                /*transport*/
+                &.transport {
+                    background-image: url(../img/transport.svg);
+                    &.airplane {
+                        background-image: url(../img/transport_airplane.svg);
+                    }
+                    &.train {
+                        background-image: url(../img/transport_train.svg);
+                    }
+                    &.car {
+                        background-image: url(../img/transport_car.svg);
+                    }
+                }
+                /*lodge*/
+                &.lodge {
+                    background-image: url(../img/lodge.svg);
+                }
+                /*food*/
+                &.food {
+                    background-image: url(../img/food.svg);
+                    &.drink {
+                        background-image: url(../img/food_drink.svg);
+                    }
+                }
+                /*activity*/
+                &.activity {
+                    background-image: url(../img/activity.svg);
+                    &.shopping {
+                        background-image: url(../img/activity_shopping.svg);
+                    }
+                    &.ticket {
+                        background-image: url(../img/activity_ticket.svg);
+                    }
+                }
+            }
+        }
+    }
+    .address {
+        padding: 0 3px;
+        font-size: $font-size-small;
+    }
+    .web {
+        padding: 0 3px;
+        > a {
+            color: $primary-color;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { Redirect } from "react-router-dom";
 import * as firebase from "firebase";
 import "../../../scss/add_plan_trip.scss";
 
@@ -11,9 +12,11 @@ class AddPlanTrip extends Component {
         this.state = {
             trip_name: "",
             start_date: "",
-            today: this.getToday(),
             day: "",
-            all_day_array: ""
+            today: this.getToday(),
+            all_day_array: "",
+            redirect: false,
+            plan_id: ""
         };
         this.handleAddPlan = this.handleAddPlan.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -22,6 +25,9 @@ class AddPlanTrip extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
+        }
         return (
             <div
                 className={`login_and_signup add_plan_trip ${
@@ -32,7 +38,7 @@ class AddPlanTrip extends Component {
                 <div>
                     <div>
                         <ul className="clearfix tab">
-                            <li>NEW TRIP</li>
+                            <li>{this.props.state.add_plantrip} TRIP</li>
                         </ul>
                         <ul className="enter_information">
                             <li>
@@ -77,6 +83,37 @@ class AddPlanTrip extends Component {
             </div>
         );
     }
+
+    componentDidUpdate(prevProps) {
+        /* 抓取目前旅程 Database 資料到新增編輯彈跳視窗 */
+        if (prevProps.state.add_plantrip !== this.props.state.add_plantrip) {
+            if (this.props.state.add_plantrip === "EDIT") {
+                firebase.auth().onAuthStateChanged(firebaseUser => {
+                    if (firebaseUser) {
+                        let thisEnvironment = this;
+                        const planPath = firebase
+                            .database()
+                            .ref(`plans/${this.props.state.current_plan}`);
+                        planPath.on("value", snapshot => {
+                            let start = "";
+                            snapshot
+                                .val()
+                                .start.split("/")
+                                .map(item => {
+                                    start += `-${item}`;
+                                });
+                            thisEnvironment.setState({
+                                trip_name: snapshot.val().name,
+                                start_date: start.substring(1),
+                                day: snapshot.val().day
+                            });
+                        });
+                    }
+                });
+            }
+        }
+    }
+
     /* 關閉新增旅程 */
     handleCloseAddPlan(e) {
         if (e.target.className.split(" ")[0] === "login_and_signup") {
@@ -117,26 +154,57 @@ class AddPlanTrip extends Component {
             /* 上傳此 ID */
             let uid = this.props.state.user.uid;
             let planArray;
-            let key = firebase
-                .database()
-                .ref("plans/")
-                .push().key;
-            /* 上傳此旅程 ID 到此使用者資料 */
-            firebase
-                .database()
-                .ref(`users/${uid}`)
-                .once("value", snapshot => {
-                    if (snapshot.val().plan) {
-                        planArray = snapshot.val().plan;
-                    } else {
-                        planArray = [];
-                    }
-                    planArray.push(key);
-                    firebase
-                        .database()
-                        .ref(`users/${uid}`)
-                        .update({ plan: planArray });
+            let key;
+            if (
+                this.props.state.add_plantrip_id &&
+                this.props.state.add_plantrip === "EDIT"
+            ) {
+                /* 編輯旅程 */
+                key = this.props.state.add_plantrip_id;
+                this.props.handleStateChange({
+                    stateName: "plan_trip",
+                    value: ""
                 });
+                this.props.handleStateChange({
+                    stateName: "map",
+                    value: "plantrip_open"
+                });
+            } else {
+                /* 新增旅程 */
+                key = firebase
+                    .database()
+                    .ref("plans/")
+                    .push().key;
+                /* 上傳此旅程 ID 到此使用者資料 */
+                firebase
+                    .database()
+                    .ref(`users/${uid}`)
+                    .once("value", snapshot => {
+                        if (snapshot.val().plan) {
+                            planArray = snapshot.val().plan;
+                        } else {
+                            planArray = [];
+                        }
+                        planArray.push(key);
+                        firebase
+                            .database()
+                            .ref(`users/${uid}`)
+                            .update({ plan: planArray });
+                    });
+                this.props.handleStateChange({
+                    stateName: "current_plan",
+                    value: key
+                });
+                this.setState({
+                    redirect: true,
+                    plan_id: key
+                });
+                alert("已新增旅程");
+            }
+            this.props.handleStateChange({
+                stateName: "add_plantrip",
+                value: "hide"
+            });
             /* 上傳此旅程資訊 */
             firebase
                 .database()
@@ -151,12 +219,7 @@ class AddPlanTrip extends Component {
                     all_day_array: allDayArray,
                     all_week_array: allWeekArray
                 });
-            location.href = `plan?id=${key}`;
-            this.props.handleStateChange({
-                stateName: "add_plantrip",
-                value: "hide"
-            });
-            alert("已新增旅程");
+            alert("已修改旅程");
         }
     }
 
@@ -166,13 +229,15 @@ class AddPlanTrip extends Component {
         return getDate(date, "-");
     }
 
-    /* 如果 input 改變 及 判斷數字是否介於 1-99 */
+    /* 如果 input 改變 及 判斷天數是否介於 1-99 */
     handleInputChange(e, item) {
-        if (e.currentTarget.value < 1) {
-            e.currentTarget.value = 1;
-        }
-        if (e.currentTarget.value > 99) {
-            e.currentTarget.value = 99;
+        if (item === "day") {
+            if (e.currentTarget.value < 1) {
+                e.currentTarget.value = 1;
+            }
+            if (e.currentTarget.value > 99) {
+                e.currentTarget.value = 99;
+            }
         }
         let thisState = {};
         thisState[item] = e.currentTarget.value;

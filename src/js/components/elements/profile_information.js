@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { Redirect } from "react-router-dom";
 import "../../../scss/profile_information.scss";
 import * as firebase from "firebase";
 
@@ -11,15 +12,12 @@ class ProfileInformation extends Component {
         };
     }
     render() {
-        console.log(this.state);
         let allTripArray;
         let allPlan = this.props.state.user.plan;
         let allTrip = this.state.all_trip;
         if (allPlan && allTrip) {
-            console.log("aaa");
             allTripArray = [];
             allPlan.map((item, index) => {
-                console.log(allTrip[item]);
                 allTripArray.push(
                     <AllTrip
                         name={allTrip[item].name}
@@ -28,6 +26,7 @@ class ProfileInformation extends Component {
                         id={allTrip[item].plan_id}
                         key={`all_trip_${index}`}
                         state={this.props.state}
+                        handleStateChange={this.props.handleStateChange}
                     />
                 );
             });
@@ -43,7 +42,9 @@ class ProfileInformation extends Component {
                         <div>
                             <div
                                 className="add_trip"
-                                onClick={this.props.handleOpenAddPlan}
+                                onClick={() =>
+                                    this.props.handleOpenAddPlan({ value: "NEW" })
+                                }
                             >
                                 <div />
                             </div>
@@ -51,11 +52,16 @@ class ProfileInformation extends Component {
                         <div>
                             <div className="photo">
                                 <div
-                                    style={{
-                                        backgroundImage: `url(${
-                                            this.props.state.user.photoURL
-                                        })`
-                                    }}
+                                    style={
+                                        this.props.state.user.photoURL
+                                            ? {
+                                                  backgroundImage: `url(${
+                                                      this.props.state.user
+                                                          .photoURL
+                                                  })`
+                                              }
+                                            : null
+                                    }
                                 />
                             </div>
                         </div>
@@ -106,10 +112,16 @@ export default ProfileInformation;
 class AllTrip extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            redirect: false,
+            plan_id: ""
+        };
         this.handleOpenThisPlan = this.handleOpenThisPlan.bind(this);
     }
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
+        }
         return (
             <li className={this.props.id}>
                 <div onClick={() => this.handleOpenThisPlan(this.props.id)}>
@@ -125,6 +137,17 @@ class AllTrip extends Component {
         );
     }
     handleOpenThisPlan(plan_id) {
-        window.location = `plan?id=${plan_id}`;
+        this.props.handleStateChange({
+            stateName: "add_plantrip",
+            value: "hide"
+        });
+        this.props.handleStateChange({
+            stateName: "current_plan",
+            value: plan_id
+        });
+        this.setState({
+            redirect: true,
+            plan_id: plan_id
+        });
     }
 }

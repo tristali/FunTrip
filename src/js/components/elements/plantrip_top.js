@@ -2,37 +2,48 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/plantrip_top.scss";
 
-const PlanTripTop = props => {
-    const categoryArray = ["All", "Transport", "Lodge", "Food", "Activity"];
-    let categoryArrayDOM = categoryArray.map((item, index) => (
-        <li
-            key={`category_${index}`}
-            onClick={() => props.handleCategoryChange(item)}
-            className={props.state.category === item ? "current" : null}
-        >
-            {item}
-        </li>
-    ));
-    return (
-        <div className="top">
-            <div className="del">
-                <div onClick={props.handleDelTrip}>del</div>
-            </div>
-            <div className="top_text">
-                <div className="title_date">
-                    <ul>
-                        <li className="title">{props.planState.name}</li>
-                        <li className="date">{`${props.planState.start}-${
-                            props.planState.end
-                        }`}</li>
-                    </ul>
-                </div>
-                <div className="tab">
-                    <ul className="clearfix">{categoryArrayDOM}</ul>
-                </div>
-            </div>
-        </div>
-    );
-};
+const categoryArray = ["All", "Transport", "Lodge", "Food", "Activity"];
 
+class PlanTripTop extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+    render() {
+        let categoryArrayDOM = categoryArray.map((item, index) => (
+            <li
+                key={`category_${index}`}
+                onClick={() => this.props.handleCategoryChange(item)}
+                className={
+                    this.props.state.category === item ? "current" : null
+                }
+            >
+                {item}
+            </li>
+        ));
+        return (
+            <div className="top">
+                <div className="del">
+                    <div onClick={this.props.handleDelTrip}>del</div>
+                </div>
+                <div className="top_text">
+                    <div className="title_date">
+                        <ul onClick={() =>
+                            this.props.handleOpenAddPlan({ value: "EDIT", id: location.href.split("?id=")[1]})}>
+                            <li className="title">
+                                {this.props.planState.name}
+                            </li>
+                            <li className="date">{`${
+                                this.props.planState.start
+                            }-${this.props.planState.end}`}</li>
+                        </ul>
+                    </div>
+                    <div className="tab">
+                        <ul className="clearfix">{categoryArrayDOM}</ul>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
 export default PlanTripTop;

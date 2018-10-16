@@ -71,6 +71,8 @@ class PlanTrip extends Component {
                         state={this.state}
                         handleDelTrip={this.props.handleDelTrip}
                         planState={this.props.planState}
+                        handleStateChange={this.props.handleStateChange}
+                        handleOpenAddPlan={this.props.handleOpenAddPlan}
                     />
                     <PlanTripBottom
                         addPlanTrip={this.addPlanTrip}

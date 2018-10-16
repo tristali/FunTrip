@@ -70,6 +70,7 @@ class PlanTripAllDetails extends Component {
         } else {
             planDetailsDOM.push(
                 <div
+                    key={`D_${this.props.day}_NO_1`}
                     className="add"
                     onClick={() =>
                         this.props.addPlanTrip(`D_${this.props.day}_NO_1`)

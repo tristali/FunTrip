@@ -1,22 +1,22 @@
 @import "./config.scss";
 div#profile {
     background-color: #fafafa;
-    overflow-y: scroll;
-    &::-webkit-scrollbar-thumb {
-        border-radius: 2px;
-        background-color: $color-light-gray-line;
-    }
-    &::-webkit-scrollbar-track {
-        background-color: #fff;
-    }
-
-    &::-webkit-scrollbar {
-        width: 4px;
-        background-color: #f5f5f5;
-    }
     div.profile_information {
         position: relative;
         height: 100vh;
+        overflow-y: scroll;
+        &::-webkit-scrollbar-thumb {
+            border-radius: 2px;
+            background-color: $color-light-gray-line;
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #fafafa;
+        }
+
+        &::-webkit-scrollbar {
+            width: 4px;
+            background-color: #f5f5f5;
+        }
         > div {
             &.bg {
                 position: absolute;
@@ -93,6 +93,7 @@ div#profile {
                                         height: 100%;
                                         background-size: cover;
                                         border-radius: 100%;
+                                        background-image: url(../img/profile_photo.svg);
                                     }
                                 }
                                 &.information {
