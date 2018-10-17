@@ -122,6 +122,10 @@ class Plan extends Component {
             .remove();
         alert("已刪除此旅程");
         this.setState({ redirect: true });
+        this.props.handleStateChange({
+            stateName: "loading",
+            value: true
+        });
     }
 
     componentDidMount() {
@@ -159,6 +163,10 @@ class Plan extends Component {
                         });
                 }
                 this.setState({ redirect: redirectState });
+                this.props.handleStateChange({
+                    stateName: "loading",
+                    value: true
+                });
                 updatePlanInformation(thisEnvironment);
             }
         });

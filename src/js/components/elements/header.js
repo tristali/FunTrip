@@ -67,6 +67,10 @@ class Header extends Component {
         if (location.href.includes("profile")) {
             this.props.handleChangeTripDisplay("all");
         }
+        this.props.handleStateChange({
+            stateName: "loading",
+            value: true
+        });
     }
 }
 export default Header;

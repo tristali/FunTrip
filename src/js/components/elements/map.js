@@ -94,7 +94,6 @@ class Map extends Component {
                     return new google.maps.Marker({
                         position: location[0].location,
                         icon: location[1]
-                        // animation: google.maps.Animation.DROP,
                     });
                 });
 

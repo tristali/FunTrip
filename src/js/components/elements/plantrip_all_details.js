@@ -42,6 +42,7 @@ class PlanTripAllDetails extends Component {
                             handlePlanStateChange={
                                 this.props.handlePlanStateChange
                             }
+                            handleStateChange={this.props.handleStateChange}
                         />
                     );
                 }
@@ -169,6 +170,13 @@ class PlanTripDetails extends Component {
         this.props.handlePlanStateChange({
             stateName: "map_zoom",
             value: 17
+        });
+    }
+
+    componentDidMount() {
+        this.props.handleStateChange({
+            stateName: "loading",
+            value: false
         });
     }
 }

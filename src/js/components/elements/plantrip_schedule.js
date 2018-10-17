@@ -43,6 +43,7 @@ class PlanTripSchedule extends Component {
                     number={number}
                     day={i}
                     handlePlanStateChange={this.props.handlePlanStateChange}
+                    handleStateChange={this.props.handleStateChange}
                 />
             );
         }
@@ -79,6 +80,7 @@ class PlanTripDay extends Component {
                     day={this.props.day}
                     handleLocations={this.props.handleLocations}
                     handlePlanStateChange={this.props.handlePlanStateChange}
+                    handleStateChange={this.props.handleStateChange}
                 />
             </div>
         );

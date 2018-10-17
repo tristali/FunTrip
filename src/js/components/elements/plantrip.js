@@ -80,6 +80,7 @@ class PlanTrip extends Component {
                         state={this.state}
                         planState={this.props.planState}
                         handlePlanStateChange={this.props.handlePlanStateChange}
+                        handleStateChange={this.props.handleStateChange}
                     />
                 </div>
                 <div className={this.state.creact_plantrip}>

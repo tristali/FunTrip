@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import * as firebase from "firebase";
-import Login from "./elements/login";
+import Loading from "./loading";
 import Header from "./elements/header";
 import ProfileInformation from "./elements/profile_information";
 import AddPlanTrip from "./elements/add_plantrip";
@@ -27,6 +27,7 @@ class Profile extends Component {
                     state={this.props.state}
                     handleStateChange={this.props.handleStateChange}
                 />
+                {this.props.state.loading && <Loading />}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
@@ -40,6 +41,7 @@ class Profile extends Component {
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
                     handleChangeTripDisplay={this.handleChangeTripDisplay}
+                    handleStateChange={this.props.handleStateChange}
                 />
             </div>
         );
@@ -49,6 +51,10 @@ class Profile extends Component {
         firebase.auth().onAuthStateChanged(firebaseUser => {
             if (!firebaseUser) {
                 this.setState({ redirect: true });
+                this.props.handleStateChange({
+                    stateName: "loading",
+                    value: true
+                });
             }
         });
     }

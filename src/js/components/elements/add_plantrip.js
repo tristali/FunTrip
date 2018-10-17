@@ -223,6 +223,10 @@ class AddPlanTrip extends Component {
                 this.setState({
                     redirect: true
                 });
+                this.props.handleStateChange({
+                    stateName: "loading",
+                    value: true
+                });
             }
         }
     }

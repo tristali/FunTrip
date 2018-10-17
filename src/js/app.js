@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LandingPage from "./components/landingpage";
 import Plan from "./components/plan";
 import Profile from "./components/profile";
@@ -37,7 +37,7 @@ class App extends Component {
             login_and_signup: "",
             /* 地圖 DOM 狀態 */
             map: "",
-            redirect: false
+            loading: true
         };
 
         this.handleMenuState = this.handleMenuState.bind(this);
@@ -47,9 +47,6 @@ class App extends Component {
 
     render() {
         console.log(this.state);
-        if (this.state.redirect) {
-            return <Redirect to="/profile" />;
-        }
         return (
             <BrowserRouter>
                 <Switch>

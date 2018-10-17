@@ -226,5 +226,15 @@ class AllTrip extends Component {
             redirect: true,
             plan_id: plan_id
         });
+        this.props.handleStateChange({
+            stateName: "loading",
+            value: true
+        });
+    }
+    componentDidMount() {
+        this.props.handleStateChange({
+            stateName: "loading",
+            value: false
+        });
     }
 }

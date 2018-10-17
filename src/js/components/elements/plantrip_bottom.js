@@ -16,6 +16,7 @@ const PlanTripBottom = props => {
                 state={props.state}
                 planState={props.planState}
                 handlePlanStateChange={props.handlePlanStateChange}
+                handleStateChange={props.handleStateChange}
             />
         </div>
     );
