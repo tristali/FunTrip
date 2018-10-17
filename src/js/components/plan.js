@@ -38,6 +38,7 @@ class Plan extends Component {
             redirect: false
         };
         this.handlePlanStateChange = this.handlePlanStateChange.bind(this);
+        this.handleDelTrip = this.handleDelTrip.bind(this);
     }
     render() {
         if (this.state.redirect) {
@@ -63,7 +64,7 @@ class Plan extends Component {
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
-                    handleDelTrip={this.props.handleDelTrip}
+                    handleDelTrip={this.handleDelTrip}
                     planState={this.state}
                     handlePlanStateChange={this.handlePlanStateChange}
                 />
@@ -82,6 +83,45 @@ class Plan extends Component {
         let thisState = {};
         thisState[props.stateName] = props.value;
         this.setState(thisState);
+    }
+
+    /* 刪除旅程 */
+    handleDelTrip() {
+        this.props.handleStateChange({
+            stateName: "plan_trip",
+            value: "hide"
+        });
+        this.props.handleStateChange({
+            stateName: "map",
+            value: ""
+        });
+        /* 上傳此 ID */
+        let uid = this.props.state.user.uid;
+        let planArray;
+        let key = this.props.state.current_plan;
+        /* 上傳此旅程 ID 到此使用者資料 */
+        firebase
+            .database()
+            .ref(`users/${uid}`)
+            .once("value", snapshot => {
+                /* 先確定要刪除的 value index */
+                planArray = snapshot.val().plan;
+                let index = planArray.indexOf(key);
+                if (index > -1) {
+                    planArray.splice(index, 1);
+                }
+                firebase
+                    .database()
+                    .ref(`users/${uid}`)
+                    .update({ plan: planArray });
+            });
+        /* 上傳此旅程資訊 */
+        firebase
+            .database()
+            .ref(`plans/${key}`)
+            .remove();
+        alert("已刪除此旅程");
+        this.setState({ redirect: true });
     }
 
     componentDidMount() {
@@ -107,8 +147,9 @@ class Plan extends Component {
                                         .ref("/plans/" + thisPlanId)
                                         .on("value", function(snapshot) {
                                             if (
+                                                snapshot.val() &&
                                                 snapshot.val().author ===
-                                                firebaseUser.uid
+                                                    firebaseUser.uid
                                             ) {
                                                 redirectState = false;
                                             }
@@ -145,46 +186,47 @@ function updatePlanInformation(thisEnvironment) {
         .ref(`plans/${thisEnvironment.props.state.current_plan}`);
     planPath.on("value", snapshot => {
         const plan = snapshot.val();
+        if (plan) {
+            thisEnvironment.setState({
+                all_detailed_obj: plan.detailed,
+                totalDay: plan.day,
+                name: plan.name,
+                start: plan.start,
+                end: plan.end,
+                all_day_array: plan.all_day_array,
+                all_week_array: plan.all_week_array
+            });
 
-        thisEnvironment.setState({
-            all_detailed_obj: plan.detailed,
-            totalDay: plan.day,
-            name: plan.name,
-            start: plan.start,
-            end: plan.end,
-            all_day_array: plan.all_day_array,
-            all_week_array: plan.all_week_array
-        });
+            /* 抓取第一個景點經緯度 */
+            const allDetailedObj = plan.detailed;
+            if (allDetailedObj) {
+                const detailedKeyArray = Object.keys(allDetailedObj);
+                let thisDayPlanDetailsCount = 0;
 
-        /* 抓取第一個景點經緯度 */
-        const allDetailedObj = plan.detailed;
-        if (allDetailedObj) {
-            const detailedKeyArray = Object.keys(allDetailedObj);
-            let thisDayPlanDetailsCount = 0;
-
-            for (let i = 0; i < detailedKeyArray.length; i++) {
-                let detailedObj = allDetailedObj[detailedKeyArray[i]];
-                if (detailedObj.day == 1) {
-                    thisDayPlanDetailsCount += 1;
-                    if (thisDayPlanDetailsCount === 1) {
-                        thisEnvironment.setState({
-                            map_center: detailedObj.location,
-                            map_zoom: 9
-                        });
+                for (let i = 0; i < detailedKeyArray.length; i++) {
+                    let detailedObj = allDetailedObj[detailedKeyArray[i]];
+                    if (detailedObj.day == 1) {
+                        thisDayPlanDetailsCount += 1;
+                        if (thisDayPlanDetailsCount === 1) {
+                            thisEnvironment.setState({
+                                map_center: detailedObj.location,
+                                map_zoom: 9
+                            });
+                        }
                     }
                 }
-            }
-        } else if (navigator.geolocation) {
-            /* 判斷使用者是否有同意分享目前座標權限 */
-            navigator.geolocation.getCurrentPosition(position => {
-                thisEnvironment.setState({
-                    map_center: {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    },
-                    map_zoom: 8
+            } else if (navigator.geolocation) {
+                /* 判斷使用者是否有同意分享目前座標權限 */
+                navigator.geolocation.getCurrentPosition(position => {
+                    thisEnvironment.setState({
+                        map_center: {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        },
+                        map_zoom: 8
+                    });
                 });
-            });
+            }
         }
     });
 

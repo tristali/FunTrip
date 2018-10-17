@@ -43,8 +43,6 @@ class App extends Component {
         this.handleMenuState = this.handleMenuState.bind(this);
         this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this);
         this.handleStateChange = this.handleStateChange.bind(this);
-
-        this.handleDelTrip = this.handleDelTrip.bind(this);
     }
 
     render() {
@@ -65,7 +63,6 @@ class App extends Component {
                                 menu={this.state.menu}
                                 handleOpenAddPlan={this.handleOpenAddPlan}
                                 handleStateChange={this.handleStateChange}
-                                handleDelTrip={this.handleDelTrip}
                             />
                         )}
                     />
@@ -105,42 +102,6 @@ class App extends Component {
         } else {
             this.setState({ add_plantrip_id: "" });
         }
-    }
-
-    /* 刪除旅程 */
-    handleDelTrip() {
-        this.setState({
-            plan_trip: "hide",
-            map: "",
-            redirect: true
-        });
-        /* 上傳此 ID */
-        let uid = this.state.user.uid;
-        let planArray;
-        let key = this.state.current_plan;
-        /* 上傳此旅程 ID 到此使用者資料 */
-        firebase
-            .database()
-            .ref(`users/${uid}`)
-            .once("value", snapshot => {
-                /* 先確定要刪除的 value index */
-                planArray = snapshot.val().plan;
-                let index = planArray.indexOf(key);
-                if (index > -1) {
-                    planArray.splice(index, 1);
-                }
-                firebase
-                    .database()
-                    .ref(`users/${uid}`)
-                    .update({ plan: planArray });
-            });
-        /* 上傳此旅程資訊 */
-        firebase
-            .database()
-            .ref(`plans/${key}`)
-            .remove();
-        // this.setState({ redirect: true });
-        alert("已刪除此旅程");
     }
 
     /* 改變 state 狀態 

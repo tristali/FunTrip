@@ -35,7 +35,7 @@ class PlanTripTop extends Component {
                             </li>
                             <li className="date">{`${
                                 this.props.planState.start
-                            }-${this.props.planState.end}`}</li>
+                            } - ${this.props.planState.end}`}</li>
                         </ul>
                     </div>
                     <div className="tab">

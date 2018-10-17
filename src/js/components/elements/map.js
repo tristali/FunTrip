@@ -39,7 +39,9 @@ class Map extends Component {
     componentDidUpdate(prevProps) {
         /* 抓取 Database 所有此旅程資料 */
         if (
-            prevProps.planState.map_center !== this.props.planState.map_center
+            prevProps.planState.map_center !==
+                this.props.planState.map_center &&
+            app.get(".map")
         ) {
             /* google map 初始化 */
             const state = this.props.planState;

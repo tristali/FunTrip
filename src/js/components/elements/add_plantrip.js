@@ -169,6 +169,7 @@ class AddPlanTrip extends Component {
                     stateName: "map",
                     value: "plantrip_open"
                 });
+                alert("已修改旅程");
             } else {
                 /* 新增旅程 */
                 key = firebase
@@ -196,10 +197,8 @@ class AddPlanTrip extends Component {
                     value: key
                 });
                 this.setState({
-                    redirect: true,
                     plan_id: key
                 });
-                alert("已新增旅程");
             }
             this.props.handleStateChange({
                 stateName: "add_plantrip",
@@ -219,7 +218,12 @@ class AddPlanTrip extends Component {
                     all_day_array: allDayArray,
                     all_week_array: allWeekArray
                 });
-            alert("已修改旅程");
+
+            if (this.props.state.add_plantrip === "NEW") {
+                this.setState({
+                    redirect: true
+                });
+            }
         }
     }
 

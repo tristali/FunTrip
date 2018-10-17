@@ -11,10 +11,13 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            trip_display: "all",
             redirect: false
         };
+        this.handleChangeTripDisplay = this.handleChangeTripDisplay.bind(this);
     }
     render() {
+        console.log(this.state, "aaa");
         if (this.state.redirect) {
             return <Redirect to="/plan" />;
         }
@@ -29,11 +32,14 @@ class Profile extends Component {
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
+                    handleChangeTripDisplay={this.handleChangeTripDisplay}
                 />
                 <ProfileInformation
                     state={this.props.state}
+                    profileState={this.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
+                    handleChangeTripDisplay={this.handleChangeTripDisplay}
                 />
             </div>
         );
@@ -45,6 +51,11 @@ class Profile extends Component {
                 this.setState({ redirect: true });
             }
         });
+    }
+
+    /* 改變目前 trip_display 狀態 */
+    handleChangeTripDisplay(this_category) {
+        this.setState({ trip_display: this_category });
     }
 }
 

@@ -12,23 +12,44 @@ class ProfileInformation extends Component {
         };
     }
     render() {
+        /* creact 每個旅程 */
         let allTripArray;
         let allPlan = this.props.state.user.plan;
         let allTrip = this.state.all_trip;
+        let finishCount = 0;
+        let unfinishCount = 0;
+        let triping = 0;
+        let thisTripState = "";
         if (allPlan && allTrip) {
             allTripArray = [];
             allPlan.map((item, index) => {
-                allTripArray.push(
-                    <AllTrip
-                        name={allTrip[item].name}
-                        start={allTrip[item].start}
-                        end={allTrip[item].end}
-                        id={allTrip[item].plan_id}
-                        key={`all_trip_${index}`}
-                        state={this.props.state}
-                        handleStateChange={this.props.handleStateChange}
-                    />
-                );
+                if (allTrip[item]) {
+                    /* 已規劃且完成旅程 */
+                    if (new Date() > new Date(allTrip[item].end)) {
+                        finishCount += 1;
+                        thisTripState = "finish";
+                    } else if (new Date() <= new Date(allTrip[item].start)) {
+                        /* 已規劃但未出發旅程 */
+                        unfinishCount += 1;
+                        thisTripState = "unfinish";
+                    } else {
+                        triping += 1;
+                        thisTripState = "triping";
+                    }
+
+                    allTripArray.unshift(
+                        <AllTrip
+                            name={allTrip[item].name}
+                            start={allTrip[item].start}
+                            end={allTrip[item].end}
+                            id={allTrip[item].plan_id}
+                            key={`all_trip_${index}`}
+                            state={this.props.state}
+                            handleStateChange={this.props.handleStateChange}
+                            thisTripState={thisTripState}
+                        />
+                    );
+                }
             });
         }
         return (
@@ -43,7 +64,9 @@ class ProfileInformation extends Component {
                             <div
                                 className="add_trip"
                                 onClick={() =>
-                                    this.props.handleOpenAddPlan({ value: "NEW" })
+                                    this.props.handleOpenAddPlan({
+                                        value: "NEW"
+                                    })
                                 }
                             >
                                 <div />
@@ -73,15 +96,63 @@ class ProfileInformation extends Component {
                                         <div>{this.props.state.user.email}</div>
                                     </li>
                                     <li className="clearfix">
-                                        <div>
-                                            <ul>
-                                                <li>20</li>
+                                        <div
+                                            onClick={() =>
+                                                this.props.handleChangeTripDisplay(
+                                                    "triping"
+                                                )
+                                            }
+                                        >
+                                            <ul
+                                                className={
+                                                    this.props.profileState
+                                                        .trip_display ===
+                                                    "triping"
+                                                        ? "current"
+                                                        : ""
+                                                }
+                                            >
+                                                <li>{triping}</li>
+                                                <li>旅行中</li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                this.props.handleChangeTripDisplay(
+                                                    "unfinish"
+                                                )
+                                            }
+                                        >
+                                            <ul
+                                                className={
+                                                    this.props.profileState
+                                                        .trip_display ===
+                                                    "unfinish"
+                                                        ? "current"
+                                                        : ""
+                                                }
+                                            >
+                                                <li>{unfinishCount}</li>
                                                 <li>待出發</li>
                                             </ul>
                                         </div>
-                                        <div>
-                                            <ul>
-                                                <li>20</li>
+                                        <div
+                                            onClick={() =>
+                                                this.props.handleChangeTripDisplay(
+                                                    "finish"
+                                                )
+                                            }
+                                        >
+                                            <ul
+                                                className={
+                                                    this.props.profileState
+                                                        .trip_display ===
+                                                    "finish"
+                                                        ? "current"
+                                                        : ""
+                                                }
+                                            >
+                                                <li>{finishCount}</li>
                                                 <li>回憶錄</li>
                                             </ul>
                                         </div>
@@ -91,7 +162,13 @@ class ProfileInformation extends Component {
                         </div>
                     </div>
                     <div className="bottom">
-                        <ul className="clearfix">{allTripArray}</ul>
+                        <ul
+                            className={`clearfix ${
+                                this.props.profileState.trip_display
+                            }`}
+                        >
+                            {allTripArray}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -123,11 +200,11 @@ class AllTrip extends Component {
             return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
         }
         return (
-            <li className={this.props.id}>
+            <li id={this.props.id} className={this.props.thisTripState}>
                 <div onClick={() => this.handleOpenThisPlan(this.props.id)}>
-                    <ul>
+                    <ul className={this.props.className}>
                         <li>{this.props.name}</li>
-                        <li>{`${this.props.start}-${this.props.end}`}</li>
+                        <li>{`${this.props.start} - ${this.props.end}`}</li>
                         <li>
                             <div />
                         </li>
