@@ -222,13 +222,17 @@ class AllTrip extends Component {
             stateName: "current_plan",
             value: plan_id
         });
-        this.setState({
-            redirect: true,
-            plan_id: plan_id
-        });
         this.props.handleStateChange({
             stateName: "loading",
             value: true
+        });
+        this.props.handleStateChange({
+            stateName: "menu",
+            value: ""
+        });
+        this.setState({
+            plan_id: plan_id,
+            redirect: true
         });
     }
     componentDidMount() {

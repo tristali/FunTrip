@@ -32,8 +32,6 @@ class PlanTrip extends Component {
         this.state = {
             /* 檢視當前行程類別 */
             category: "All",
-            /* 當前為關閉 "hide" 新增 "Add" 或修改 "Edit" 行程狀態 */
-            creact_plantrip: "hide",
             /* 當前行程類別 */
             select_category: "Transport",
             /* 當前行程小類別 */
@@ -73,6 +71,7 @@ class PlanTrip extends Component {
                         planState={this.props.planState}
                         handleStateChange={this.props.handleStateChange}
                         handleOpenAddPlan={this.props.handleOpenAddPlan}
+                        handlePopup={this.props.handlePopup}
                     />
                     <PlanTripBottom
                         addPlanTrip={this.addPlanTrip}
@@ -83,9 +82,9 @@ class PlanTrip extends Component {
                         handleStateChange={this.props.handleStateChange}
                     />
                 </div>
-                <div className={this.state.creact_plantrip}>
+                <div className={this.props.planState.creact_plantrip}>
                     <CreactPlanTrip
-                        creactPlantrip={this.state.creact_plantrip}
+                        creactPlantrip={this.props.planState.creact_plantrip}
                         handleHideCreactPlanTrip={this.handleHideCreactPlanTrip}
                         state={this.props.state}
                         planTripState={this.state}
@@ -99,6 +98,10 @@ class PlanTrip extends Component {
                             this.handleCleanCategoryAndLcation
                         }
                         handleStateChange={this.props.handleStateChange}
+                        handleDelCreactPlanTrip={
+                            this.props.handleDelCreactPlanTrip
+                        }
+                        handlePopup={this.props.handlePopup}
                     />
                 </div>
             </div>
@@ -114,16 +117,22 @@ class PlanTrip extends Component {
         this.setState({
             select_category: "Transport",
             category_detail: "transport",
-            lcation_name: "",
-            creact_plantrip: "hide"
+            lcation_name: ""
+        });
+        this.props.handlePlanStateChange({
+            stateName: "creact_plantrip",
+            value: "hide"
         });
         const thisPlanDetailedDOM = app.get(
             `.all_plan_detailed>div#${thisPlan}`
         );
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         thisPlanDetailedDOM.classList.add("current");
-        this.setState({ creact_plantrip: "Add" });
-
+        // this.setState({ creact_plantrip: "Add" });
+        this.props.handlePlanStateChange({
+            stateName: "creact_plantrip",
+            value: "Add"
+        });
         this.props.handleStateChange({
             stateName: "plan_trip_width",
             value: ""
@@ -139,13 +148,19 @@ class PlanTrip extends Component {
         this.setState({
             select_category: "Transport",
             category_detail: "transport",
-            lcation_name: "",
-            creact_plantrip: "hide"
+            lcation_name: ""
+        });
+        this.props.handlePlanStateChange({
+            stateName: "creact_plantrip",
+            value: "hide"
         });
         const thisPlanDetailedDOM = app.get(`#${thisPlan}`);
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         thisPlanDetailedDOM.classList.add("current");
-        this.setState({ creact_plantrip: "Edit" });
+        this.props.handlePlanStateChange({
+            stateName: "creact_plantrip",
+            value: "Edit"
+        });
         /* 設定現有資料到編輯 */
         /* 填入經緯度及 location_name */
         const thisPlanClassArray = app.get(`#${thisPlan}`).classList;
@@ -198,7 +213,10 @@ class PlanTrip extends Component {
 
     /* 隱藏新增 / 修改 (回上一頁)) */
     handleHideCreactPlanTrip() {
-        this.setState({ creact_plantrip: "hide" });
+        this.props.handlePlanStateChange({
+            stateName: "creact_plantrip",
+            value: "hide"
+        });
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         this.props.handleStateChange({
             stateName: "map",
@@ -231,7 +249,10 @@ class PlanTrip extends Component {
 
     /* 改變 this.state.creact_plantrip */
     changeCreactPlantripState(value) {
-        this.setState({ creact_plantrip: value });
+        this.props.handlePlanStateChange({
+            stateName: "creact_plantrip",
+            value: value
+        });
     }
 
     /* 清除 修改/新增 location 和類別 */

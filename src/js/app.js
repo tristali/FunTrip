@@ -37,12 +37,17 @@ class App extends Component {
             login_and_signup: "",
             /* 地圖 DOM 狀態 */
             map: "",
+            /* 彈跳視窗 DOM 狀態 */
+            popup: "hide",
+            popup_state: "",
             loading: true
         };
 
         this.handleMenuState = this.handleMenuState.bind(this);
         this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this);
         this.handleStateChange = this.handleStateChange.bind(this);
+        this.handlePopup = this.handlePopup.bind(this);
+        this.handleSignout = this.handleSignout.bind(this);
     }
 
     render() {
@@ -60,6 +65,8 @@ class App extends Component {
                                 menu={this.state.menu}
                                 handleOpenAddPlan={this.handleOpenAddPlan}
                                 handleStateChange={this.handleStateChange}
+                                handleSignout={this.handleSignout}
+                                handlePopup={this.handlePopup}
                             />
                         )}
                     />
@@ -72,6 +79,8 @@ class App extends Component {
                                 menu={this.state.menu}
                                 handleOpenAddPlan={this.handleOpenAddPlan}
                                 handleStateChange={this.handleStateChange}
+                                handleSignout={this.handleSignout}
+                                handlePopup={this.handlePopup}
                             />
                         )}
                     />
@@ -99,6 +108,23 @@ class App extends Component {
         } else {
             this.setState({ add_plantrip_id: "" });
         }
+    }
+
+    /* 改變彈跳視窗 */
+    handlePopup(value) {
+        this.setState({
+            popup: "",
+            popup_state: value
+        });
+    }
+
+    /* Signout */
+    handleSignout() {
+        this.setState({
+            popup: "hide",
+            popup_state: ""
+        });
+        firebase.auth().signOut();
     }
 
     /* 改變 state 狀態 

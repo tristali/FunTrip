@@ -33,6 +33,47 @@ class Map extends Component {
 
             /* google map 自動輸入並抓取資料 */
             app.autocomplete(map, marker);
+
+            // 載入路線服務與路線顯示圖層
+            let directionsService = new google.maps.DirectionsService();
+            let directionsDisplay = new google.maps.DirectionsRenderer();
+            // 放置路線圖層
+            directionsDisplay.setMap(map);
+
+            let waypts = [
+                {
+                    location: { lat: 25.0128364, lng: 121.4693593 },
+                    stopover: true
+                },
+                {
+                    location: { lat: 25.0424825, lng: 121.5626854 },
+                    stopover: true
+                },
+                {
+                    location: { lat: 25.0424825, lng: 121.5626854 },
+                    stopover: true
+                }
+            ];
+
+            // 路線相關設定
+            var request = {
+                origin: { lat: 25.0424825, lng: 121.5626854 },
+                destination: { lat: 25.0471826, lng: 121.5150107 },
+                waypoints: waypts,
+                optimizeWaypoints: true,
+                travelMode: "DRIVING"
+            };
+
+            // 繪製路線
+            directionsService.route(request, function(result, status) {
+                if (status == "OK") {
+                    // 回傳路線上每個步驟的細節
+                    // console.log(result.routes[0].legs[0].steps);
+                    directionsDisplay.setDirections(result);
+                } else {
+                    // console.log(status);
+                }
+            });
         }
     }
 

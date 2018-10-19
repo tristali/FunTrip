@@ -6,6 +6,8 @@ import Header from "./elements/header";
 import PlanTrip from "./elements/plantrip";
 import Map from "./elements/map";
 import AddPlanTrip from "./elements/add_plantrip";
+import Popup from "./elements/popup";
+import Loading from "./loading";
 import app from "../lib";
 import * as firebase from "firebase";
 
@@ -27,7 +29,8 @@ class Plan extends Component {
             all_day_array: "",
             /* 當前行程所有星期 */
             all_week_array: "",
-
+            /* 當前為關閉 "hide" 新增 "Add" 或修改 "Edit" 行程狀態 */
+            creact_plantrip: "hide",
             /* map 地圖顯示資料 */
             map_center: {
                 lat: 23.6,
@@ -39,6 +42,7 @@ class Plan extends Component {
         };
         this.handlePlanStateChange = this.handlePlanStateChange.bind(this);
         this.handleDelTrip = this.handleDelTrip.bind(this);
+        this.handleDelCreactPlanTrip = this.handleDelCreactPlanTrip.bind(this);
     }
     render() {
         if (this.state.redirect) {
@@ -54,23 +58,78 @@ class Plan extends Component {
                     state={this.props.state}
                     handleStateChange={this.props.handleStateChange}
                 />
+                <Popup
+                    state={this.props.state}
+                    handleStateChange={this.props.handleStateChange}
+                    handleSignout={this.props.handleSignout}
+                    handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
+                    handleDelTrip={this.handleDelTrip}
+                />
+                {/* {this.props.state.loading && <Loading />} */}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
+                    handlePopup={this.props.handlePopup}
                 />
                 <PlanTrip
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
-                    handleDelTrip={this.handleDelTrip}
                     planState={this.state}
                     handlePlanStateChange={this.handlePlanStateChange}
+                    handlePopup={this.props.handlePopup}
                 />
-                <Map state={this.props.state} planState={this.state} />
+                <Map
+                    state={this.props.state}
+                    planState={this.state}
+                    handleStateChange={this.props.handleStateChange}
+                />
             </div>
         );
+    }
+    /* 刪除 */
+    handleDelCreactPlanTrip() {
+        this.setState({
+            creact_plantrip: "hide"
+        });
+        this.props.handleStateChange({
+            stateName: "popup",
+            value: "hide"
+        });
+        this.props.handleStateChange({
+            stateName: "popup_state",
+            value: ""
+        });
+        const currentPlanID = this.props.state.current_plan;
+        /* 把資料推進 Database */
+        let detailedPath = `plans/${currentPlanID}/detailed`;
+        /* 判斷此改變行程是否已經有id */
+        let detailedKey;
+        const currentPlanDOM = app.get("div.all_plan_detailed>div.current>ul")
+            .id;
+        if (currentPlanDOM) {
+            detailedKey = currentPlanDOM;
+            alert("此景點已刪除");
+        } else {
+            alert("無此景點可以刪除");
+        }
+        firebase
+            .database()
+            .ref(`${detailedPath}/${detailedKey}`)
+            .remove();
+        /* 修改/新增行程資料清空 */
+        app.cleanCreactPlanTrip();
+
+        this.props.handleStateChange({
+            stateName: "map",
+            value: "plantrip_open"
+        });
+        this.props.handleStateChange({
+            stateName: "plan_trip_width",
+            value: "hide_creact_plantrip"
+        });
     }
 
     /* 改變 state 狀態 
@@ -93,6 +152,14 @@ class Plan extends Component {
         });
         this.props.handleStateChange({
             stateName: "map",
+            value: ""
+        });
+        this.props.handleStateChange({
+            stateName: "popup",
+            value: "hide"
+        });
+        this.props.handleStateChange({
+            stateName: "popup_state",
             value: ""
         });
         /* 上傳此 ID */
@@ -120,12 +187,11 @@ class Plan extends Component {
             .database()
             .ref(`plans/${key}`)
             .remove();
-        alert("已刪除此旅程");
-        this.setState({ redirect: true });
         this.props.handleStateChange({
             stateName: "loading",
             value: true
         });
+        this.setState({ redirect: true });
     }
 
     componentDidMount() {
@@ -162,12 +228,12 @@ class Plan extends Component {
                             });
                         });
                 }
-                this.setState({ redirect: redirectState });
                 this.props.handleStateChange({
                     stateName: "loading",
                     value: true
                 });
                 updatePlanInformation(thisEnvironment);
+                this.setState({ redirect: redirectState });
             }
         });
     }

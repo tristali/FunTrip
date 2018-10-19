@@ -12,7 +12,6 @@ class Header extends Component {
         this.state = {
             redirect: false
         };
-        this.handleSignout = this.handleSignout.bind(this);
         this.handleRedirect = this.handleRedirect.bind(this);
     }
     render() {
@@ -48,16 +47,13 @@ class Header extends Component {
                         <li onClick={this.props.handleMenuState}>
                             <NavLink to="/profile">我的旅程</NavLink>
                         </li>
-                        <li onClick={this.handleSignout}>登出</li>
+                        <li onClick={() => this.props.handlePopup("signout")}>
+                            登出
+                        </li>
                     </ul>
                 </div>
             </header>
         );
-    }
-
-    /* Signout */
-    handleSignout() {
-        firebase.auth().signOut();
     }
 
     handleRedirect() {
@@ -65,7 +61,7 @@ class Header extends Component {
             this.setState({ redirect: true });
         }
         if (location.href.includes("profile")) {
-            this.props.handleChangeTripDisplay("all");
+            location.href="/profile";
         }
         this.props.handleStateChange({
             stateName: "loading",

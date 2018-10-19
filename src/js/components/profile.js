@@ -5,6 +5,7 @@ import * as firebase from "firebase";
 import Loading from "./loading";
 import Header from "./elements/header";
 import ProfileInformation from "./elements/profile_information";
+import Popup from "./elements/popup";
 import AddPlanTrip from "./elements/add_plantrip";
 
 class Profile extends Component {
@@ -27,6 +28,11 @@ class Profile extends Component {
                     state={this.props.state}
                     handleStateChange={this.props.handleStateChange}
                 />
+                <Popup
+                    state={this.props.state}
+                    handleStateChange={this.props.handleStateChange}
+                    handleSignout={this.props.handleSignout}
+                />
                 {this.props.state.loading && <Loading />}
                 <Header
                     handleMenuState={this.props.handleMenuState}
@@ -34,6 +40,7 @@ class Profile extends Component {
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleStateChange={this.props.handleStateChange}
                     handleChangeTripDisplay={this.handleChangeTripDisplay}
+                    handlePopup={this.props.handlePopup}
                 />
                 <ProfileInformation
                     state={this.props.state}
@@ -50,11 +57,11 @@ class Profile extends Component {
         /* 如果未登入轉址到 plan 頁面 */
         firebase.auth().onAuthStateChanged(firebaseUser => {
             if (!firebaseUser) {
-                this.setState({ redirect: true });
                 this.props.handleStateChange({
                     stateName: "loading",
                     value: true
                 });
+                this.setState({ redirect: true });
             }
         });
     }

@@ -24,7 +24,9 @@ class PlanTripTop extends Component {
         return (
             <div className="top">
                 <div className="del">
-                    <div onClick={this.props.handleDelTrip}>del</div>
+                    <div 
+                        onClick={() => this.props.handlePopup("del_trip")}
+                    >del</div>
                 </div>
                 <div className="top_text">
                     <div className="title_date">

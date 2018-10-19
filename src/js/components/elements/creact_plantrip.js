@@ -45,7 +45,6 @@ class CreactPlanTrip extends Component {
         );
         this.handleSetDatebase = this.handleSetDatebase.bind(this);
         this.handleReset = this.handleReset.bind(this);
-        this.handleDelCreactPlanTrip = this.handleDelCreactPlanTrip.bind(this);
     }
 
     render() {
@@ -159,7 +158,7 @@ class CreactPlanTrip extends Component {
                     <li>{this.props.creactPlantrip} a node</li>
                     <li
                         className={this.props.creactPlantrip}
-                        onClick={this.handleDelCreactPlanTrip}
+                        onClick={() => this.props.handlePopup("del_plan")}
                     >
                         <div>
                             <div>del</div>
@@ -240,46 +239,6 @@ class CreactPlanTrip extends Component {
         });
         /* 改變上層 creact_plantrip state */
         this.props.changeCreactPlantripState("hide");
-    }
-
-    /* 刪除 */
-    handleDelCreactPlanTrip() {
-        const currentPlanID = this.props.state.current_plan;
-        /* 把資料推進 Database */
-        let detailedPath = `plans/${currentPlanID}/detailed`;
-        /* 判斷此改變行程是否已經有id */
-        let detailedKey;
-        const currentPlanDOM = app.get("div.all_plan_detailed>div.current>ul")
-            .id;
-        if (currentPlanDOM) {
-            detailedKey = currentPlanDOM;
-            alert("此景點已刪除");
-        } else {
-            alert("無此景點可以刪除");
-        }
-        firebase
-            .database()
-            .ref(`${detailedPath}/${detailedKey}`)
-            .remove();
-        /* 修改/新增行程資料清空 */
-        app.cleanCreactPlanTrip();
-        /* 清除 修改/新增 location 和類別 */
-        this.props.handleCleanCategoryAndLcation({
-            select_category: "Transport",
-            category_detail: "transport",
-            lcation_name: ""
-        });
-        /* 改變上層 creact_plantrip state */
-        this.props.changeCreactPlantripState("hide");
-
-        this.props.handleStateChange({
-            stateName: "map",
-            value: "plantrip_open"
-        });
-        this.props.handleStateChange({
-            stateName: "plan_trip_width",
-            value: "hide_creact_plantrip"
-        });
     }
 
     /* Datebase 資料更新 */
