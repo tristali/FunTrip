@@ -90,6 +90,14 @@ class PlanTripAllDetails extends Component {
         }
         return <div className="all_plan_detailed">{planDetailsDOM}</div>;
     }
+    componentDidMount() {
+        if (!this.props.planState.all_detailed_obj) {
+            this.props.handleStateChange({
+                stateName: "loading",
+                value: false
+            });
+        }
+    }
 }
 export default PlanTripAllDetails;
 

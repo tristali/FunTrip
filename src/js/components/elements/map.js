@@ -14,7 +14,12 @@ class Map extends Component {
     }
     componentDidMount() {
         /* google map 初始化 */
-        if (app.get(".map")) {
+        if (app.get(".map") && google) {
+            this.props.handleStateChange({
+                stateName: "loading",
+                value: false
+            });
+
             const state = this.props.planState;
             let map_center = {
                 lat: state.map_center.lat,
@@ -32,57 +37,14 @@ class Map extends Component {
             });
 
             /* google map 自動輸入並抓取資料 */
-            app.autocomplete(map, marker);
-
-            // 載入路線服務與路線顯示圖層
-            let directionsService = new google.maps.DirectionsService();
-            let directionsDisplay = new google.maps.DirectionsRenderer();
-            // 放置路線圖層
-            directionsDisplay.setMap(map);
-
-            let waypts = [
-                {
-                    location: { lat: 25.0128364, lng: 121.4693593 },
-                    stopover: true
-                },
-                {
-                    location: { lat: 25.0424825, lng: 121.5626854 },
-                    stopover: true
-                },
-                {
-                    location: { lat: 25.0424825, lng: 121.5626854 },
-                    stopover: true
-                }
-            ];
-
-            // 路線相關設定
-            var request = {
-                origin: { lat: 25.0424825, lng: 121.5626854 },
-                destination: { lat: 25.0471826, lng: 121.5150107 },
-                waypoints: waypts,
-                optimizeWaypoints: true,
-                travelMode: "DRIVING"
-            };
-
-            // 繪製路線
-            directionsService.route(request, function(result, status) {
-                if (status == "OK") {
-                    // 回傳路線上每個步驟的細節
-                    // console.log(result.routes[0].legs[0].steps);
-                    directionsDisplay.setDirections(result);
-                } else {
-                    // console.log(status);
-                }
-            });
+            let thisEnvironment = this;
+            app.autocomplete(map, thisEnvironment);
         }
     }
 
     componentDidUpdate(prevProps) {
-        /* 抓取 Database 所有此旅程資料 */
         if (
-            prevProps.planState.map_center !==
-                this.props.planState.map_center &&
-            app.get(".map")
+            prevProps.planState.map_center !== this.props.planState.map_center
         ) {
             /* google map 初始化 */
             const state = this.props.planState;
@@ -95,6 +57,71 @@ class Map extends Component {
                 center: map_center
             };
             let map = new google.maps.Map(app.get(".map"), options);
+
+            /* 標記地點起手式 */
+            let marker = new google.maps.Marker({
+                map: map,
+                position: map_center
+            });
+        }
+
+        /* 抓取 Database 所有此旅程資料 google map 標記多個位置  */
+        if (
+            prevProps.planState.all_detailed_obj !==
+            this.props.planState.all_detailed_obj
+        ) {
+            /* google map 初始化 */
+            const state = this.props.planState;
+            let map_center = {
+                lat: state.map_center.lat,
+                lng: state.map_center.lng
+            };
+            let options = {
+                zoom: state.map_zoom,
+                center: map_center
+            };
+            let map = new google.maps.Map(app.get(".map"), options);
+
+            // // 載入路線服務與路線顯示圖層
+            // let directionsService = new google.maps.DirectionsService();
+            // let directionsDisplay = new google.maps.DirectionsRenderer();
+            // // 放置路線圖層
+            // directionsDisplay.setMap(map);
+
+            // let waypts = [
+            //     {
+            //         location: { lat: 25.0128364, lng: 121.4693593 },
+            //         stopover: true
+            //     },
+            //     {
+            //         location: { lat: 25.0424825, lng: 121.5626854 },
+            //         stopover: true
+            //     },
+            //     {
+            //         location: { lat: 25.0424825, lng: 121.5626854 },
+            //         stopover: true
+            //     }
+            // ];
+
+            // // 路線相關設定
+            // var request = {
+            //     origin: { lat: 25.0424825, lng: 121.5626854 },
+            //     destination: { lat: 25.0471826, lng: 121.5150107 },
+            //     waypoints: waypts,
+            //     optimizeWaypoints: true,
+            //     travelMode: "DRIVING"
+            // };
+
+            // // 繪製路線
+            // directionsService.route(request, function(result, status) {
+            //     if (status == "OK") {
+            //         // 回傳路線上每個步驟的細節
+            //         // console.log(result.routes[0].legs[0].steps);
+            //         directionsDisplay.setDirections(result);
+            //     } else {
+            //         // console.log(status);
+            //     }
+            // });
 
             /* google map 標記多個位置 */
             let all_detailed_obj = this.props.planState.all_detailed_obj;

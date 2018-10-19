@@ -20,7 +20,7 @@ const INFORMATION_OBJ = {
     bonus: ["優惠資訊"],
     wishlist: ["願望清單"],
     ticket: ["票務資訊"],
-    general: ["服務地址", "服務電話", "營業時間", "官方網站"],
+    general: ["所在地址", "服務電話", "營業時間", "官方網站"],
     remarks: ["附註事項"]
 };
 
@@ -155,7 +155,7 @@ class CreactPlanTrip extends Component {
                     <li onClick={this.props.handleHideCreactPlanTrip}>
                         <div />
                     </li>
-                    <li>{this.props.creactPlantrip} a node</li>
+                    <li>{this.props.creactPlantrip} a location</li>
                     <li
                         className={this.props.creactPlantrip}
                         onClick={() => this.props.handlePopup("del_plan")}
@@ -274,8 +274,6 @@ class CreactPlanTrip extends Component {
                 OverviewObj: INFORMATION_OBJ
             });
 
-            alert("資料更新中");
-
             /* 把資料推進 Database */
             let detailedPath = `plans/${currentPlanID}/detailed`;
             /* 判斷此改變行程是否已經有id */
@@ -360,9 +358,20 @@ function setInformation(props) {
                 `.${OverviewObjKey[j]}>li:nth-child(${i + 1}) div.textarea`
             ).innerHTML;
             if (thisItemInput) {
-                props.Obj[
-                    `${OverviewObjKey[j]}_${i}`
-                ] = `${thisItemName}<br />${thisItemInput}`;
+                console.log(thisItemInput, "ssss");
+                if (`${OverviewObjKey[j]}_${i}` === "general_3") {
+                    props.Obj[
+                        `${OverviewObjKey[j]}_${i}`
+                    ] = `${thisItemName}<br /><a href="${thisItemInput}" target="_blank">${thisItemInput}</a>`;
+                } else if (`${OverviewObjKey[j]}_${i}` === "general_1") {
+                    props.Obj[
+                        `${OverviewObjKey[j]}_${i}`
+                    ] = `${thisItemName}<br /><a href="tel:${thisItemInput}">${thisItemInput}</a>`;
+                } else {
+                    props.Obj[
+                        `${OverviewObjKey[j]}_${i}`
+                    ] = `${thisItemName}<br />${thisItemInput}`;
+                }
             }
         }
     }

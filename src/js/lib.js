@@ -125,7 +125,7 @@ app.setMarker = function(props) {
 };
 
 /* 自動輸入地點名稱 */
-app.autocomplete = function(map, marker) {
+app.autocomplete = function(map, thisEnvironment) {
     const input = app.get(".search_input");
 
     let autocomplete = new google.maps.places.Autocomplete(input, {
@@ -153,15 +153,20 @@ app.autocomplete = function(map, marker) {
             }
 
             /* 顯示所在地點 */
+
             const thisLocation = results[0].geometry.location;
-            map.setZoom(11);
-            map.setCenter(thisLocation);
-            app.setMarker({
-                marker: marker,
-                placeId: place.place_id,
-                location: thisLocation
+            let map_center = {
+                lat: thisLocation.lat(),
+                lng: thisLocation.lng()
+            };
+            thisEnvironment.props.handlePlanStateChange({
+                stateName: "map_zoom",
+                value: 17
             });
-            marker.setVisible(true);
+            thisEnvironment.props.handlePlanStateChange({
+                stateName: "map_center",
+                value: map_center
+            });
 
             /* 自動填入名稱、營業時間、電話號碼、地址 */
             let service = new google.maps.places.PlacesService(map);

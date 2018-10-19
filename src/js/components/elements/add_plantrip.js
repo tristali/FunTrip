@@ -11,7 +11,7 @@ class AddPlanTrip extends Component {
         super(props);
         this.state = {
             trip_name: "",
-            start_date: "",
+            start_date: this.getToday(),
             day: "",
             today: this.getToday(),
             all_day_array: "",

@@ -22,7 +22,7 @@ const INFORMATION_OBJ = {
     bonus: ["優惠資訊"],
     wishlist: ["願望清單"],
     ticket: ["票務資訊"],
-    general: ["服務地址", "服務電話", "營業時間", "官方網站"],
+    general: ["所在地址", "服務電話", "營業時間", "官方網站"],
     remarks: ["附註事項"]
 };
 

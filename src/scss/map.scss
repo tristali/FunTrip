@@ -85,6 +85,8 @@
     }
     .web {
         padding: 0 3px;
+        height: 32px;
+        overflow: hidden;
         > a {
             color: $primary-color;
         }

@@ -45,6 +45,7 @@ class Plan extends Component {
         this.handleDelCreactPlanTrip = this.handleDelCreactPlanTrip.bind(this);
     }
     render() {
+        console.log(this.state,"ddddddddddddddddd")
         if (this.state.redirect) {
             return <Redirect to="/profile" />;
         }
@@ -65,7 +66,7 @@ class Plan extends Component {
                     handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
                     handleDelTrip={this.handleDelTrip}
                 />
-                {/* {this.props.state.loading && <Loading />} */}
+                {this.props.state.loading && <Loading />}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
@@ -85,6 +86,7 @@ class Plan extends Component {
                     state={this.props.state}
                     planState={this.state}
                     handleStateChange={this.props.handleStateChange}
+                    handlePlanStateChange={this.handlePlanStateChange}
                 />
             </div>
         );
@@ -272,35 +274,36 @@ function updatePlanInformation(thisEnvironment) {
             });
 
             /* 抓取第一個景點經緯度 */
-            const allDetailedObj = plan.detailed;
-            if (allDetailedObj) {
-                const detailedKeyArray = Object.keys(allDetailedObj);
-                let thisDayPlanDetailsCount = 0;
+            // const allDetailedObj = plan.detailed;
+            // if (allDetailedObj) {
+            //     const detailedKeyArray = Object.keys(allDetailedObj);
+            //     let thisDayPlanDetailsCount = 0;
 
-                for (let i = 0; i < detailedKeyArray.length; i++) {
-                    let detailedObj = allDetailedObj[detailedKeyArray[i]];
-                    if (detailedObj.day == 1) {
-                        thisDayPlanDetailsCount += 1;
-                        if (thisDayPlanDetailsCount === 1) {
-                            thisEnvironment.setState({
-                                map_center: detailedObj.location,
-                                map_zoom: 9
-                            });
-                        }
-                    }
-                }
-            } else if (navigator.geolocation) {
-                /* 判斷使用者是否有同意分享目前座標權限 */
-                navigator.geolocation.getCurrentPosition(position => {
-                    thisEnvironment.setState({
-                        map_center: {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        },
-                        map_zoom: 8
-                    });
-                });
-            }
+            //     for (let i = 0; i < detailedKeyArray.length; i++) {
+            //         let detailedObj = allDetailedObj[detailedKeyArray[i]];
+            //         if (detailedObj.day == 1) {
+            //             thisDayPlanDetailsCount += 1;
+            //             if (thisDayPlanDetailsCount === 1) {
+            //                 thisEnvironment.setState({
+            //                     map_center: detailedObj.location,
+            //                     map_zoom: 9
+            //                 });
+            //             }
+            //         }
+            //     }
+            // } 
+            //else if (navigator.geolocation) {
+            //     /* 判斷使用者是否有同意分享目前座標權限 */
+            //     navigator.geolocation.getCurrentPosition(position => {
+            //         thisEnvironment.setState({
+            //             map_center: {
+            //                 lat: position.coords.latitude,
+            //                 lng: position.coords.longitude
+            //             },
+            //             map_zoom: 8
+            //         });
+            //     });
+            // }
         }
     });
 
