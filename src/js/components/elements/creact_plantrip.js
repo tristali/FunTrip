@@ -16,7 +16,7 @@ const DETAIL_CATEGORY_OBJ = {
 /* Information 輸入框 */
 const INFORMATION_OBJ = {
     time: ["預計時間"],
-    lodge: ["住宿資訊", "入住時間", "退房時間"],
+    lodge: ["住宿資訊", "最早入住", "最晚退房"],
     bonus: ["優惠資訊"],
     wishlist: ["願望清單"],
     ticket: ["票務資訊"],
@@ -237,8 +237,6 @@ class CreactPlanTrip extends Component {
             category_detail: "transport",
             lcation_name: ""
         });
-        /* 改變上層 creact_plantrip state */
-        this.props.changeCreactPlantripState("hide");
     }
 
     /* Datebase 資料更新 */
@@ -304,6 +302,7 @@ class CreactPlanTrip extends Component {
 
             /* 修改/新增行程資料清空 */
             app.cleanCreactPlanTrip();
+            app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
             /* 清除 修改/新增 location 和類別 */
             this.props.handleCleanCategoryAndLcation({
                 select_category: "Transport",
@@ -358,7 +357,6 @@ function setInformation(props) {
                 `.${OverviewObjKey[j]}>li:nth-child(${i + 1}) div.textarea`
             ).innerHTML;
             if (thisItemInput) {
-                console.log(thisItemInput, "ssss");
                 if (`${OverviewObjKey[j]}_${i}` === "general_3") {
                     props.Obj[
                         `${OverviewObjKey[j]}_${i}`

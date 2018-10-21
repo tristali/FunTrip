@@ -35,8 +35,8 @@
                         letter-spacing: 1px;
                         color: #fff;
                         float: left;
-                        &:nth-child(1) {
-                            padding-right: 20px;
+                        &:nth-child(2) {
+                            padding: 0 7px;
                         }
                         @include pad-width {
                             font-size: $font-size-medium-phone;
@@ -102,6 +102,10 @@
                                 border-left: dashed 1px $primary-color;
                                 padding-left: 40px;
                                 font-size: $font-size-small;
+                                transition: height 0.5s;
+                                &.expand>ul>li{
+                                    display: block;
+                                }
                                 @include pad-width {
                                     font-size: $font-size-small-phone;
                                 }
@@ -111,8 +115,12 @@
                                         letter-spacing: 1px;
                                         line-height: 1.5rem;
                                         padding: 1% 0;
+                                        display: none;
                                         &.time_0{
                                             display: none;
+                                        }
+                                        &.general_0,&.general_1{
+                                            display: block;
                                         }
                                     }
                                 }

@@ -18,7 +18,7 @@ const DETAIL_CATEGORY_OBJ = {
 /* Information 輸入框 */
 const INFORMATION_OBJ = {
     time: ["預計時間"],
-    lodge: ["住宿資訊", "入住時間", "退房時間"],
+    lodge: ["住宿資訊", "最早入住", "最晚退房"],
     bonus: ["優惠資訊"],
     wishlist: ["願望清單"],
     ticket: ["票務資訊"],
@@ -114,6 +114,7 @@ class PlanTrip extends Component {
 
     addPlanTrip(thisPlan) {
         app.cleanCreactPlanTrip();
+        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         this.setState({
             select_category: "Transport",
             category_detail: "transport",
@@ -145,6 +146,7 @@ class PlanTrip extends Component {
 
     editPlanTrip(thisPlan) {
         app.cleanCreactPlanTrip();
+        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         this.setState({
             select_category: "Transport",
             category_detail: "transport",
@@ -194,10 +196,21 @@ class PlanTrip extends Component {
                         `ul.${OverviewObjKey[i]} li:nth-child(${j + 1})`
                     ).classList.add("current");
                     /* 將有資料的 information 項目填入 edit 的 information 中 */
-                    app.get(
-                        `ul.${OverviewObjKey[i]} li:nth-child(${j +
-                            1}) div.textarea`
-                    ).innerHTML = thisInformationDOM.innerHTML.slice(8);
+                    /* 官方網站 & 服務電話 */
+                    if ((OverviewObjKey[i] === "general" && j == 1) || j == 3) {
+                        app.get(
+                            `ul.${OverviewObjKey[i]} li:nth-child(${j +
+                                1}) div.textarea`
+                        ).innerHTML = thisInformationDOM.innerHTML
+                            .slice(8)
+                            .split(">")[1]
+                            .split("<")[0];
+                    } else {
+                        app.get(
+                            `ul.${OverviewObjKey[i]} li:nth-child(${j +
+                                1}) div.textarea`
+                        ).innerHTML = thisInformationDOM.innerHTML.slice(8);
+                    }
                 }
             }
         }

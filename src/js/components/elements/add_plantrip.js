@@ -169,7 +169,6 @@ class AddPlanTrip extends Component {
                     stateName: "map",
                     value: "plantrip_open"
                 });
-                alert("已修改旅程");
             } else {
                 /* 新增旅程 */
                 key = firebase

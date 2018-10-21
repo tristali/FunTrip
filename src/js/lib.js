@@ -89,7 +89,6 @@ app.cleanCreactPlanTrip = function() {
         item.innerHTML = "";
     });
     inputDOM.id = "";
-    app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
 };
 
 /* Google map */
@@ -189,7 +188,10 @@ app.autocomplete = function(map, thisEnvironment) {
                         if (place.opening_hours) {
                             let openingArray = place.opening_hours.weekday_text;
                             for (let i = 0; i < openingArray.length; i += 1) {
-                                opening += openingArray[i] + "<br />";
+                                if(i===0){
+                                    opening = openingArray[i];
+                                }
+                                opening += `<br /> ${openingArray[i]}`;
                             }
                         }
 

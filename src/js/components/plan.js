@@ -31,6 +31,8 @@ class Plan extends Component {
             all_week_array: "",
             /* 當前為關閉 "hide" 新增 "Add" 或修改 "Edit" 行程狀態 */
             creact_plantrip: "hide",
+            /* 當前顯示日曆第幾天 */
+            current_day: "#D_1",
             /* map 地圖顯示資料 */
             map_center: {
                 lat: 23.6,
@@ -45,7 +47,7 @@ class Plan extends Component {
         this.handleDelCreactPlanTrip = this.handleDelCreactPlanTrip.bind(this);
     }
     render() {
-        console.log(this.state,"ddddddddddddddddd")
+        console.log(this.state, "888888888");
         if (this.state.redirect) {
             return <Redirect to="/profile" />;
         }
@@ -113,16 +115,15 @@ class Plan extends Component {
             .id;
         if (currentPlanDOM) {
             detailedKey = currentPlanDOM;
-            alert("此景點已刪除");
-        } else {
-            alert("無此景點可以刪除");
         }
+
         firebase
             .database()
             .ref(`${detailedPath}/${detailedKey}`)
             .remove();
         /* 修改/新增行程資料清空 */
         app.cleanCreactPlanTrip();
+        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
 
         this.props.handleStateChange({
             stateName: "map",
@@ -291,7 +292,7 @@ function updatePlanInformation(thisEnvironment) {
             //             }
             //         }
             //     }
-            // } 
+            // }
             //else if (navigator.geolocation) {
             //     /* 判斷使用者是否有同意分享目前座標權限 */
             //     navigator.geolocation.getCurrentPosition(position => {

@@ -8,7 +8,11 @@ const PlanTripBottom = props => {
     return (
         <div className="bottom">
             {/* 判斷當前是否有旅程資料 */ props.planState.all_day_array && (
-                <PlanTripDate state={props.state} planState={props.planState} />
+                <PlanTripDate
+                    state={props.state}
+                    planState={props.planState}
+                    handlePlanStateChange={props.handlePlanStateChange}
+                />
             )}
             <PlanTripSchedule
                 addPlanTrip={props.addPlanTrip}

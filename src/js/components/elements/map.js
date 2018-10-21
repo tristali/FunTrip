@@ -2,8 +2,32 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/map.scss";
 import app from "../../lib";
-import * as firebase from "firebase";
 
+/* locations icon */
+import activity from "../../../img/location_icon/activity.png";
+import airplane from "../../../img/location_icon/airplane.png";
+import car from "../../../img/location_icon/car.png";
+import drink from "../../../img/location_icon/drink.png";
+import food from "../../../img/location_icon/food.png";
+import lodge from "../../../img/location_icon/lodge.png";
+import shopping from "../../../img/location_icon/shopping.png";
+import ticket from "../../../img/location_icon/ticket.png";
+import train from "../../../img/location_icon/train.png";
+import transport from "../../../img/location_icon/transport.png";
+import location_bg from "../../../img/location_icon/location_bg.png";
+import marker_clusterer from "../../../img/location_icon/marker_clusterer.png";
+// const LOCATIONS_ICON_ARRAY = [
+//     activity,
+//     airplane,
+//     car,
+//     drink,
+//     food,
+//     lodge,
+//     shopping,
+//     ticket,
+//     train,
+//     transport
+// ];
 class Map extends Component {
     constructor(props) {
         super(props);
@@ -42,33 +66,14 @@ class Map extends Component {
         }
     }
 
+    /* 抓取 Database 所有此旅程資料 */
     componentDidUpdate(prevProps) {
         if (
-            prevProps.planState.map_center !== this.props.planState.map_center
-        ) {
-            /* google map 初始化 */
-            const state = this.props.planState;
-            let map_center = {
-                lat: state.map_center.lat,
-                lng: state.map_center.lng
-            };
-            let options = {
-                zoom: state.map_zoom,
-                center: map_center
-            };
-            let map = new google.maps.Map(app.get(".map"), options);
-
-            /* 標記地點起手式 */
-            let marker = new google.maps.Marker({
-                map: map,
-                position: map_center
-            });
-        }
-
-        /* 抓取 Database 所有此旅程資料 google map 標記多個位置  */
-        if (
+            prevProps.planState.map_center !==
+                this.props.planState.map_center ||
             prevProps.planState.all_detailed_obj !==
-            this.props.planState.all_detailed_obj
+                this.props.planState.all_detailed_obj ||
+            prevProps.planState.current_day !== this.props.planState.current_day
         ) {
             /* google map 初始化 */
             const state = this.props.planState;
@@ -82,46 +87,17 @@ class Map extends Component {
             };
             let map = new google.maps.Map(app.get(".map"), options);
 
-            // // 載入路線服務與路線顯示圖層
-            // let directionsService = new google.maps.DirectionsService();
-            // let directionsDisplay = new google.maps.DirectionsRenderer();
-            // // 放置路線圖層
-            // directionsDisplay.setMap(map);
-
-            // let waypts = [
-            //     {
-            //         location: { lat: 25.0128364, lng: 121.4693593 },
-            //         stopover: true
-            //     },
-            //     {
-            //         location: { lat: 25.0424825, lng: 121.5626854 },
-            //         stopover: true
-            //     },
-            //     {
-            //         location: { lat: 25.0424825, lng: 121.5626854 },
-            //         stopover: true
-            //     }
-            // ];
-
-            // // 路線相關設定
-            // var request = {
-            //     origin: { lat: 25.0424825, lng: 121.5626854 },
-            //     destination: { lat: 25.0471826, lng: 121.5150107 },
-            //     waypoints: waypts,
-            //     optimizeWaypoints: true,
-            //     travelMode: "DRIVING"
-            // };
-
-            // // 繪製路線
-            // directionsService.route(request, function(result, status) {
-            //     if (status == "OK") {
-            //         // 回傳路線上每個步驟的細節
-            //         // console.log(result.routes[0].legs[0].steps);
-            //         directionsDisplay.setDirections(result);
-            //     } else {
-            //         // console.log(status);
-            //     }
-            // });
+            if (
+                prevProps.planState.map_center !==
+                this.props.planState.map_center
+            ) {
+                /* 標記地點起手式 */
+                let marker = new google.maps.Marker({
+                    map: map,
+                    position: map_center,
+                    icon: location_bg
+                });
+            }
 
             /* google map 標記多個位置 */
             let all_detailed_obj = this.props.planState.all_detailed_obj;
@@ -136,7 +112,41 @@ class Map extends Component {
                     let category = informationItem.category;
                     let address = informationItem.information.general_0;
                     let web = informationItem.information.general_3;
+
+                    let location_icon;
+                    if (category.split("_")[1] === "activity") {
+                        location_icon = activity;
+                    }
+                    if (category.split("_")[1] === "airplane") {
+                        location_icon = airplane;
+                    }
+                    if (category.split("_")[1] === "car") {
+                        location_icon = car;
+                    }
+                    if (category.split("_")[1] === "drink") {
+                        location_icon = drink;
+                    }
+                    if (category.split("_")[1] === "food") {
+                        location_icon = food;
+                    }
+                    if (category.split("_")[1] === "lodge") {
+                        location_icon = lodge;
+                    }
+                    if (category.split("_")[1] === "shopping") {
+                        location_icon = shopping;
+                    }
+                    if (category.split("_")[1] === "ticket") {
+                        location_icon = ticket;
+                    }
+                    if (category.split("_")[1] === "train") {
+                        location_icon = train;
+                    }
+                    if (category.split("_")[1] === "transport") {
+                        location_icon = transport;
+                    }
+
                     let thisLocationObj = {
+                        icon: location_icon,
                         location: location,
                         name: `<div class="title clearfix"><div class="${
                             category.split("_")[0]
@@ -146,9 +156,9 @@ class Map extends Component {
                         address: `<div class="address">${address}</div>`
                     };
                     if (web) {
-                        thisLocationObj.web = `<div class="web"><a target= _blank href="${
+                        thisLocationObj.web = `<div class="web">${
                             web.split("<br />")[1]
-                        }">${web.split("<br />")[1]}</a></div>`;
+                        }</div>`;
                     }
                     if (address) {
                         thisLocationObj.address = `<div class="address">${
@@ -161,7 +171,7 @@ class Map extends Component {
                 let markers = locationsArray.map(location => {
                     return new google.maps.Marker({
                         position: location[0].location,
-                        icon: location[1]
+                        icon: location[0].icon
                     });
                 });
 
@@ -184,9 +194,59 @@ class Map extends Component {
                 }
 
                 let markerCluster = new MarkerClusterer(map, markers, {
-                    imagePath:
-                        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+                    styles: [
+                        {
+                            url: marker_clusterer,
+                            height: 65,
+                            width: 65,
+                            textColor: "white",
+                            textSize: 15
+                        }
+                    ],
+                    gridSize: 100,
+                    minimumClusterSize: 3
                 });
+
+                /* 景點連線 */
+                let currentDayTextDOMArray = app.getAll(
+                    `${this.props.planState.current_day} li.text`
+                );
+
+                // Define a symbol using a predefined path (an arrow)
+                // supplied by the Google Maps JavaScript API.
+                const lineSymbol = {
+                    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+                    strokeColor: "rgba(31, 162, 255, .8)",
+                    scale: 2.5
+                };
+
+                /* 取得當天所有點的經緯度 */
+                let currentDayAllLocations = [];
+                for (let i = 0; i < currentDayTextDOMArray.length; i++) {
+                    let currentDayTextDOMId = currentDayTextDOMArray[i].id;
+                    if (currentDayTextDOMId) {
+                        currentDayAllLocations.push({
+                            lat: Number(currentDayTextDOMId.split("_")[1]),
+                            lng: Number(currentDayTextDOMId.split("_")[3])
+                        });
+                    }
+                }
+                for (let i = 0; i < currentDayAllLocations.length - 1; i++) {
+                    let path = [];
+                    path.push(currentDayAllLocations[i]);
+                    path.push(currentDayAllLocations[i + 1]);
+                    new google.maps.Polyline({
+                        path: path,
+                        icons: [
+                            {
+                                icon: lineSymbol,
+                                offset: "47%"
+                            }
+                        ],
+                        map: map,
+                        strokeColor: "rgba(31,162,255,.8)"
+                    });
+                }
             }
         }
     }

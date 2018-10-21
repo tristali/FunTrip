@@ -25,8 +25,8 @@ class PlanTripDate extends Component {
         this.state = {
             /* 當前顯示日曆型態 */
             current_type: "Day",
-            /* 當前顯示日曆第幾天 */
-            current_day: "#D_1",
+            // /* 當前顯示日曆第幾天 */
+            // current_day: "#D_1",
             /* 抓取每張日曆寬度 */
             every_date_width: "",
             /* 當前輪播定位 */
@@ -70,7 +70,9 @@ class PlanTripDate extends Component {
                     key={`calendar_${i}`}
                     onClick={() => this.handleCategoryChange(`#D_${i}`)}
                     className={
-                        this.state.current_day === `#D_${i}` ? "current" : null
+                        this.props.planState.current_day === `#D_${i}`
+                            ? "current"
+                            : null
                     }
                     style={{ width: everyDateWidth }}
                 >
@@ -136,7 +138,11 @@ class PlanTripDate extends Component {
         if (this.state.current_type !== "Day") {
             this.setState({ current_type: thisMonth });
         }
-        this.setState({ current_day: current_day });
+        this.props.handlePlanStateChange({
+            stateName: "current_day",
+            value: current_day
+        });
+        // this.setState({ current_day: current_day });
     }
     /* 改變 current_type 狀態 */
     handleCurrentType() {

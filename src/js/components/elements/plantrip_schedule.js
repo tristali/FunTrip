@@ -70,7 +70,7 @@ class PlanTripDay extends Component {
         return (
             <div id={`D_${this.props.day}`}>
                 <h3 className="clearfix">
-                    <div>{`Day${this.props.number}`}</div>
+                    <div>{`Day${this.props.number}`}</div><div>-</div>
                     <div>{`${month} ${date} , ${year}`}</div>
                 </h3>
                 <PlanTripAllDetails

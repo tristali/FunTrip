@@ -106,6 +106,7 @@ class PlanTripDetails extends Component {
         super(props);
         this.state = {};
         this.handleMapDisplay = this.handleMapDisplay.bind(this);
+        this.handleRemarksToggle = this.handleRemarksToggle.bind(this);
     }
     render() {
         const informationObj = this.props.informationObj;
@@ -156,7 +157,7 @@ class PlanTripDetails extends Component {
                     />
                 </ul>
                 <div className="clearfix remarks">
-                    <div>
+                    <div onClick={this.handleRemarksToggle}>
                         <ul>{PlanInformationDOM}</ul>
                     </div>
                 </div>
@@ -179,6 +180,16 @@ class PlanTripDetails extends Component {
             stateName: "map_zoom",
             value: 17
         });
+    }
+
+    /* 判斷展開或收起景點資訊 */
+    handleRemarksToggle(e) {
+        console.log(e.currentTarget);
+        if (!e.currentTarget.className) {
+            e.currentTarget.className = "expand";
+        } else {
+            e.currentTarget.className = "";
+        }
     }
 
     componentDidMount() {
