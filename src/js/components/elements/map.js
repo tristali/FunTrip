@@ -16,18 +16,21 @@ import train from "../../../img/location_icon/train.png";
 import transport from "../../../img/location_icon/transport.png";
 import location_bg from "../../../img/location_icon/location_bg.png";
 import marker_clusterer from "../../../img/location_icon/marker_clusterer.png";
-// const LOCATIONS_ICON_ARRAY = [
-//     activity,
-//     airplane,
-//     car,
-//     drink,
-//     food,
-//     lodge,
-//     shopping,
-//     ticket,
-//     train,
-//     transport
-// ];
+
+/* location icon */
+const LOCATIONS_ICON_OBJ = {
+    activity: activity,
+    airplane: airplane,
+    car: car,
+    drink: drink,
+    food: food,
+    lodge: lodge,
+    shopping: shopping,
+    ticket: ticket,
+    train: train,
+    transport: transport
+};
+
 class Map extends Component {
     constructor(props) {
         super(props);
@@ -114,35 +117,18 @@ class Map extends Component {
                     let web = informationItem.information.general_3;
 
                     let location_icon;
-                    if (category.split("_")[1] === "activity") {
-                        location_icon = activity;
-                    }
-                    if (category.split("_")[1] === "airplane") {
-                        location_icon = airplane;
-                    }
-                    if (category.split("_")[1] === "car") {
-                        location_icon = car;
-                    }
-                    if (category.split("_")[1] === "drink") {
-                        location_icon = drink;
-                    }
-                    if (category.split("_")[1] === "food") {
-                        location_icon = food;
-                    }
-                    if (category.split("_")[1] === "lodge") {
-                        location_icon = lodge;
-                    }
-                    if (category.split("_")[1] === "shopping") {
-                        location_icon = shopping;
-                    }
-                    if (category.split("_")[1] === "ticket") {
-                        location_icon = ticket;
-                    }
-                    if (category.split("_")[1] === "train") {
-                        location_icon = train;
-                    }
-                    if (category.split("_")[1] === "transport") {
-                        location_icon = transport;
+
+                    /* 利用分類判斷 location icon */
+                    const LOCATIONS_ICON_OBJ_KEY = Object.keys(
+                        LOCATIONS_ICON_OBJ
+                    );
+                    for (let i = 0; i < LOCATIONS_ICON_OBJ_KEY.length; i++) {
+                        if (
+                            category.split("_")[1] === LOCATIONS_ICON_OBJ_KEY[i]
+                        ) {
+                            location_icon =
+                                LOCATIONS_ICON_OBJ[LOCATIONS_ICON_OBJ_KEY[i]];
+                        }
                     }
 
                     let thisLocationObj = {
@@ -193,6 +179,7 @@ class Map extends Component {
                     });
                 }
 
+                /* 多個聚集點 */
                 let markerCluster = new MarkerClusterer(map, markers, {
                     styles: [
                         {
@@ -204,7 +191,7 @@ class Map extends Component {
                         }
                     ],
                     gridSize: 100,
-                    minimumClusterSize: 3
+                    minimumClusterSize: 5
                 });
 
                 /* 景點連線 */
@@ -214,9 +201,10 @@ class Map extends Component {
 
                 // Define a symbol using a predefined path (an arrow)
                 // supplied by the Google Maps JavaScript API.
+                /* 箭頭指標 */
                 const lineSymbol = {
                     path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-                    strokeColor: "rgba(31, 162, 255, .8)",
+                    strokeColor: "rgba(31, 162, 255, .6)",
                     scale: 2.5
                 };
 
@@ -244,7 +232,7 @@ class Map extends Component {
                             }
                         ],
                         map: map,
-                        strokeColor: "rgba(31,162,255,.8)"
+                        strokeColor: "rgba(31,162,255,.6)"
                     });
                 }
             }

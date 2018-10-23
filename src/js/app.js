@@ -13,6 +13,7 @@ firebase.initializeApp(app.firebase.config);
 class App extends Component {
     constructor(props) {
         super(props);
+        // this.list =
         this.state = {
             user: {
                 name: "",
@@ -22,6 +23,8 @@ class App extends Component {
                 photoURL: "",
                 plan: ""
             },
+            /* 記錄此使用者所有 plan */
+            all_plan: "",
             /* 當下的旅程 */
             current_plan: "",
             /* 新增修改旅程 DOM 狀態 */
@@ -120,6 +123,9 @@ class App extends Component {
 
     /* Signout */
     handleSignout() {
+        if (location.href.includes("plan")) {
+            location.href = "/plan";
+        }
         this.setState({
             popup: "hide",
             popup_state: ""
@@ -165,6 +171,7 @@ class App extends Component {
                     password: "",
                     photoURL: firebaseUser.photoURL
                 });
+                /* 取得使用者資料 */
                 firebase
                     .database()
                     .ref("/users/" + firebaseUser.uid)
@@ -183,6 +190,18 @@ class App extends Component {
                             plan_trip: thisStatePlanTrip,
                             map: thisStateMap
                         });
+                    });
+
+                /* 取得此使用者旅程資料 */
+                firebase
+                    .database()
+                    .ref()
+                    .child("plans")
+                    .orderByChild("author")
+                    .equalTo(firebaseUser.uid)
+                    .on("value", function(snapshot) {
+                        const plan = snapshot.val();
+                        thisEnvironment.setState({ all_plan: plan });
                     });
 
                 this.setState({

@@ -9,7 +9,7 @@ const PlanTripBottom = props => {
         <div className="bottom">
             {/* 判斷當前是否有旅程資料 */ props.planState.all_day_array && (
                 <PlanTripDate
-                    state={props.state}
+                    // state={props.planTripState}
                     planState={props.planState}
                     handlePlanStateChange={props.handlePlanStateChange}
                 />
@@ -17,7 +17,7 @@ const PlanTripBottom = props => {
             <PlanTripSchedule
                 addPlanTrip={props.addPlanTrip}
                 editPlanTrip={props.editPlanTrip}
-                state={props.state}
+                planTripState={props.planTripState}
                 planState={props.planState}
                 handlePlanStateChange={props.handlePlanStateChange}
                 handleStateChange={props.handleStateChange}

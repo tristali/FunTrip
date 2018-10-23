@@ -25,6 +25,7 @@ class AddPlanTrip extends Component {
     }
 
     render() {
+        // console.log(this.state,"dddd");
         if (this.state.redirect) {
             return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
         }
@@ -121,6 +122,16 @@ class AddPlanTrip extends Component {
                 stateName: "add_plantrip",
                 value: "hide"
             });
+            if (location.href.includes("plan")) {
+                this.props.handleStateChange({
+                    stateName: "plan_trip",
+                    value: ""
+                });
+                this.props.handleStateChange({
+                    stateName: "map",
+                    value: "plantrip_open"
+                });
+            }
         }
     }
 
@@ -203,20 +214,40 @@ class AddPlanTrip extends Component {
                 stateName: "add_plantrip",
                 value: "hide"
             });
-            /* 上傳此旅程資訊 */
-            firebase
-                .database()
-                .ref(`plans/${key}`)
-                .set({
-                    name: state.trip_name,
-                    start: startDate,
-                    end: lastDate,
-                    day: state.day,
-                    author: uid,
-                    plan_id: key,
-                    all_day_array: allDayArray,
-                    all_week_array: allWeekArray
-                });
+            if (
+                this.props.state.add_plantrip_id &&
+                this.props.state.add_plantrip === "EDIT"
+            ) {
+                /* 上傳此旅程資訊 */
+                firebase
+                    .database()
+                    .ref(`plans/${key}`)
+                    .update({
+                        name: state.trip_name,
+                        start: startDate,
+                        end: lastDate,
+                        day: state.day,
+                        author: uid,
+                        plan_id: key,
+                        all_day_array: allDayArray,
+                        all_week_array: allWeekArray
+                    });
+            } else {
+                /* 上傳此旅程資訊 */
+                firebase
+                    .database()
+                    .ref(`plans/${key}`)
+                    .set({
+                        name: state.trip_name,
+                        start: startDate,
+                        end: lastDate,
+                        day: state.day,
+                        author: uid,
+                        plan_id: key,
+                        all_day_array: allDayArray,
+                        all_week_array: allWeekArray
+                    });
+            }
 
             if (this.props.state.add_plantrip === "NEW") {
                 this.setState({

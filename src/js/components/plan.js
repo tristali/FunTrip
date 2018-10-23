@@ -47,7 +47,6 @@ class Plan extends Component {
         this.handleDelCreactPlanTrip = this.handleDelCreactPlanTrip.bind(this);
     }
     render() {
-        console.log(this.state, "888888888");
         if (this.state.redirect) {
             return <Redirect to="/profile" />;
         }
@@ -206,7 +205,8 @@ class Plan extends Component {
                 if (!location.href.includes("?id=")) {
                     redirectState = true;
                 } else {
-                    let thisPlanId = location.href.split("?id=")[1];
+                    // let thisPlanId = location.href.split("?id=")[1];
+                    let thisPlanId = this.props.state.current_plan;
                     redirectState = true;
                     firebase
                         .database()

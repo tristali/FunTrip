@@ -15,7 +15,9 @@ class PlanTripTop extends Component {
                 key={`category_${index}`}
                 onClick={() => this.props.handleCategoryChange(item)}
                 className={
-                    this.props.state.category === item ? "current" : null
+                    this.props.planTripState.category === item
+                        ? "current"
+                        : null
                 }
             >
                 {item}
@@ -24,14 +26,20 @@ class PlanTripTop extends Component {
         return (
             <div className="top">
                 <div className="del">
-                    <div 
-                        onClick={() => this.props.handlePopup("del_trip")}
-                    >del</div>
+                    <div onClick={() => this.props.handlePopup("del_trip")}>
+                        del
+                    </div>
                 </div>
                 <div className="top_text">
                     <div className="title_date">
-                        <ul onClick={() =>
-                            this.props.handleOpenAddPlan({ value: "EDIT", id: location.href.split("?id=")[1]})}>
+                        <ul
+                            onClick={() =>
+                                this.props.handleOpenAddPlan({
+                                    value: "EDIT",
+                                    id: this.props.state.current_plan
+                                })
+                            }
+                        >
                             <li className="title">
                                 {this.props.planState.name}
                             </li>

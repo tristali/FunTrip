@@ -54,9 +54,9 @@ app.firebase_signInWithPopup = function(
             });
         })
         .catch(function(error) {
-            console.log(error.code, "dddd");
-            console.log(error.email, "dddd");
-            console.log(error.credential, "dddd");
+            // console.log(error.code, "dddd");
+            // console.log(error.email, "dddd");
+            // console.log(error.credential, "dddd");
             if (error.code == "auth/account-exists-with-different-credential") {
                 alert(
                     `您好，此信箱 ( ${

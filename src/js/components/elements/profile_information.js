@@ -7,15 +7,13 @@ import * as firebase from "firebase";
 class ProfileInformation extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            all_trip: ""
-        };
+        this.state = {};
     }
     render() {
         /* creact 每個旅程 */
         let allTripArray;
         let allPlan = this.props.state.user.plan;
-        let allTrip = this.state.all_trip;
+        let allTrip = this.props.state.all_plan;
         let finishCount = 0;
         let unfinishCount = 0;
         let triping = 0;
@@ -174,15 +172,14 @@ class ProfileInformation extends Component {
             </div>
         );
     }
-    componentDidMount() {
-        /* 抓取 Database 所有此旅程資料 */
-        const thisEnvironment = this;
-        const planPath = firebase.database().ref("plans");
-        planPath.on("value", snapshot => {
-            const plan = snapshot.val();
-            thisEnvironment.setState({ all_trip: plan });
-        });
-    }
+    // componentDidMount() {
+    //     if (!this.props.state.user.plan) {
+    //         this.props.handleStateChange({
+    //             stateName: "loading",
+    //             value: false
+    //         });
+    //     }
+    // }
 }
 export default ProfileInformation;
 
@@ -200,7 +197,7 @@ class AllTrip extends Component {
             return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
         }
         return (
-            <li id={this.props.id} className={this.props.thisTripState}>
+            <li className={this.props.thisTripState}>
                 <div onClick={() => this.handleOpenThisPlan(this.props.id)}>
                     <ul className={this.props.className}>
                         <li>{this.props.name}</li>

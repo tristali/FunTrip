@@ -184,7 +184,7 @@ class PlanTripDetails extends Component {
 
     /* 判斷展開或收起景點資訊 */
     handleRemarksToggle(e) {
-        console.log(e.currentTarget);
+        // console.log(e.currentTarget);
         if (!e.currentTarget.className) {
             e.currentTarget.className = "expand";
         } else {

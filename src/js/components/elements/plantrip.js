@@ -65,8 +65,9 @@ class PlanTrip extends Component {
             >
                 <div>
                     <PlanTripTop
+                        state={this.props.state}
                         handleCategoryChange={this.handleCategoryChange}
-                        state={this.state}
+                        planTripState={this.state}
                         handleDelTrip={this.props.handleDelTrip}
                         planState={this.props.planState}
                         handleStateChange={this.props.handleStateChange}
@@ -76,7 +77,7 @@ class PlanTrip extends Component {
                     <PlanTripBottom
                         addPlanTrip={this.addPlanTrip}
                         editPlanTrip={this.editPlanTrip}
-                        state={this.state}
+                        planTripState={this.state}
                         planState={this.props.planState}
                         handlePlanStateChange={this.props.handlePlanStateChange}
                         handleStateChange={this.props.handleStateChange}
@@ -129,7 +130,6 @@ class PlanTrip extends Component {
         );
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         thisPlanDetailedDOM.classList.add("current");
-        // this.setState({ creact_plantrip: "Add" });
         this.props.handlePlanStateChange({
             stateName: "creact_plantrip",
             value: "Add"
