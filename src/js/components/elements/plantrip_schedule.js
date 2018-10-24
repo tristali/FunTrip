@@ -3,22 +3,6 @@ import ReactDOM from "react-dom";
 import "../../../scss/plantrip_schedule.scss";
 import PlanTripAllDetails from "./plantrip_all_details";
 
-/* 月份縮寫對照 */
-const MONTH_ABBEVIATION = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-];
-
 class PlanTripSchedule extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +14,7 @@ class PlanTripSchedule extends Component {
         for (let i = 0; i < Number(this.props.planState.totalDay); i++) {
             let number;
             if (i < 9) {
-                number = "0" + (i+1);
+                number = "0" + (i + 1);
             } else {
                 number = i;
             }
@@ -44,6 +28,7 @@ class PlanTripSchedule extends Component {
                     day={i}
                     handlePlanStateChange={this.props.handlePlanStateChange}
                     handleStateChange={this.props.handleStateChange}
+                    list={this.props.list}
                 />
             );
         }
@@ -65,10 +50,12 @@ class PlanTripDay extends Component {
     render() {
         let thisDate = this.props.planState.all_day_array[this.props.day];
         let year = thisDate.split("/")[0];
-        let month = MONTH_ABBEVIATION[Number(thisDate.split("/")[1])];
+        let month = this.props.list.MONTH_ABBEVIATION[
+            Number(thisDate.split("/")[1])-1
+        ];
         let date = thisDate.split("/")[2];
         return (
-            <div id={`D_${this.props.day+1}`}>
+            <div id={`D_${this.props.day + 1}`}>
                 <h3 className="clearfix">
                     <div>{`Day${this.props.number}`}</div>
                     <div>-</div>

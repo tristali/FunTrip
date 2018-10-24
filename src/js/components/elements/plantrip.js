@@ -7,25 +7,6 @@ import app from "../../lib";
 import "../../../scss/plantrip.scss";
 import * as firebase from "firebase";
 
-/* 行程的類別及較小類別 */
-const DETAIL_CATEGORY_OBJ = {
-    Transport: ["transport", "airplane", "train", "car"],
-    Lodge: ["lodge"],
-    Food: ["food", "drink"],
-    Activity: ["activity", "shopping", "ticket"]
-};
-
-/* Information 輸入框 */
-const INFORMATION_OBJ = {
-    time: ["預計時間"],
-    lodge: ["住宿資訊", "最早入住", "最晚退房"],
-    bonus: ["優惠資訊"],
-    wishlist: ["願望清單"],
-    ticket: ["票務資訊"],
-    general: ["所在地址", "服務電話", "營業時間", "官方網站"],
-    remarks: ["附註事項"]
-};
-
 class PlanTrip extends Component {
     constructor(props) {
         super(props);
@@ -36,6 +17,25 @@ class PlanTrip extends Component {
             select_category: "Transport",
             /* 當前行程小類別 */
             category_detail: "transport"
+        };
+        this.list = {
+            /* 行程的類別及較小類別 */
+            DETAIL_CATEGORY_OBJ: {
+                Transport: ["transport", "airplane", "train", "car"],
+                Lodge: ["lodge"],
+                Food: ["food", "drink"],
+                Activity: ["activity", "shopping", "ticket"]
+            },
+            /* Information 輸入框 */
+            INFORMATION_OBJ: {
+                time: ["預計時間"],
+                lodge: ["住宿資訊", "最早入住", "最晚退房"],
+                bonus: ["優惠資訊"],
+                wishlist: ["願望清單"],
+                ticket: ["票務資訊"],
+                general: ["所在地址", "服務電話", "營業時間", "官方網站"],
+                remarks: ["附註事項"]
+            }
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.addPlanTrip = this.addPlanTrip.bind(this);
@@ -55,6 +55,7 @@ class PlanTrip extends Component {
         );
     }
     render() {
+        console.log(this.state, "aaaaaaaaaaaaaaaaaaaa");
         return (
             <div
                 className={`plantrip clearfix ${this.props.state.plan_trip} ${
@@ -103,6 +104,7 @@ class PlanTrip extends Component {
                         }
                         handlePopup={this.props.handlePopup}
                         handlePlanStateChange={this.props.handlePlanStateChange}
+                        list={this.list}
                     />
                 </div>
             </div>
@@ -192,9 +194,11 @@ class PlanTrip extends Component {
             value: thisPlanTextDOM.textContent
         });
         /* information 各項目 */
-        let OverviewObjKey = Object.keys(INFORMATION_OBJ);
+        let OverviewObjKey = Object.keys(this.list.INFORMATION_OBJ);
         for (let i = 0; i < OverviewObjKey.length; i++) {
-            let OverviewCategoryArray = INFORMATION_OBJ[OverviewObjKey[i]];
+            let OverviewCategoryArray = this.list.INFORMATION_OBJ[
+                OverviewObjKey[i]
+            ];
             for (let j = 0; j < OverviewCategoryArray.length; j++) {
                 let thisInformationDOM = app.get(
                     `#${thisPlan} li.${OverviewObjKey[i]}_${j}`
@@ -255,7 +259,7 @@ class PlanTrip extends Component {
     handleSelectCategory(category_name) {
         this.setState({ select_category: category_name });
         this.setState({
-            category_detail: DETAIL_CATEGORY_OBJ[category_name][0]
+            category_detail: this.list.DETAIL_CATEGORY_OBJ[category_name][0]
         });
     }
 

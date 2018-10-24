@@ -4,8 +4,6 @@ import { Redirect } from "react-router-dom";
 import * as firebase from "firebase";
 import "../../../scss/add_plan_trip.scss";
 
-/* 星期對照表 */
-const WEEK_ARRAY = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 class AddPlanTrip extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +15,10 @@ class AddPlanTrip extends Component {
             all_day_array: "",
             redirect: false,
             plan_id: ""
+        };
+        this.list = {
+            /* 星期對照表 */
+            WEEK_ARRAY: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
         };
         this.handleAddPlan = this.handleAddPlan.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -158,7 +160,7 @@ class AddPlanTrip extends Component {
             for (let i = 0; i < state.day; i++) {
                 let thisDate = new Date(startDate).addDays(i);
                 allDayArray.push(getDate(thisDate, "/"));
-                allWeekArray.push(WEEK_ARRAY[thisDate.getDay()]);
+                allWeekArray.push(this.list.WEEK_ARRAY[thisDate.getDay()]);
             }
 
             /* 上傳此 ID */

@@ -17,24 +17,25 @@ import transport from "../../../img/location_icon/transport.png";
 import location_bg from "../../../img/location_icon/location_bg.png";
 import marker_clusterer from "../../../img/location_icon/marker_clusterer.png";
 
-/* location icon */
-const LOCATIONS_ICON_OBJ = {
-    activity: activity,
-    airplane: airplane,
-    car: car,
-    drink: drink,
-    food: food,
-    lodge: lodge,
-    shopping: shopping,
-    ticket: ticket,
-    train: train,
-    transport: transport
-};
-
 class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.list = {
+            /* location icon */
+            LOCATIONS_ICON_OBJ: {
+                activity: activity,
+                airplane: airplane,
+                car: car,
+                drink: drink,
+                food: food,
+                lodge: lodge,
+                shopping: shopping,
+                ticket: ticket,
+                train: train,
+                transport: transport
+            }
+        };
     }
     render() {
         return <div className={`map ${this.props.state.map}`} />;
@@ -124,7 +125,7 @@ class Map extends Component {
 
                             /* 利用分類判斷 location icon */
                             const LOCATIONS_ICON_OBJ_KEY = Object.keys(
-                                LOCATIONS_ICON_OBJ
+                                this.list.LOCATIONS_ICON_OBJ
                             );
                             for (
                                 let i = 0;
@@ -135,10 +136,10 @@ class Map extends Component {
                                     category.split("_")[1] ===
                                     LOCATIONS_ICON_OBJ_KEY[i]
                                 ) {
-                                    location_icon =
-                                        LOCATIONS_ICON_OBJ[
-                                            LOCATIONS_ICON_OBJ_KEY[i]
-                                        ];
+                                    location_icon = this.list
+                                        .LOCATIONS_ICON_OBJ[
+                                        LOCATIONS_ICON_OBJ_KEY[i]
+                                    ];
                                 }
                             }
 

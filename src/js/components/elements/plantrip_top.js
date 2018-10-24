@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/plantrip_top.scss";
 
-const categoryArray = ["All", "Transport", "Lodge", "Food", "Activity"];
-
 class PlanTripTop extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.list = {
+            categoryArray: ["All", "Transport", "Lodge", "Food", "Activity"]
+        };
     }
     render() {
-        let categoryArrayDOM = categoryArray.map((item, index) => (
+        let categoryArrayDOM = this.list.categoryArray.map((item, index) => (
             <li
                 key={`category_${index}`}
                 onClick={() => this.props.handleCategoryChange(item)}

@@ -3,22 +3,6 @@ import ReactDOM from "react-dom";
 import "../../../scss/plantrip_date.scss";
 import app from "../../lib";
 
-/* 月份縮寫對照 */
-const MONTH_ABBEVIATION = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-];
-
 class PlanTripDate extends Component {
     constructor(props) {
         super(props);
@@ -132,7 +116,9 @@ class PlanTripDate extends Component {
         });
         let thisDay = current_day.split("#D_")[1];
         let thisDate = this.props.planState.all_day_array[Number(thisDay) - 1];
-        let thisMonth = MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
+        let thisMonth = this.props.list.MONTH_ABBEVIATION[
+            Number(thisDate.split("/")[1]) - 1
+        ];
         if (this.state.current_type !== "Day") {
             this.setState({ current_type: thisMonth });
         }
@@ -149,8 +135,9 @@ class PlanTripDate extends Component {
             let thisDate = this.props.planState.all_day_array[
                 Number(thisDay) - 1
             ];
-            let thisMonth =
-                MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
+            let thisMonth = this.props.list.MONTH_ABBEVIATION[
+                Number(thisDate.split("/")[1]) - 1
+            ];
             this.setState({ current_type: thisMonth });
         } else {
             this.setState({ current_type: "Day" });

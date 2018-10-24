@@ -5,37 +5,19 @@ import app from "../../lib";
 import "../../../scss/creact_plantrip.scss";
 import * as firebase from "firebase";
 
-/* 行程的類別及較小類別 */
-const DETAIL_CATEGORY_OBJ = {
-    Transport: ["transport", "airplane", "train", "car"],
-    Lodge: ["lodge"],
-    Food: ["food", "drink"],
-    Activity: ["activity", "shopping", "ticket"]
-};
-
-/* Information 輸入框 */
-const INFORMATION_OBJ = {
-    time: ["預計時間"],
-    lodge: ["住宿資訊", "最早入住", "最晚退房"],
-    bonus: ["優惠資訊"],
-    wishlist: ["願望清單"],
-    ticket: ["票務資訊"],
-    general: ["所在地址", "服務電話", "營業時間", "官方網站"],
-    remarks: ["附註事項"]
-};
-
-/* 根據行程類別不需顯示的 Information 輸入框 */
-const HIDE_INFORMATION_OBJ = {
-    Transport: ["lodge", "bonus", "wishlist"],
-    Lodge: ["bonus", "wishlist", "ticket"],
-    Food: ["lodge", "ticket"],
-    Activity: ["lodge"]
-};
-
 class CreactPlanTrip extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.list = {
+            /* 根據行程類別不需顯示的 Information 輸入框 */
+            HIDE_INFORMATION_OBJ: {
+                Transport: ["lodge", "bonus", "wishlist"],
+                Lodge: ["bonus", "wishlist", "ticket"],
+                Food: ["lodge", "ticket"],
+                Activity: ["lodge"]
+            }
+        };
 
         this.handleInformationInputStateOnClick = this.handleInformationInputStateOnClick.bind(
             this
@@ -49,7 +31,9 @@ class CreactPlanTrip extends Component {
 
     render() {
         /* Create 行程類別 JSX */
-        const selectCategoryArray = Object.keys(DETAIL_CATEGORY_OBJ);
+        const selectCategoryArray = Object.keys(
+            this.props.list.DETAIL_CATEGORY_OBJ
+        );
 
         let selectCategoryArrayDOM = selectCategoryArray.map((item, index) => (
             <li
@@ -66,8 +50,9 @@ class CreactPlanTrip extends Component {
         ));
 
         /* Create 行程小類別 JSX */
-        let thisCategoryDetailArray =
-            DETAIL_CATEGORY_OBJ[this.props.planTripState.select_category];
+        let thisCategoryDetailArray = this.props.list.DETAIL_CATEGORY_OBJ[
+            this.props.planTripState.select_category
+        ];
 
         let selectCategory = this.props.planTripState.select_category.toLowerCase();
 
@@ -98,54 +83,63 @@ class CreactPlanTrip extends Component {
 
         /* Create Information 輸入框 <li> Element JSX*/
         function InformationDetailedDOM(
+            thisEnvironment,
             item,
             handleInformationInputStateOnClick,
             handleInformationInputStateOnBlur
         ) {
-            return INFORMATION_OBJ[item].map((detailedItemName, index) => (
-                <InformationDetailed
-                    detailedItemName={detailedItemName}
-                    key={index}
-                    index={index}
-                    handleInformationInputStateOnClick={
-                        handleInformationInputStateOnClick
-                    }
-                    handleInformationInputStateOnBlur={
-                        handleInformationInputStateOnBlur
-                    }
-                    item={item}
-                />
-            ));
+            return thisEnvironment.props.list.INFORMATION_OBJ[item].map(
+                (detailedItemName, index) => (
+                    <InformationDetailed
+                        detailedItemName={detailedItemName}
+                        key={index}
+                        index={index}
+                        handleInformationInputStateOnClick={
+                            handleInformationInputStateOnClick
+                        }
+                        handleInformationInputStateOnBlur={
+                            handleInformationInputStateOnBlur
+                        }
+                        item={item}
+                    />
+                )
+            );
         }
 
         /* Create Information 輸入框 <ul> Element JSX*/
-        let informationDOM = Object.keys(INFORMATION_OBJ).map((item, index) => (
-            <ul
-                key={`input_information_${index}`}
-                className={informationClass(
-                    this.props.planTripState.select_category,
-                    item
-                )}
-            >
-                {InformationDetailedDOM(
-                    item,
-                    this.handleInformationInputStateOnClick,
-                    this.handleInformationInputStateOnBlur,
-                    this.handleInformationTextInput
-                )}
-            </ul>
-        ));
+        let informationDOM = Object.keys(this.props.list.INFORMATION_OBJ).map(
+            (item, index) => (
+                <ul
+                    key={`input_information_${index}`}
+                    className={informationClass(
+                        this,
+                        this.props.planTripState.select_category,
+                        item
+                    )}
+                >
+                    {InformationDetailedDOM(
+                        this,
+                        item,
+                        this.handleInformationInputStateOnClick,
+                        this.handleInformationInputStateOnBlur,
+                        this.handleInformationTextInput
+                    )}
+                </ul>
+            )
+        );
 
         /* Creact Information 輸入框 <ul> Element className */
-        function informationClass(currentCategory, item) {
+        function informationClass(thisEnvironment, currentCategory, item) {
             let thisInformation;
-            HIDE_INFORMATION_OBJ[currentCategory].map((i, index) => {
-                if (item === i) {
-                    item === i
-                        ? (thisInformation = "hide")
-                        : (thisInformation = "");
+            thisEnvironment.list.HIDE_INFORMATION_OBJ[currentCategory].map(
+                (i, index) => {
+                    if (item === i) {
+                        item === i
+                            ? (thisInformation = "hide")
+                            : (thisInformation = "");
+                    }
                 }
-            });
+            );
             return `${item} ${thisInformation}`;
         }
 
@@ -271,7 +265,7 @@ class CreactPlanTrip extends Component {
             const informationObj = {};
             setInformation({
                 Obj: informationObj,
-                OverviewObj: INFORMATION_OBJ
+                OverviewObj: this.props.list.INFORMATION_OBJ
             });
 
             /* 把資料推進 Database */
