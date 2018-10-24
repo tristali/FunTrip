@@ -105,53 +105,66 @@ class Map extends Component {
             /* google map 標記多個位置 */
             let all_detailed_obj = this.props.planState.all_detailed_obj;
             if (all_detailed_obj) {
-                let locationsKeyArray = Object.keys(all_detailed_obj);
+                let locationsDayArray = Object.keys(all_detailed_obj);
                 let locationsArray = [];
-                for (let i = 0; i < locationsKeyArray.length; i++) {
-                    let informationItem =
-                        all_detailed_obj[locationsKeyArray[i]];
-                    let location = informationItem.location;
-                    let name = informationItem.name;
-                    let category = informationItem.category;
-                    let address = informationItem.information.general_0;
-                    let web = informationItem.information.general_3;
+                for (let i = 0; i < locationsDayArray.length; i++) {
+                    if (all_detailed_obj[i]) {
+                        let locationsKeyArray = Object.keys(
+                            all_detailed_obj[i]
+                        );
+                        for (let j = 0; j < locationsKeyArray.length; j++) {
+                            let informationItem = all_detailed_obj[i][j];
+                            let location = informationItem.location;
+                            let name = informationItem.name;
+                            let category = informationItem.category;
+                            let address = informationItem.information.general_0;
+                            let web = informationItem.information.general_3;
 
-                    let location_icon;
+                            let location_icon;
 
-                    /* 利用分類判斷 location icon */
-                    const LOCATIONS_ICON_OBJ_KEY = Object.keys(
-                        LOCATIONS_ICON_OBJ
-                    );
-                    for (let i = 0; i < LOCATIONS_ICON_OBJ_KEY.length; i++) {
-                        if (
-                            category.split("_")[1] === LOCATIONS_ICON_OBJ_KEY[i]
-                        ) {
-                            location_icon =
-                                LOCATIONS_ICON_OBJ[LOCATIONS_ICON_OBJ_KEY[i]];
+                            /* 利用分類判斷 location icon */
+                            const LOCATIONS_ICON_OBJ_KEY = Object.keys(
+                                LOCATIONS_ICON_OBJ
+                            );
+                            for (
+                                let i = 0;
+                                i < LOCATIONS_ICON_OBJ_KEY.length;
+                                i++
+                            ) {
+                                if (
+                                    category.split("_")[1] ===
+                                    LOCATIONS_ICON_OBJ_KEY[i]
+                                ) {
+                                    location_icon =
+                                        LOCATIONS_ICON_OBJ[
+                                            LOCATIONS_ICON_OBJ_KEY[i]
+                                        ];
+                                }
+                            }
+
+                            let thisLocationObj = {
+                                icon: location_icon,
+                                location: location,
+                                name: `<div class="title clearfix"><div class="${
+                                    category.split("_")[0]
+                                } ${
+                                    category.split("_")[1]
+                                }"></div><div>${name}</div></div>`,
+                                address: `<div class="address">${address}</div>`
+                            };
+                            if (web) {
+                                thisLocationObj.web = `<div class="web">${
+                                    web.split("<br />")[1]
+                                }</div>`;
+                            }
+                            if (address) {
+                                thisLocationObj.address = `<div class="address">${
+                                    address.split("<br />")[1]
+                                }</div>`;
+                            }
+                            locationsArray.push([thisLocationObj]);
                         }
                     }
-
-                    let thisLocationObj = {
-                        icon: location_icon,
-                        location: location,
-                        name: `<div class="title clearfix"><div class="${
-                            category.split("_")[0]
-                        } ${
-                            category.split("_")[1]
-                        }"></div><div>${name}</div></div>`,
-                        address: `<div class="address">${address}</div>`
-                    };
-                    if (web) {
-                        thisLocationObj.web = `<div class="web">${
-                            web.split("<br />")[1]
-                        }</div>`;
-                    }
-                    if (address) {
-                        thisLocationObj.address = `<div class="address">${
-                            address.split("<br />")[1]
-                        }</div>`;
-                    }
-                    locationsArray.push([thisLocationObj]);
                 }
 
                 let markers = locationsArray.map(location => {

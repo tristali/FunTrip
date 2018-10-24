@@ -13,40 +13,38 @@ class PlanTripAllDetails extends Component {
         const allDetailedObj = state.all_detailed_obj;
         let planDetailsDOM = [];
         /* 如果有景點資料 */
-        if (allDetailedObj) {
+        if (allDetailedObj && allDetailedObj[this.props.day]) {
             const detailedKeyArray = Object.keys(allDetailedObj);
-            let thisDayPlanDetailsCount = 0;
-            for (let i = 0; i < detailedKeyArray.length; i++) {
-                let detailedObj = allDetailedObj[detailedKeyArray[i]];
-                if (detailedObj.day == this.props.day) {
-                    const detailedCategoryArray = detailedObj.category.split(
-                        "_"
-                    );
-                    thisDayPlanDetailsCount += 1;
-                    planDetailsDOM.push(
-                        <PlanTripDetails
-                            key={`plan_trip_details_${i}`}
-                            name={detailedObj.name}
-                            category={`${detailedCategoryArray[0]} ${
-                                detailedCategoryArray[1]
-                            }`}
-                            location={`lat_${detailedObj.location.lat}_lng_${
-                                detailedObj.location.lng
-                            }`}
-                            informationObj={detailedObj.information}
-                            editPlanTrip={this.props.editPlanTrip}
-                            index={thisDayPlanDetailsCount}
-                            day={this.props.day}
-                            time={detailedObj.information.time_0}
-                            itemID={detailedObj.itemID}
-                            handlePlanStateChange={
-                                this.props.handlePlanStateChange
-                            }
-                            handleStateChange={this.props.handleStateChange}
-                        />
-                    );
-                }
+            let thisDayPlanDetailsCount = -1;
+
+            let detailedObj = allDetailedObj[this.props.day];
+
+            for (let i = 0; i < detailedObj.length; i++) {
+                const detailedCategoryArray = detailedObj[i].category.split(
+                    "_"
+                );
+                thisDayPlanDetailsCount += 1;
+                planDetailsDOM.push(
+                    <PlanTripDetails
+                        key={`plan_trip_details_${i}`}
+                        name={detailedObj[i].name}
+                        category={`${detailedCategoryArray[0]} ${
+                            detailedCategoryArray[1]
+                        }`}
+                        location={`lat_${detailedObj[i].location.lat}_lng_${
+                            detailedObj[i].location.lng
+                        }`}
+                        informationObj={detailedObj[i].information}
+                        editPlanTrip={this.props.editPlanTrip}
+                        index={thisDayPlanDetailsCount}
+                        day={this.props.day}
+                        time={detailedObj[i].information.time_0}
+                        handlePlanStateChange={this.props.handlePlanStateChange}
+                        handleStateChange={this.props.handleStateChange}
+                    />
+                );
             }
+
             planDetailsDOM.push(
                 <div
                     key={detailedKeyArray.length}
@@ -71,12 +69,12 @@ class PlanTripAllDetails extends Component {
         } else {
             planDetailsDOM.push(
                 <div
-                    key={`D_${this.props.day}_NO_1`}
+                    key={`D_${this.props.day}_NO_0`}
                     className="add"
                     onClick={() =>
-                        this.props.addPlanTrip(`D_${this.props.day}_NO_1`)
+                        this.props.addPlanTrip(`D_${this.props.day}_NO_0`)
                     }
-                    id={`D_${this.props.day}_NO_1`}
+                    id={`D_${this.props.day}_NO_0`}
                 >
                     <ul className="clearfix location">
                         <li className="time" />
@@ -139,7 +137,7 @@ class PlanTripDetails extends Component {
                     )
                 }
             >
-                <ul className="clearfix location" id={this.props.itemID}>
+                <ul className="clearfix location">
                     <li className="time">{checkTime()}</li>
                     <li className="type_icon">
                         <div />
@@ -184,7 +182,6 @@ class PlanTripDetails extends Component {
 
     /* 判斷展開或收起景點資訊 */
     handleRemarksToggle(e) {
-        // console.log(e.currentTarget);
         if (!e.currentTarget.className) {
             e.currentTarget.className = "expand";
         } else {

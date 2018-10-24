@@ -10,7 +10,6 @@ class Popup extends Component {
     }
 
     render() {
-        // console.log(this.props.state, "popup");
         let popup_title;
         let popup_text;
         let popup_button;

@@ -27,10 +27,10 @@ class PlanTripSchedule extends Component {
 
     render() {
         let PlanTripDayArray = [];
-        for (let i = 1; i < Number(this.props.planState.totalDay) + 1; i++) {
+        for (let i = 0; i < Number(this.props.planState.totalDay); i++) {
             let number;
-            if (i < 10) {
-                number = "0" + i;
+            if (i < 9) {
+                number = "0" + (i+1);
             } else {
                 number = i;
             }
@@ -63,12 +63,12 @@ class PlanTripDay extends Component {
         this.state = {};
     }
     render() {
-        let thisDate = this.props.planState.all_day_array[this.props.day - 1];
+        let thisDate = this.props.planState.all_day_array[this.props.day];
         let year = thisDate.split("/")[0];
-        let month = MONTH_ABBEVIATION[Number(thisDate.split("/")[1]) - 1];
+        let month = MONTH_ABBEVIATION[Number(thisDate.split("/")[1])];
         let date = thisDate.split("/")[2];
         return (
-            <div id={`D_${this.props.day}`}>
+            <div id={`D_${this.props.day+1}`}>
                 <h3 className="clearfix">
                     <div>{`Day${this.props.number}`}</div>
                     <div>-</div>

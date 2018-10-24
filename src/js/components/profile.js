@@ -18,7 +18,6 @@ class Profile extends Component {
         this.handleChangeTripDisplay = this.handleChangeTripDisplay.bind(this);
     }
     render() {
-        // console.log(this.state, "aaa");
         if (this.state.redirect) {
             return <Redirect to="/plan" />;
         }

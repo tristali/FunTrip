@@ -33,6 +33,10 @@ class Plan extends Component {
             creact_plantrip: "hide",
             /* 當前顯示日曆第幾天 */
             current_day: "#D_1",
+
+            /* 搜尋景點框 */
+            lcation_name: "",
+
             /* map 地圖顯示資料 */
             map_center: {
                 lat: 23.6,
@@ -67,7 +71,7 @@ class Plan extends Component {
                     handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
                     handleDelTrip={this.handleDelTrip}
                 />
-                {this.props.state.loading && <Loading />}
+                {/* {this.props.state.loading && <Loading />} */}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
@@ -92,6 +96,7 @@ class Plan extends Component {
             </div>
         );
     }
+
     /* 刪除 */
     handleDelCreactPlanTrip() {
         this.setState({
@@ -108,18 +113,23 @@ class Plan extends Component {
         const currentPlanID = this.props.state.current_plan;
         /* 把資料推進 Database */
         let detailedPath = `plans/${currentPlanID}/detailed`;
-        /* 判斷此改變行程是否已經有id */
-        let detailedKey;
-        const currentPlanDOM = app.get("div.all_plan_detailed>div.current>ul")
-            .id;
-        if (currentPlanDOM) {
-            detailedKey = currentPlanDOM;
-        }
+
+        /* day and number */
+        const thisDayNumberArray = app
+            .get(".all_plan_detailed > div.current")
+            .id.split("_");
+
+        let all_detailed_obj = this.state.all_detailed_obj;
+
+        all_detailed_obj[thisDayNumberArray[1]].splice(
+            thisDayNumberArray[3],
+            1
+        );
 
         firebase
             .database()
-            .ref(`${detailedPath}/${detailedKey}`)
-            .remove();
+            .ref(`${detailedPath}`)
+            .set(all_detailed_obj);
         /* 修改/新增行程資料清空 */
         app.cleanCreactPlanTrip();
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
@@ -205,7 +215,6 @@ class Plan extends Component {
                 if (!location.href.includes("?id=")) {
                     redirectState = true;
                 } else {
-                    // let thisPlanId = location.href.split("?id=")[1];
                     let thisPlanId = this.props.state.current_plan;
                     redirectState = true;
                     firebase
@@ -273,7 +282,7 @@ function updatePlanInformation(thisEnvironment) {
                 all_day_array: plan.all_day_array,
                 all_week_array: plan.all_week_array
             });
-
+            console.log(plan.detailed);
             /* 抓取第一個景點經緯度 */
             // const allDetailedObj = plan.detailed;
             // if (allDetailedObj) {

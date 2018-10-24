@@ -25,7 +25,6 @@ class AddPlanTrip extends Component {
     }
 
     render() {
-        // console.log(this.state,"dddd");
         if (this.state.redirect) {
             return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
         }

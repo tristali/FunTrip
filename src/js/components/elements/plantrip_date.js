@@ -25,8 +25,6 @@ class PlanTripDate extends Component {
         this.state = {
             /* 當前顯示日曆型態 */
             current_type: "Day",
-            // /* 當前顯示日曆第幾天 */
-            // current_day: "#D_1",
             /* 抓取每張日曆寬度 */
             every_date_width: "",
             /* 當前輪播定位 */

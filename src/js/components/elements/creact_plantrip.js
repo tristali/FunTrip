@@ -179,8 +179,7 @@ class CreactPlanTrip extends Component {
                                         className="search_input"
                                         type="text"
                                         value={
-                                            this.props.planTripState
-                                                .lcation_name
+                                            this.props.planState.lcation_name
                                         }
                                         placeholder="請在此輸入地點名稱"
                                         onChange={
@@ -199,7 +198,7 @@ class CreactPlanTrip extends Component {
                             </li>
                             <li
                                 className={
-                                    this.props.planTripState.lcation_name
+                                    this.props.planState.lcation_name
                                         ? "ok"
                                         : ""
                                 }
@@ -234,15 +233,18 @@ class CreactPlanTrip extends Component {
         /* 清除 修改/新增 location 和類別 */
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",
-            category_detail: "transport",
-            lcation_name: ""
+            category_detail: "transport"
+        });
+        this.props.handlePlanStateChange({
+            stateName: "lcation_name",
+            value: ""
         });
     }
 
     /* Datebase 資料更新 */
     handleSetDatebase() {
         const currentPlanID = this.props.state.current_plan;
-        if (this.props.planTripState.lcation_name) {
+        if (this.props.planState.lcation_name) {
             /* name */
             const inputDOM = app.get(".search_input");
 
@@ -274,28 +276,17 @@ class CreactPlanTrip extends Component {
 
             /* 把資料推進 Database */
             let detailedPath = `plans/${currentPlanID}/detailed`;
-            /* 判斷此改變行程是否已經有id */
-            let detailedKey;
-            const currentPlanDOM = app.get(
-                "div.all_plan_detailed>div.current>ul"
-            ).id;
-            if (currentPlanDOM) {
-                detailedKey = currentPlanDOM;
-            } else {
-                detailedKey = firebase
-                    .database()
-                    .ref(detailedPath)
-                    .push().key;
-            }
+
             firebase
                 .database()
-                .ref(`${detailedPath}/${detailedKey}`)
+                .ref(
+                    `${detailedPath}/${thisDayNumberArray[1]}/${
+                        thisDayNumberArray[3]
+                    }`
+                )
                 .set({
                     name: inputDOM.value,
-                    day: thisDayNumberArray[1],
-                    number: thisDayNumberArray[3],
                     category: selectCategory,
-                    itemID: detailedKey,
                     location: locationObj,
                     information: informationObj
                 });
@@ -306,8 +297,11 @@ class CreactPlanTrip extends Component {
             /* 清除 修改/新增 location 和類別 */
             this.props.handleCleanCategoryAndLcation({
                 select_category: "Transport",
-                category_detail: "transport",
-                lcation_name: ""
+                category_detail: "transport"
+            });
+            this.props.handlePlanStateChange({
+                stateName: "lcation_name",
+                value: ""
             });
             /* 改變上層 creact_plantrip state */
             this.props.changeCreactPlantripState("hide");

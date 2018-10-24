@@ -35,9 +35,7 @@ class PlanTrip extends Component {
             /* 當前行程類別 */
             select_category: "Transport",
             /* 當前行程小類別 */
-            category_detail: "transport",
-            /* 當前地點名稱 */
-            lcation_name: ""
+            category_detail: "transport"
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.addPlanTrip = this.addPlanTrip.bind(this);
@@ -85,6 +83,7 @@ class PlanTrip extends Component {
                 </div>
                 <div className={this.props.planState.creact_plantrip}>
                     <CreactPlanTrip
+                        planState={this.props.planState}
                         creactPlantrip={this.props.planState.creact_plantrip}
                         handleHideCreactPlanTrip={this.handleHideCreactPlanTrip}
                         state={this.props.state}
@@ -103,6 +102,7 @@ class PlanTrip extends Component {
                             this.props.handleDelCreactPlanTrip
                         }
                         handlePopup={this.props.handlePopup}
+                        handlePlanStateChange={this.props.handlePlanStateChange}
                     />
                 </div>
             </div>
@@ -118,8 +118,11 @@ class PlanTrip extends Component {
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         this.setState({
             select_category: "Transport",
-            category_detail: "transport",
-            lcation_name: ""
+            category_detail: "transport"
+        });
+        this.props.handlePlanStateChange({
+            stateName: "lcation_name",
+            value: ""
         });
         this.props.handlePlanStateChange({
             stateName: "creact_plantrip",
@@ -149,8 +152,11 @@ class PlanTrip extends Component {
         app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
         this.setState({
             select_category: "Transport",
-            category_detail: "transport",
-            lcation_name: ""
+            category_detail: "transport"
+        });
+        this.props.handlePlanStateChange({
+            stateName: "lcation_name",
+            value: ""
         });
         this.props.handlePlanStateChange({
             stateName: "creact_plantrip",
@@ -178,9 +184,12 @@ class PlanTrip extends Component {
                 ? thisPlanClassArray[0]
                 : thisPlanClassArray[1];
         this.setState({
-            lcation_name: thisPlanTextDOM.textContent,
             select_category: selectCategory,
             category_detail: categoryDetail
+        });
+        this.props.handlePlanStateChange({
+            stateName: "lcation_name",
+            value: thisPlanTextDOM.textContent
         });
         /* information 各項目 */
         let OverviewObjKey = Object.keys(INFORMATION_OBJ);
@@ -257,7 +266,10 @@ class PlanTrip extends Component {
 
     /* 當使用者改變地點名稱時改變 this.props.planTripState.location_name */
     handleLocationChange(e) {
-        this.setState({ lcation_name: e.currentTarget.value });
+        this.props.handlePlanStateChange({
+            stateName: "lcation_name",
+            value: e.currentTarget.value
+        });
     }
 
     /* 改變 this.state.creact_plantrip */
@@ -272,8 +284,11 @@ class PlanTrip extends Component {
     handleCleanCategoryAndLcation(props) {
         this.setState({
             select_category: props.select_category,
-            category_detail: props.category_detail,
-            lcation_name: props.lcation_name
+            category_detail: props.category_detail
+        });
+        this.props.handlePlanStateChange({
+            stateName: "lcation_name",
+            value: props.lcation_name
         });
     }
 }
