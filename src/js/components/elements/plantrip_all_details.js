@@ -26,6 +26,7 @@ class PlanTripAllDetails extends Component {
                 thisDayPlanDetailsCount += 1;
                 planDetailsDOM.push(
                     <PlanTripDetails
+                        planState={this.props.planState}
                         key={`plan_trip_details_${i}`}
                         name={detailedObj[i].name}
                         category={`${detailedCategoryArray[0]} ${
@@ -48,12 +49,18 @@ class PlanTripAllDetails extends Component {
             planDetailsDOM.push(
                 <div
                     key={detailedKeyArray.length}
-                    className="add"
+                    className={
+                        this.props.planState.current_day === this.props.day &&
+                        this.props.planState.current_attraction ===
+                            thisDayPlanDetailsCount + 1
+                            ? "add current"
+                            : "add"
+                    }
                     onClick={() =>
-                        this.props.addPlanTrip(
-                            `D_${this.props.day}_NO_${thisDayPlanDetailsCount +
-                                1}`
-                        )
+                        this.props.addPlanTrip({
+                            day: this.props.day,
+                            index: thisDayPlanDetailsCount + 1
+                        })
                     }
                     id={`D_${this.props.day}_NO_${thisDayPlanDetailsCount + 1}`}
                 >
@@ -70,9 +77,17 @@ class PlanTripAllDetails extends Component {
             planDetailsDOM.push(
                 <div
                     key={`D_${this.props.day}_NO_0`}
-                    className="add"
+                    className={
+                        this.props.planState.current_day === this.props.day &&
+                        this.props.planState.current_attraction === 0
+                            ? "add current"
+                            : "add"
+                    }
                     onClick={() =>
-                        this.props.addPlanTrip(`D_${this.props.day}_NO_0`)
+                        this.props.addPlanTrip({
+                            day: this.props.day,
+                            index: 0
+                        })
                     }
                     id={`D_${this.props.day}_NO_0`}
                 >
@@ -129,12 +144,18 @@ class PlanTripDetails extends Component {
 
         return (
             <div
-                className={this.props.category}
+                className={
+                    this.props.planState.current_day === this.props.day &&
+                    this.props.planState.current_attraction === this.props.index
+                        ? `${this.props.category} current`
+                        : this.props.category
+                }
                 id={`D_${this.props.day}_NO_${this.props.index}`}
                 onClick={() =>
-                    this.handleMapDisplay(
-                        `D_${this.props.day}_NO_${this.props.index}`
-                    )
+                    this.handleMapDisplay({
+                        day: this.props.day,
+                        index: this.props.index
+                    })
                 }
             >
                 <ul className="clearfix location">
@@ -148,9 +169,10 @@ class PlanTripDetails extends Component {
                     <li
                         className="edit"
                         onClick={() =>
-                            this.props.editPlanTrip(
-                                `D_${this.props.day}_NO_${this.props.index}`
-                            )
+                            this.props.editPlanTrip({
+                                day: this.props.day,
+                                index: this.props.index
+                            })
                         }
                     />
                 </ul>
@@ -163,16 +185,19 @@ class PlanTripDetails extends Component {
         );
     }
 
-    /* 改變 map 顯示為目前點擊景點 */
-    handleMapDisplay(id) {
-        let thisLocationLatLngArray = app.get(`#${id} li.text`).id.split("_");
-        let map_canter = {
-            lat: Number(thisLocationLatLngArray[1]),
-            lng: Number(thisLocationLatLngArray[3])
-        };
+    /* 改變 map 顯示為目前點擊景點 
+    {
+        day : 天數 index,
+        index : 景點 index
+    }
+    */
+    handleMapDisplay(props) {
+        let map_center = this.props.planState.all_detailed_obj[props.day][
+            props.index
+        ].location;
         this.props.handlePlanStateChange({
             stateName: "map_center",
-            value: map_canter
+            value: map_center
         });
         this.props.handlePlanStateChange({
             stateName: "map_zoom",

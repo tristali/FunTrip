@@ -14,11 +14,6 @@ app.get = function(selector) {
     return document.querySelector(selector);
 };
 
-/* Get Elements */
-app.getAll = function(selector) {
-    return document.querySelectorAll(selector);
-};
-
 /* Firebase */
 app.firebase_signInWithPopup = function(
     firebase,
@@ -60,30 +55,6 @@ app.firebase_signInWithPopup = function(
                 );
             }
         });
-};
-
-/* 清除此 Element 所有 current class */
-app.cleanAllCurrent = function(props) {
-    const allCurrentDOM = [...app.getAll(props.element)];
-    allCurrentDOM.map(item => {
-        item.classList.remove("current");
-    });
-};
-
-/* 清除 新增/編輯 欄位 除了 name 及類別 */
-
-app.cleanCreactPlanTrip = function() {
-    /* 修改/新增行程資料清空 */
-    const allInformationLiDOM = [...app.getAll("div.information>ul>li")];
-    const allTextareaDOM = [...app.getAll("div.textarea")];
-    const inputDOM = app.get(".search_input");
-    allInformationLiDOM.map(item => {
-        item.classList.remove("current");
-    });
-    allTextareaDOM.map(item => {
-        item.innerHTML = "";
-    });
-    inputDOM.id = "";
 };
 
 /* Google map */
@@ -161,6 +132,10 @@ app.autocomplete = function(map, thisEnvironment) {
                 stateName: "map_center",
                 value: map_center
             });
+            thisEnvironment.props.handlePlanStateChange({
+                stateName: "current_map_center",
+                value: map_center
+            });
 
             /* 自動填入名稱、營業時間、電話號碼、地址 */
             let service = new google.maps.places.PlacesService(map);
@@ -183,7 +158,7 @@ app.autocomplete = function(map, thisEnvironment) {
                         if (place.opening_hours) {
                             let openingArray = place.opening_hours.weekday_text;
                             for (let i = 0; i < openingArray.length; i += 1) {
-                                if(i===0){
+                                if (i === 0) {
                                     opening = openingArray[i];
                                 }
                                 opening += `<br /> ${openingArray[i]}`;

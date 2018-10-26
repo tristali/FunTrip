@@ -86,7 +86,10 @@ class CreactPlanTrip extends Component {
             thisEnvironment,
             item,
             handleInformationInputStateOnClick,
-            handleInformationInputStateOnBlur
+            handleInformationInputStateOnBlur,
+            handleInformationTextInput,
+            planState,
+            handlePlanStateChange
         ) {
             return thisEnvironment.props.list.INFORMATION_OBJ[item].map(
                 (detailedItemName, index) => (
@@ -101,31 +104,37 @@ class CreactPlanTrip extends Component {
                             handleInformationInputStateOnBlur
                         }
                         item={item}
+                        planState={planState}
+                        informationCategory={`${item}_${index}`}
+                        handlePlanStateChange={handlePlanStateChange}
                     />
                 )
             );
         }
-
         /* Create Information 輸入框 <ul> Element JSX*/
         let informationDOM = Object.keys(this.props.list.INFORMATION_OBJ).map(
-            (item, index) => (
-                <ul
-                    key={`input_information_${index}`}
-                    className={informationClass(
-                        this,
-                        this.props.planTripState.select_category,
-                        item
-                    )}
-                >
-                    {InformationDetailedDOM(
-                        this,
-                        item,
-                        this.handleInformationInputStateOnClick,
-                        this.handleInformationInputStateOnBlur,
-                        this.handleInformationTextInput
-                    )}
-                </ul>
-            )
+            (item, index) => {
+                return (
+                    <ul
+                        key={`input_information_${index}`}
+                        className={informationClass(
+                            this,
+                            this.props.planTripState.select_category,
+                            item
+                        )}
+                    >
+                        {InformationDetailedDOM(
+                            this,
+                            item,
+                            this.handleInformationInputStateOnClick,
+                            this.handleInformationInputStateOnBlur,
+                            this.handleInformationTextInput,
+                            this.props.planState,
+                            this.props.handlePlanStateChange
+                        )}
+                    </ul>
+                );
+            }
         );
 
         /* Creact Information 輸入框 <ul> Element className */
@@ -223,7 +232,10 @@ class CreactPlanTrip extends Component {
     /* 重設 新增 / 編輯 */
     handleReset() {
         /* 修改/新增行程資料清空 */
-        app.cleanCreactPlanTrip();
+        this.props.handlePlanStateChange({
+            stateName: "current_information",
+            value: ""
+        });
         /* 清除 修改/新增 location 和類別 */
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",
@@ -231,6 +243,14 @@ class CreactPlanTrip extends Component {
         });
         this.props.handlePlanStateChange({
             stateName: "lcation_name",
+            value: ""
+        });
+        this.props.handlePlanStateChange({
+            stateName: "current_information",
+            value: {}
+        });
+        this.props.handlePlanStateChange({
+            stateName: "current_map_center",
             value: ""
         });
     }
@@ -249,12 +269,6 @@ class CreactPlanTrip extends Component {
             const selectCategory = `${selectCategoryArray[0]}_${
                 selectCategoryArray[1]
             }`;
-
-            /* location */
-            const locationObj = {
-                lat: Number(inputDOM.id.split("_")[1]),
-                lng: Number(inputDOM.id.split("_")[3])
-            };
 
             /* day and number */
             const thisDayNumberArray = app
@@ -281,13 +295,23 @@ class CreactPlanTrip extends Component {
                 .set({
                     name: inputDOM.value,
                     category: selectCategory,
-                    location: locationObj,
+                    location: this.props.planState.current_map_center,
                     information: informationObj
                 });
 
             /* 修改/新增行程資料清空 */
-            app.cleanCreactPlanTrip();
-            app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
+            this.props.handlePlanStateChange({
+                stateName: "current_information",
+                value: ""
+            });
+            this.props.handlePlanStateChange({
+                stateName: "current_day",
+                value: ""
+            });
+            this.props.handlePlanStateChange({
+                stateName: "current_attraction",
+                value: ""
+            });
             /* 清除 修改/新增 location 和類別 */
             this.props.handleCleanCategoryAndLcation({
                 select_category: "Transport",

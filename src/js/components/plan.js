@@ -31,8 +31,18 @@ class Plan extends Component {
             all_week_array: "",
             /* 當前為關閉 "hide" 新增 "Add" 或修改 "Edit" 行程狀態 */
             creact_plantrip: "hide",
+
             /* 當前顯示日曆第幾天 */
-            current_day: "#D_1",
+            current_tab: "#D_0",
+
+            /* 當前點選的景點第幾天 */
+            current_day: null,
+            /* 當前點選的第幾個景點 */
+            current_attraction: "",
+            /* 當前景點資訊 */
+            current_information: "",
+            /* 當前景點資訊 */
+            current_map_center: "",
 
             /* 搜尋景點框 */
             lcation_name: "",
@@ -87,12 +97,12 @@ class Plan extends Component {
                     handlePlanStateChange={this.handlePlanStateChange}
                     handlePopup={this.props.handlePopup}
                 />
-                <Map
+                {google && <Map
                     state={this.props.state}
                     planState={this.state}
                     handleStateChange={this.props.handleStateChange}
                     handlePlanStateChange={this.handlePlanStateChange}
-                />
+                />}
             </div>
         );
     }
@@ -131,9 +141,11 @@ class Plan extends Component {
             .ref(`${detailedPath}`)
             .set(all_detailed_obj);
         /* 修改/新增行程資料清空 */
-        app.cleanCreactPlanTrip();
-        app.cleanAllCurrent({ element: ".all_plan_detailed>div.current" });
-
+        this.setState({
+            current_day: "",
+            current_attractio: "",
+            current_information: "",
+        });
         this.props.handleStateChange({
             stateName: "map",
             value: "plantrip_open"

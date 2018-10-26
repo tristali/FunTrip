@@ -2,33 +2,121 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/creact_plantrip.scss";
 
-/* Information 輸入資訊 Component */
-const InformationDetailed = ({
-    detailedItemName,
-    index,
-    item,
-    handleInformationInputStateOnClick,
-    handleInformationInputStateOnBlur
-}) => {
-    return (
-        <li
-            className="clearfix"
-            onBlur={() => handleInformationInputStateOnBlur(item + "-" + index)}
-        >
-            <div>
-                <div>{detailedItemName}</div>
-            </div>
-            <div>
-                <div
-                    onClick={() =>
-                        handleInformationInputStateOnClick(item + "-" + index)
-                    }
-                    className="textarea"
-                    contentEditable="true"
-                />
-            </div>
-        </li>
-    );
-};
+class InformationDetailed extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.list = {};
+        // this.handleCurrentInformationChange = this.handleCurrentInformationChange.bind(
+        //     this
+        // );
+    }
+    render() {
+        let current_information = this.props.planState.current_information;
+        if (
+            current_information &&
+            current_information[this.props.informationCategory]
+        ) {
+            console.log(
+                current_information[this.props.informationCategory],
+                "this.props.planState"
+            );
+        }
+        return (
+            <li
+                className="clearfix"
+                className={
+                    current_information[this.props.informationCategory]
+                        ? "clearfix current"
+                        : "clearfix"
+                }
+                onBlur={() =>
+                    this.props.handleInformationInputStateOnBlur(
+                        this.props.item + "-" + this.props.index
+                    )
+                }
+            >
+                <div>
+                    <div>{this.props.detailedItemName}</div>
+                </div>
+                <div>
+                    <div
+                        onClick={() =>
+                            this.props.handleInformationInputStateOnClick(
+                                this.props.item + "-" + this.props.index
+                            )
+                        }
+                        className="textarea"
+                        contentEditable="true"
+                        dangerouslySetInnerHTML={this.handleCurrentInformation(
+                            this.props.planState,
+                            this.props.informationCategory,
+                            true
+                        )}
+                        // onInput={this.handleCurrentInformationChange}
+                    />
+                </div>
+            </li>
+        );
+    }
 
+    // componentDidUpdate(prevProps) {
+    //     /* 抓取目前旅程 Database 資料到新增編輯彈跳視窗 */
+    //     if (
+    //         prevProps.planState.current_information !==
+    //         this.props.planState.current_information
+    //     ) {
+    //         this.handleCurrentInformation;
+    //     }
+    // }
+
+    handleCurrentInformation(planState, informationCategory, booling) {
+        let current_information_name =
+            planState.current_information[informationCategory];
+        let current_information_content =
+            planState.current_information[informationCategory];
+        if (current_information_name) {
+            if (
+                informationCategory === "general_1" ||
+                informationCategory === "general_3"
+            ) {
+                if (booling) {
+                    return {
+                        __html: current_information_content
+                            .slice(10)
+                            .split(">")[1]
+                            .split("<")[0]
+                    };
+                } else {
+                    return current_information_content
+                        .slice(10)
+                        .split(">")[1]
+                        .split("<")[0];
+                }
+            } else {
+                if (booling) {
+                    return {
+                        __html: current_information_content.slice(10)
+                    };
+                } else {
+                    return current_information_content.slice(10);
+                }
+            }
+        }
+    }
+
+    // /* 當景點詳細資訊被改變時改變狀態 */
+    // handleCurrentInformationChange(e) {
+    //     let current_information = Object.assign(
+    //         {},
+    //         this.props.planState.current_information
+    //     );
+    //     current_information[this.props.informationCategory] =
+    //         e.currentTarget.innerHTML;
+    //     this.props.handlePlanStateChange({
+    //         stateName: "current_information",
+    //         value: current_information
+    //     });
+    // }
+}
 export default InformationDetailed;

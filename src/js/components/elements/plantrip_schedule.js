@@ -55,7 +55,7 @@ class PlanTripDay extends Component {
         ];
         let date = thisDate.split("/")[2];
         return (
-            <div id={`D_${this.props.day + 1}`}>
+            <div id={`D_${this.props.day}`}>
                 <h3 className="clearfix">
                     <div>{`Day${this.props.number}`}</div>
                     <div>-</div>

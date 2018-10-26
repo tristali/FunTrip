@@ -20,7 +20,9 @@ import marker_clusterer from "../../../img/location_icon/marker_clusterer.png";
 class Map extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            map: ""
+        };
         this.list = {
             /* location icon */
             LOCATIONS_ICON_OBJ: {
@@ -59,6 +61,10 @@ class Map extends Component {
             };
             let map = new google.maps.Map(app.get(".map"), options);
 
+            this.setState({
+                map: map
+            });
+
             /* 標記地點起手式 */
             let marker = new google.maps.Marker({
                 map: map
@@ -77,10 +83,11 @@ class Map extends Component {
                 this.props.planState.map_center ||
             prevProps.planState.all_detailed_obj !==
                 this.props.planState.all_detailed_obj ||
-            prevProps.planState.current_day !== this.props.planState.current_day
+            prevProps.planState.current_tab !== this.props.planState.current_tab
         ) {
             /* google map 初始化 */
             const state = this.props.planState;
+            let map = this.state.map;
             let map_center = {
                 lat: state.map_center.lat,
                 lng: state.map_center.lng
@@ -89,7 +96,8 @@ class Map extends Component {
                 zoom: state.map_zoom,
                 center: map_center
             };
-            let map = new google.maps.Map(app.get(".map"), options);
+
+            map.setOptions(options);
 
             if (
                 prevProps.planState.map_center !==
@@ -209,9 +217,10 @@ class Map extends Component {
                 });
 
                 /* 景點連線 */
-                let currentDayTextDOMArray = app.getAll(
-                    `${this.props.planState.current_day} li.text`
-                );
+                let currentDayAttractionArray = this.props.planState
+                    .all_detailed_obj[
+                    this.props.planState.current_tab.split("_")[1]
+                ];
 
                 // Define a symbol using a predefined path (an arrow)
                 // supplied by the Google Maps JavaScript API.
@@ -224,13 +233,15 @@ class Map extends Component {
 
                 /* 取得當天所有點的經緯度 */
                 let currentDayAllLocations = [];
-                for (let i = 0; i < currentDayTextDOMArray.length; i++) {
-                    let currentDayTextDOMId = currentDayTextDOMArray[i].id;
-                    if (currentDayTextDOMId) {
-                        currentDayAllLocations.push({
-                            lat: Number(currentDayTextDOMId.split("_")[1]),
-                            lng: Number(currentDayTextDOMId.split("_")[3])
-                        });
+                if (currentDayAttractionArray) {
+                    for (let i = 0; i < currentDayAttractionArray.length; i++) {
+                        let currentDayAttractionLocations =
+                            currentDayAttractionArray[i].location;
+                        if (currentDayAttractionLocations) {
+                            currentDayAllLocations.push(
+                                currentDayAttractionLocations
+                            );
+                        }
                     }
                 }
                 for (let i = 0; i < currentDayAllLocations.length - 1; i++) {

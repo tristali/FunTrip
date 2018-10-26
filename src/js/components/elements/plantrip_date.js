@@ -28,31 +28,31 @@ class PlanTripDate extends Component {
         /* 抓取每張日曆寬度 */
         let everyDateWidth = this.state.every_date_width;
         /* 按照日期/星期 creact 日曆 element */
-        for (let i = 1; i < all_day_array.length + 1; i++) {
+        for (let i = 0; i < all_day_array.length; i++) {
             /* 如果 Day 小於 10 補 10 位數為 0 */
             let number;
-            if (i < 10) {
-                number = "0" + i;
+            if (i < 9) {
+                number = "0" + (i + 1);
             } else {
-                number = i;
+                number = i + 1;
             }
             let top;
             let bottom;
             /* 當顯示型態 current_type 為第幾天 */
             if (this.state.current_type === "Day") {
                 top = number;
-                bottom = all_week_array[i - 1];
+                bottom = all_week_array[i];
             } else {
                 /* 當顯示型態 current_type 為日期 */
-                top = all_week_array[i - 1];
-                bottom = all_day_array[i - 1].split("/")[2];
+                top = all_week_array[i];
+                bottom = all_day_array[i].split("/")[2];
             }
             calendarArray.push(
                 <li
                     key={`calendar_${i}`}
                     onClick={() => this.handleCategoryChange(`#D_${i}`)}
                     className={
-                        this.props.planState.current_day === `#D_${i}`
+                        this.props.planState.current_tab === `#D_${i}`
                             ? "current"
                             : null
                     }
@@ -108,35 +108,33 @@ class PlanTripDate extends Component {
             </div>
         );
     }
-    /* 改變 current_day 狀態 */
-    handleCategoryChange(current_day) {
-        app.get(current_day).scrollIntoView({
+    /* 改變 current_tab 狀態 */
+    handleCategoryChange(current_tab) {
+        app.get(current_tab).scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
-        let thisDay = current_day.split("#D_")[1];
-        let thisDate = this.props.planState.all_day_array[Number(thisDay) - 1];
+        let thisDay = current_tab.split("#D_")[1];
+        let thisDate = this.props.planState.all_day_array[Number(thisDay)];
         let thisMonth = this.props.list.MONTH_ABBEVIATION[
-            Number(thisDate.split("/")[1]) - 1
+            Number(thisDate.split("/")[1])
         ];
         if (this.state.current_type !== "Day") {
             this.setState({ current_type: thisMonth });
         }
         this.props.handlePlanStateChange({
-            stateName: "current_day",
-            value: current_day
+            stateName: "current_tab",
+            value: current_tab
         });
-        // this.setState({ current_day: current_day });
+        // this.setState({ current_tab: current_tab });
     }
     /* 改變 current_type 狀態 */
     handleCurrentType() {
         if (this.state.current_type === "Day") {
-            let thisDay = app.get("li.date_detail div>ul>li.current>a").id;
-            let thisDate = this.props.planState.all_day_array[
-                Number(thisDay) - 1
-            ];
+            let thisDay = this.props.planState.current_tab.split("_")[1];
+            let thisDate = this.props.planState.all_day_array[Number(thisDay)];
             let thisMonth = this.props.list.MONTH_ABBEVIATION[
-                Number(thisDate.split("/")[1]) - 1
+                Number(thisDate.split("/")[1])
             ];
             this.setState({ current_type: thisMonth });
         } else {
