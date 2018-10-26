@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import "../../../scss/plantrip_date.scss";
-import app from "../../lib";
+import "../../../../scss/plantrip_date.scss";
+import app from "../../../lib";
 
 class PlanTripDate extends Component {
     constructor(props) {

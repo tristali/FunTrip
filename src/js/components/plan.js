@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import Login from "./elements/login";
 import Header from "./elements/header";
-import PlanTrip from "./elements/plantrip";
-import Map from "./elements/map";
+import PlanTrip from "./plan/plantrip";
+import Map from "./plan/map";
 import AddPlanTrip from "./elements/add_plantrip";
 import Popup from "./elements/popup";
 import Loading from "./loading";
@@ -97,12 +97,14 @@ class Plan extends Component {
                     handlePlanStateChange={this.handlePlanStateChange}
                     handlePopup={this.props.handlePopup}
                 />
-                {google && <Map
-                    state={this.props.state}
-                    planState={this.state}
-                    handleStateChange={this.props.handleStateChange}
-                    handlePlanStateChange={this.handlePlanStateChange}
-                />}
+                {google && (
+                    <Map
+                        state={this.props.state}
+                        planState={this.state}
+                        handleStateChange={this.props.handleStateChange}
+                        handlePlanStateChange={this.handlePlanStateChange}
+                    />
+                )}
             </div>
         );
     }
@@ -144,7 +146,7 @@ class Plan extends Component {
         this.setState({
             current_day: "",
             current_attractio: "",
-            current_information: "",
+            current_information: ""
         });
         this.props.handleStateChange({
             stateName: "map",

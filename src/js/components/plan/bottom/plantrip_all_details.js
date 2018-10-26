@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import app from "../../lib";
 
 class PlanTripAllDetails extends Component {
     constructor(props) {

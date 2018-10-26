@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import "../../../scss/plantrip_schedule.scss";
+import "../../../../scss/plantrip_schedule.scss";
 import PlanTripAllDetails from "./plantrip_all_details";
 
 class PlanTripSchedule extends Component {

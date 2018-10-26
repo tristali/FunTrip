@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import "../../../scss/plantrip_top.scss";
+import "../../../../scss/plantrip_top.scss";
 
 class PlanTripTop extends Component {
     constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import "../../../scss/plantrip_date.scss";
+import "../../../../scss/plantrip_date.scss";
 import PlanTripDate from "./plantrip_date";
 import PlanTripSchedule from "./plantrip_schedule";
 

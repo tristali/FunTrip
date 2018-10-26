@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import * as firebase from "firebase";
 import Loading from "./loading";
 import Header from "./elements/header";
-import ProfileInformation from "./elements/profile_information";
+import ProfileInformation from "./profile/profile_information";
 import Popup from "./elements/popup";
 import AddPlanTrip from "./elements/add_plantrip";
 
