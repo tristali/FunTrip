@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
-import * as firebase from "firebase";
 import "../../../scss/add_plan_trip.scss";
+import { DB } from "../../library/firebase";
 
 class AddPlanTrip extends Component {
     constructor(props) {
@@ -91,10 +91,8 @@ class AddPlanTrip extends Component {
         if (prevProps.state.add_plantrip !== this.props.state.add_plantrip) {
             if (this.props.state.add_plantrip === "EDIT") {
                 let thisEnvironment = this;
-                const planPath = firebase
-                    .database()
-                    .ref(`plans/${this.props.state.current_plan}`);
-                planPath.on("value", snapshot => {
+                const path = `plans/${this.props.state.current_plan}`;
+                DB.on(path, snapshot => {
                     let start = "";
                     snapshot
                         .val()
@@ -179,26 +177,22 @@ class AddPlanTrip extends Component {
                 });
             } else {
                 /* 新增旅程 */
-                key = firebase
-                    .database()
-                    .ref("plans/")
-                    .push().key;
+                key = DB.pushKey("plans/");
+
                 /* 上傳此旅程 ID 到此使用者資料 */
-                firebase
-                    .database()
-                    .ref(`users/${uid}`)
-                    .once("value", snapshot => {
-                        if (snapshot.val().plan) {
-                            planArray = snapshot.val().plan;
-                        } else {
-                            planArray = [];
-                        }
-                        planArray.push(key);
-                        firebase
-                            .database()
-                            .ref(`users/${uid}`)
-                            .update({ plan: planArray });
-                    });
+                DB.once(`users/${uid}`, snapshot => {
+                    if (snapshot.val().plan) {
+                        planArray = snapshot.val().plan;
+                    } else {
+                        planArray = [];
+                    }
+                    planArray.push(key);
+
+                    const path = `users/${uid}`;
+                    const data = { plan: planArray };
+                    DB.update(path, data);
+                });
+
                 this.props.handleStateChange({
                     stateName: "current_plan",
                     value: key
@@ -216,34 +210,32 @@ class AddPlanTrip extends Component {
                 this.props.state.add_plantrip === "EDIT"
             ) {
                 /* 上傳此旅程資訊 */
-                firebase
-                    .database()
-                    .ref(`plans/${key}`)
-                    .update({
-                        name: state.trip_name,
-                        start: startDate,
-                        end: lastDate,
-                        day: state.day,
-                        author: uid,
-                        plan_id: key,
-                        all_day_array: allDayArray,
-                        all_week_array: allWeekArray
-                    });
+                const path = `plans/${key}`;
+                const data = {
+                    name: state.trip_name,
+                    start: startDate,
+                    end: lastDate,
+                    day: state.day,
+                    author: uid,
+                    plan_id: key,
+                    all_day_array: allDayArray,
+                    all_week_array: allWeekArray
+                };
+                DB.update(path, data);
             } else {
                 /* 上傳此旅程資訊 */
-                firebase
-                    .database()
-                    .ref(`plans/${key}`)
-                    .set({
-                        name: state.trip_name,
-                        start: startDate,
-                        end: lastDate,
-                        day: state.day,
-                        author: uid,
-                        plan_id: key,
-                        all_day_array: allDayArray,
-                        all_week_array: allWeekArray
-                    });
+                const path = `plans/${key}`;
+                const data = {
+                    name: state.trip_name,
+                    start: startDate,
+                    end: lastDate,
+                    day: state.day,
+                    author: uid,
+                    plan_id: key,
+                    all_day_array: allDayArray,
+                    all_week_array: allWeekArray
+                };
+                DB.set(path, data);
             }
 
             if (this.props.state.add_plantrip === "NEW") {

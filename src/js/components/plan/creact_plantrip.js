@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import InformationDetailed from "./creact_plantrip_information_detailed";
 import app from "../../lib";
 import "../../../scss/creact_plantrip.scss";
-import * as firebase from "firebase";
+import { DB } from "../../library/firebase";
 
 class CreactPlanTrip extends Component {
     constructor(props) {
@@ -284,20 +284,16 @@ class CreactPlanTrip extends Component {
 
             /* 把資料推進 Database */
             let detailedPath = `plans/${currentPlanID}/detailed`;
-
-            firebase
-                .database()
-                .ref(
-                    `${detailedPath}/${thisDayNumberArray[1]}/${
-                        thisDayNumberArray[3]
-                    }`
-                )
-                .set({
-                    name: inputDOM.value,
-                    category: selectCategory,
-                    location: this.props.planState.current_map_center,
-                    information: informationObj
-                });
+            let path = `${detailedPath}/${thisDayNumberArray[1]}/${
+                thisDayNumberArray[3]
+            }`;
+            let data = {
+                name: inputDOM.value,
+                category: selectCategory,
+                location: this.props.planState.current_map_center,
+                information: informationObj
+            };
+            DB.set(path, data);
 
             /* 修改/新增行程資料清空 */
             this.props.handlePlanStateChange({

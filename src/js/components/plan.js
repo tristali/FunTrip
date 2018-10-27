@@ -9,7 +9,7 @@ import AddPlanTrip from "./elements/add_plantrip";
 import Popup from "./elements/popup";
 import Loading from "./loading";
 import app from "../lib";
-import * as firebase from "firebase";
+import { DB } from "../library/firebase";
 
 class Plan extends Component {
     constructor(props) {
@@ -124,25 +124,18 @@ class Plan extends Component {
         });
         const currentPlanID = this.props.state.current_plan;
         /* 把資料推進 Database */
-        let detailedPath = `plans/${currentPlanID}/detailed`;
+        let path = `plans/${currentPlanID}/detailed`;
 
         /* day and number */
         const thisDayNumberArray = app
             .get(".all_plan_detailed > div.current")
             .id.split("_");
 
-        let all_detailed_obj = this.state.all_detailed_obj;
+        let data = this.state.all_detailed_obj;
 
-        all_detailed_obj[thisDayNumberArray[1]].splice(
-            thisDayNumberArray[3],
-            1
-        );
+        data[thisDayNumberArray[1]].splice(thisDayNumberArray[3], 1);
+        DB.set(path, data);
 
-        firebase
-            .database()
-            .ref(`${detailedPath}`)
-            .set(all_detailed_obj);
-        /* 修改/新增行程資料清空 */
         this.setState({
             current_day: "",
             current_attractio: "",
@@ -151,6 +144,10 @@ class Plan extends Component {
         this.props.handleStateChange({
             stateName: "map",
             value: "plantrip_open"
+        });
+        this.props.handleStateChange({
+            stateName: "plan_trip",
+            value: ""
         });
         this.props.handleStateChange({
             stateName: "plan_trip_width",
@@ -193,26 +190,24 @@ class Plan extends Component {
         let planArray;
         let key = this.props.state.current_plan;
         /* 上傳此旅程 ID 到此使用者資料 */
-        firebase
-            .database()
-            .ref(`users/${uid}`)
-            .once("value", snapshot => {
-                /* 先確定要刪除的 value index */
-                planArray = snapshot.val().plan;
-                let index = planArray.indexOf(key);
-                if (index > -1) {
-                    planArray.splice(index, 1);
-                }
-                firebase
-                    .database()
-                    .ref(`users/${uid}`)
-                    .update({ plan: planArray });
-            });
-        /* 上傳此旅程資訊 */
-        firebase
-            .database()
-            .ref(`plans/${key}`)
-            .remove();
+        const userPath = `users/${uid}`;
+        DB.once(userPath, snapshot => {
+            /* 先確定要刪除的 value index */
+            planArray = snapshot.val().plan;
+            let index = planArray.indexOf(key);
+            if (index > -1) {
+                planArray.splice(index, 1);
+            }
+
+            // const path = `users/${uid}`;
+            const data = { plan: planArray };
+            DB.update(userPath, data);
+        });
+
+        /* 刪除此旅程資訊 */
+        const path = `plans/${key}`;
+        DB.remove(path);
+
         this.props.handleStateChange({
             stateName: "loading",
             value: true
@@ -231,14 +226,13 @@ class Plan extends Component {
             } else {
                 let thisPlanId = this.props.state.current_plan;
                 redirectState = true;
-                firebase
-                    .database()
-                    .ref(`/plans/${thisPlanId}`)
-                    .on("value", function(snapshot) {
-                        if (snapshot.val().author === uid) {
-                            redirectState = false;
-                        }
-                    });
+
+                const path = `/plans/${thisPlanId}`;
+                DB.on(path, function(snapshot) {
+                    if (snapshot.val().author === uid) {
+                        redirectState = false;
+                    }
+                });
             }
             this.props.handleStateChange({
                 stateName: "loading",
@@ -265,14 +259,13 @@ class Plan extends Component {
                 } else {
                     let thisPlanId = this.props.state.current_plan;
                     redirectState = true;
-                    firebase
-                        .database()
-                        .ref(`/plans/${thisPlanId}`)
-                        .on("value", function (snapshot) {
-                            if (snapshot.val().author === uid) {
-                                redirectState = false;
-                            }
-                        });
+
+                    const path = `/plans/${thisPlanId}`;
+                    DB.on(path, function(snapshot) {
+                        if (snapshot.val().author === uid) {
+                            redirectState = false;
+                        }
+                    });
                 }
                 this.props.handleStateChange({
                     stateName: "loading",
@@ -288,10 +281,8 @@ class Plan extends Component {
 export default Plan;
 
 function updatePlanInformation(thisEnvironment) {
-    const planPath = firebase
-        .database()
-        .ref(`plans/${thisEnvironment.props.state.current_plan}`);
-    planPath.on("value", snapshot => {
+    const path = `plans/${thisEnvironment.props.state.current_plan}`;
+    DB.on(path, snapshot => {
         const plan = snapshot.val();
         if (plan) {
             thisEnvironment.setState({
