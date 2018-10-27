@@ -5,7 +5,6 @@ import PlanTripBottom from "./bottom/plantrip_bottom";
 import CreactPlanTrip from "./creact_plantrip";
 import app from "../../lib";
 import "../../../scss/plantrip.scss";
-import * as firebase from "firebase";
 
 class PlanTrip extends Component {
     constructor(props) {

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import "../../../scss/profile_information.scss";
-import * as firebase from "firebase";
 
 class ProfileInformation extends Component {
     constructor(props) {

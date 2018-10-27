@@ -87,6 +87,14 @@ class Popup extends Component {
                 stateName: "menu",
                 value: ""
             });
+            this.props.handleStateChange({
+                stateName: "plan_trip",
+                value: ""
+            });
+            this.props.handleStateChange({
+                stateName: "map",
+                value: "plantrip_open"
+            });
         }
     }
 }

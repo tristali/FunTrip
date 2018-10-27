@@ -14,49 +14,6 @@ app.get = function(selector) {
     return document.querySelector(selector);
 };
 
-/* Firebase */
-app.firebase_signInWithPopup = function(
-    firebase,
-    provider,
-    provider_name,
-    fbPhotoSize
-) {
-    firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(function(result) {
-            firebase.auth().onAuthStateChanged(firebaseUser => {
-                firebase
-                    .database()
-                    .ref("/users/" + firebaseUser.uid)
-                    .on("value", function(snapshot) {
-                        if (!snapshot.val()) {
-                            firebase
-                                .database()
-                                .ref("/users/" + firebaseUser.uid)
-                                .set({
-                                    name: result.user.displayName,
-                                    email: result.user.email,
-                                    uid: firebaseUser.uid,
-                                    photoURL:
-                                        result.user.photoURL + fbPhotoSize,
-                                    provider: provider_name
-                                });
-                        }
-                    });
-            });
-        })
-        .catch(function(error) {
-            if (error.code == "auth/account-exists-with-different-credential") {
-                alert(
-                    `您好，此信箱 ( ${
-                        error.email
-                    } ) 已註冊為會員，再麻煩您使用 google 登入`
-                );
-            }
-        });
-};
-
 /* Google map */
 /* 修改標記地點 */
 app.setMarker = function(props) {

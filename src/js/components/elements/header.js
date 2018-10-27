@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Logo from "../../../img/funtrip_logo.svg";
 import "../../../scss/header.scss";
-import * as firebase from "firebase";
 
 class Header extends Component {
     constructor(props) {

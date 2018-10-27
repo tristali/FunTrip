@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "../../../scss/login.scss";
-import app from "../../lib";
 import * as firebase from "firebase";
+import { DB } from "../../library/firebase";
 
 class Login extends Component {
     constructor(props) {
@@ -13,21 +13,21 @@ class Login extends Component {
         };
         this.handleLoginOrSignupState = this.handleLoginOrSignupState.bind(
             this
-        ); 
+        );
         this.handleLoginAndSignupInputChange = this.handleLoginAndSignupInputChange.bind(
             this
-        ); 
+        );
         /* Log in and Sign up */
         this.handleLoginOrSignupEnter = this.handleLoginOrSignupEnter.bind(
             this
-        ); 
-        this.handleFacebookLogin = this.handleFacebookLogin.bind(this); 
-        this.handleGoogleLogin = this.handleGoogleLogin.bind(this); 
+        );
+        this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
+        this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
     }
     /* Determine if the user chooses to Login or Signup */
     handleLoginOrSignupState(tab_name) {
         this.setState({ login_or_signup: tab_name });
-    } 
+    }
     /* Login and Signup data input change this.state.user  */
     handleLoginAndSignupInputChange(e) {
         const userDetailKey = Object.keys(this.props.state.user);
@@ -42,7 +42,7 @@ class Login extends Component {
             stateName: "user",
             value: userDetailState
         });
-    } 
+    }
     /* check the Login and Signup information before sending the information */
     handleLoginOrSignupEnter() {
         const thisStateUser = this.props.state.user;
@@ -60,12 +60,7 @@ class Login extends Component {
         } else {
             if (this.state.login_or_signup === "login") {
                 /* Login */
-                const promise = firebase
-                    .auth()
-                    .signInWithEmailAndPassword(
-                        thisStateUser.email,
-                        thisStateUser.password
-                    );
+                const promise = DB.signInWithEmailAndPassword(thisStateUser);
                 promise.catch(function(e) {
                     if (
                         e.message ==
@@ -81,24 +76,12 @@ class Login extends Component {
                 if (!thisStateUser.name) {
                     alert("OOOpps! 有欄位忘記填囉!");
                 } else {
-                    const promise = firebase
-                        .auth()
-                        .createUserWithEmailAndPassword(
-                            thisStateUser.email,
-                            thisStateUser.password
-                        );
+                    const promise = DB.createUserWithEmailAndPassword(
+                        thisStateUser
+                    );
                     promise
                         .then(function() {
-                            firebase
-                                .database()
-                                .ref(
-                                    "/users/" + firebase.auth().currentUser.uid
-                                )
-                                .set({
-                                    name: thisStateUser.name,
-                                    email: thisStateUser.email,
-                                    uid: firebase.auth().currentUser.uid
-                                });
+                            DB.setMemberInformation(thisStateUser);
                         })
                         .catch(function(e) {
                             if (
@@ -113,25 +96,20 @@ class Login extends Component {
                 }
             }
         }
-    } 
+    }
     /* Facebook Login */
     handleFacebookLogin() {
         let provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope("email");
-        app.firebase_signInWithPopup(
-            firebase,
-            provider,
-            "Facebook",
-            "/?width=640"
-        );
-    } 
+        DB.signInWithPopup(provider, "Facebook", "/?width=640");
+    }
 
     /* Google Login */
     handleGoogleLogin() {
         let provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-        app.firebase_signInWithPopup(firebase, provider, "Google");
-    } 
+        DB.signInWithPopup(provider, "Google");
+    }
     render() {
         let login = this.state.login_or_signup === "login" ? "current" : null;
         let signup = this.state.login_or_signup === "signup" ? "current" : null;
@@ -155,9 +133,7 @@ class Login extends Component {
                             <li
                                 className={`${signup} signup`}
                                 onClick={() =>
-                                    this.handleLoginOrSignupState(
-                                        "signup"
-                                    )
+                                    this.handleLoginOrSignupState("signup")
                                 }
                             >
                                 SIGN UP
@@ -169,8 +145,7 @@ class Login extends Component {
                                     id="name"
                                     value={this.props.state.user.name}
                                     onChange={
-                                        this
-                                            .handleLoginAndSignupInputChange
+                                        this.handleLoginAndSignupInputChange
                                     }
                                     type="text"
                                     placeholder="請輸入姓名"
@@ -181,8 +156,7 @@ class Login extends Component {
                                     id="email"
                                     value={this.props.state.user.email}
                                     onChange={
-                                        this
-                                            .handleLoginAndSignupInputChange
+                                        this.handleLoginAndSignupInputChange
                                     }
                                     type="email"
                                     placeholder="example@funtrip.com"
@@ -193,8 +167,7 @@ class Login extends Component {
                                     id="password"
                                     value={this.props.state.user.password}
                                     onChange={
-                                        this
-                                            .handleLoginAndSignupInputChange
+                                        this.handleLoginAndSignupInputChange
                                     }
                                     type="password"
                                     placeholder="請輸入密碼(至少六碼)"

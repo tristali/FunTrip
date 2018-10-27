@@ -222,8 +222,42 @@ class Plan extends Component {
 
     componentDidMount() {
         let thisEnvironment = this;
-        firebase.auth().onAuthStateChanged(firebaseUser => {
-            if (firebaseUser) {
+        let uid = this.props.state.user.uid;
+        if (uid) {
+            let redirectState = false;
+            /* 判斷 plan href 是否有 plan id */
+            if (!location.href.includes("?id=")) {
+                redirectState = true;
+            } else {
+                let thisPlanId = this.props.state.current_plan;
+                redirectState = true;
+                firebase
+                    .database()
+                    .ref(`/plans/${thisPlanId}`)
+                    .on("value", function(snapshot) {
+                        if (snapshot.val().author === uid) {
+                            redirectState = false;
+                        }
+                    });
+            }
+            this.props.handleStateChange({
+                stateName: "loading",
+                value: true
+            });
+            updatePlanInformation(thisEnvironment);
+            this.setState({ redirect: redirectState });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        /* 抓取 Database 所有此旅程資料 */
+        if (
+            prevProps.state.current_plan !== this.props.state.current_plan ||
+            prevProps.state.user.uid !== this.props.state.user.uid
+        ) {
+            let thisEnvironment = this;
+            let uid = this.props.state.user.uid;
+            if (uid) {
                 let redirectState = false;
                 /* 判斷 plan href 是否有 plan id */
                 if (!location.href.includes("?id=")) {
@@ -233,25 +267,11 @@ class Plan extends Component {
                     redirectState = true;
                     firebase
                         .database()
-                        .ref("/plans/")
-                        .on("value", function(snapshot) {
-                            Object.keys(snapshot.val()).map(planId => {
-                                /* 如果有這個旅行且作者為此使用者 則 redirectState = false */
-                                if (planId === thisPlanId) {
-                                    firebase
-                                        .database()
-                                        .ref("/plans/" + thisPlanId)
-                                        .on("value", function(snapshot) {
-                                            if (
-                                                snapshot.val() &&
-                                                snapshot.val().author ===
-                                                    firebaseUser.uid
-                                            ) {
-                                                redirectState = false;
-                                            }
-                                        });
-                                }
-                            });
+                        .ref(`/plans/${thisPlanId}`)
+                        .on("value", function (snapshot) {
+                            if (snapshot.val().author === uid) {
+                                redirectState = false;
+                            }
                         });
                 }
                 this.props.handleStateChange({
@@ -261,19 +281,6 @@ class Plan extends Component {
                 updatePlanInformation(thisEnvironment);
                 this.setState({ redirect: redirectState });
             }
-        });
-    }
-
-    componentDidUpdate(prevProps) {
-        /* 抓取 Database 所有此旅程資料 */
-        if (prevProps.state.current_plan !== this.props.state.current_plan) {
-            /* 抓取 Database 所有此旅程資料 */
-            firebase.auth().onAuthStateChanged(firebaseUser => {
-                if (firebaseUser) {
-                    let thisEnvironment = this;
-                    updatePlanInformation(thisEnvironment);
-                }
-            });
         }
     }
 }

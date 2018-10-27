@@ -90,27 +90,23 @@ class AddPlanTrip extends Component {
         /* 抓取目前旅程 Database 資料到新增編輯彈跳視窗 */
         if (prevProps.state.add_plantrip !== this.props.state.add_plantrip) {
             if (this.props.state.add_plantrip === "EDIT") {
-                firebase.auth().onAuthStateChanged(firebaseUser => {
-                    if (firebaseUser) {
-                        let thisEnvironment = this;
-                        const planPath = firebase
-                            .database()
-                            .ref(`plans/${this.props.state.current_plan}`);
-                        planPath.on("value", snapshot => {
-                            let start = "";
-                            snapshot
-                                .val()
-                                .start.split("/")
-                                .map(item => {
-                                    start += `-${item}`;
-                                });
-                            thisEnvironment.setState({
-                                trip_name: snapshot.val().name,
-                                start_date: start.substring(1),
-                                day: snapshot.val().day
-                            });
+                let thisEnvironment = this;
+                const planPath = firebase
+                    .database()
+                    .ref(`plans/${this.props.state.current_plan}`);
+                planPath.on("value", snapshot => {
+                    let start = "";
+                    snapshot
+                        .val()
+                        .start.split("/")
+                        .map(item => {
+                            start += `-${item}`;
                         });
-                    }
+                    thisEnvironment.setState({
+                        trip_name: snapshot.val().name,
+                        start_date: start.substring(1),
+                        day: snapshot.val().day
+                    });
                 });
             }
         }

@@ -4,16 +4,11 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LandingPage from "./components/landingpage";
 import Plan from "./components/plan";
 import Profile from "./components/profile";
-import app from "./lib";
-import * as firebase from "firebase";
-
-/*initialize firebase*/
-firebase.initializeApp(app.firebase.config);
+import { DB } from "./library/firebase";
 
 class App extends Component {
     constructor(props) {
         super(props);
-        // this.list =
         this.state = {
             user: {
                 name: "",
@@ -54,7 +49,7 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.state);
+        console.log(this.state, "ddddddddd");
         return (
             <BrowserRouter>
                 <Switch>
@@ -117,7 +112,10 @@ class App extends Component {
     handlePopup(value) {
         this.setState({
             popup: "",
-            popup_state: value
+            popup_state: value,
+            plan_trip: "hide",
+            map: "",
+            menu: ""
         });
     }
 
@@ -130,7 +128,8 @@ class App extends Component {
             popup: "hide",
             popup_state: ""
         });
-        firebase.auth().signOut();
+
+        DB.signOut();
     }
 
     /* 改變 state 狀態 
@@ -154,79 +153,11 @@ class App extends Component {
         }
     }
 
-    /* Determine the login status when all components are rendered. */
     componentDidMount() {
         /* 判斷登入狀態決定登入視窗是否顯示*/
-        let thisStateUser;
         /* 儲存當前環境 */
         let thisEnvironment = this;
-        let thisStatePlanTrip = "hide";
-        let thisStateCurrentPlan = "";
-        let thisStateMap = "";
-        firebase.auth().onAuthStateChanged(firebaseUser => {
-            if (firebaseUser) {
-                thisStateUser = Object.assign({}, this.state.user, {
-                    email: firebaseUser.email,
-                    uid: firebaseUser.uid,
-                    password: "",
-                    photoURL: firebaseUser.photoURL
-                });
-                /* 取得使用者資料 */
-                firebase
-                    .database()
-                    .ref("/users/" + firebaseUser.uid)
-                    .on("value", function(snapshot) {
-                        thisStateUser.name = snapshot.val().name;
-                        /* 較高畫質大頭貼 */
-                        if (snapshot.val().photoURL) {
-                            thisStateUser.photoURL = snapshot.val().photoURL;
-                        }
-                        if (snapshot.val().plan) {
-                            thisStateUser.plan = snapshot.val().plan;
-                        }
-                        thisEnvironment.setState({
-                            user: thisStateUser,
-                            current_plan: thisStateCurrentPlan,
-                            plan_trip: thisStatePlanTrip,
-                            map: thisStateMap
-                        });
-                    });
-
-                /* 取得此使用者旅程資料 */
-                firebase
-                    .database()
-                    .ref()
-                    .child("plans")
-                    .orderByChild("author")
-                    .equalTo(firebaseUser.uid)
-                    .on("value", function(snapshot) {
-                        const plan = snapshot.val();
-                        thisEnvironment.setState({ all_plan: plan });
-                    });
-
-                this.setState({
-                    user: thisStateUser,
-                    login_and_signup: "hide"
-                });
-            } else {
-                /* 沒有登入狀態 */
-                thisStateUser = Object.assign({}, this.state.user, {
-                    name: "",
-                    email: "",
-                    password: "",
-                    uid: "",
-                    photoURL: "",
-                    plan: ""
-                });
-                this.setState({
-                    user: thisStateUser,
-                    menu: "",
-                    plan_trip: "hide",
-                    login_and_signup: "",
-                    map: ""
-                });
-            }
-        });
+        DB.onAuthChanged(thisEnvironment);
     }
 }
 
