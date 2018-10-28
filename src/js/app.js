@@ -113,10 +113,14 @@ class App extends Component {
         this.setState({
             popup: "",
             popup_state: value,
-            plan_trip: "hide",
-            map: "",
             menu: ""
         });
+        if (value !== "del_plan") {
+            this.setState({
+                plan_trip: "hide",
+                map: ""
+            });
+        }
     }
 
     /* Signout */

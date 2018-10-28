@@ -8,22 +8,36 @@ $primary-gradient-color: linear-gradient(#0573fe 40%, #2fd3f6);
 $second-gradient-color: linear-gradient(#0573fe 1%, #2fd3f6);
 
 /*font*/
-$font-size-medium: 18px;
-$font-size-medium-small: 15px;
-$font-size-small: 13px;
+$font-size-medium: 1.125rem;
+$font-size-medium-small: 0.93rem;
+$font-size-small: 0.875rem;
 
-$font-size-medium-phone: 14px;
-$font-size-small-phone: 10px;
+$font-size-medium-phone: 0.875rem;
+$font-size-small-phone: 0.625rem;
 
 $font-family: "Century Gothic", "微軟正黑體", "Microsoft JhengHei",
     "PingFang TC", Arial, "sans-serif";
 
 /*media*/
-$pad-media: 940px;
-$phone-media: 450px;
+$web-1680: 1680px;
+$web-1366: 1366px;
+$pad-760-media: 760px;
+$phone-media: 420px;
 
-@mixin pad-width {
-    @media (max-width: $pad-media) {
+@mixin web-1680-width {
+    @media (max-width: $web-1680) {
+        @content;
+    }
+}
+
+@mixin web-1366-width {
+    @media (max-width: $web-1366) {
+        @content;
+    }
+}
+
+@mixin pad-760-width {
+    @media (max-width: $pad-760-media) {
         @content;
     }
 }

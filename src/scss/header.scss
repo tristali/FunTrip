@@ -20,9 +20,9 @@ body {
                     width: 20px;
                     padding: 10px 0;
                     transition: right 0.5s;
-                    @include pad-width {
-                        padding: 5px 0;
-                        width: 15px;
+                    @include pad-760-width {
+                        padding: 5px;
+                        width: 25px;
                     }
                     > div {
                         height: 2px;
@@ -30,14 +30,14 @@ body {
                         background-color: $second-color;
                         border-radius: 2px;
                         margin: 4px 0;
-                        @include pad-width {
+                        @include pad-760-width {
                             height: 1px;
                         }
                     }
                 }
                 &.menu_icon.open {
                     right: calc(230px + 2vw);
-                    @include pad-width {
+                    @include pad-760-width {
                         right: calc(180px + 2vw);
                     }
                 }
@@ -45,7 +45,7 @@ body {
                     width: 125px;
                     height: 40px;
                     cursor: pointer;
-                    @include pad-width {
+                    @include pad-760-width {
                         width: 100px;
                         height: 30px;
                     }
@@ -62,23 +62,22 @@ body {
             width: 230px;
             height: 100vh;
             transition: right 0.5s;
-            @include pad-width {
+            @include pad-760-width {
                 width: 180px;
                 right: -180px;
             }
             > ul {
                 padding: 4% 10%;
                 > li {
-                    padding: 7% 10% 7% 35%;
+                    padding: 7% 0 7% 35%;
                     border-bottom: solid 1px $color-light-gray-line;
                     cursor: pointer;
                     background-repeat: no-repeat;
                     background-size: 38px 38px;
                     background-position: 5% center;
-                    @include pad-width {
+                    @include pad-760-width {
                         font-size: $font-size-small;
                         background-size: 32px 32px;
-                        padding: 7% 10% 7% 35%;
                     }
                     > a {
                         color: $second-color;
@@ -93,7 +92,7 @@ body {
                 li:nth-child(3) {
                     background-image: url(../img/logout.svg);
                     letter-spacing: 34px;
-                    @include pad-width {
+                    @include pad-760-width {
                         letter-spacing: 26px;
                     }
                 }

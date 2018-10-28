@@ -92,7 +92,7 @@ class ProfileInformation extends Component {
                                         <div>{this.props.state.user.name}</div>
                                         <div>{this.props.state.user.email}</div>
                                     </li>
-                                    <li className="clearfix">
+                                    <li>
                                         <div
                                             onClick={() =>
                                                 this.props.handleChangeTripDisplay(

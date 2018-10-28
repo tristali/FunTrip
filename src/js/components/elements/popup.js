@@ -95,6 +95,17 @@ class Popup extends Component {
                 stateName: "map",
                 value: "plantrip_open"
             });
+
+            if (this.props.state.popup_state === "del_plan") {
+                this.props.handleStateChange({
+                    stateName: "plan_trip_width",
+                    value: ""
+                });
+                this.props.handleStateChange({
+                    stateName: "map",
+                    value: "plantrip_creactplantrip_open"
+                });
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ div.plantrip {
                     float: left;
                     &.types_of {
                         padding-top: 5px;
-                        @include pad-width {
+                        @include pad-760-width {
                             padding-top: 11px;
                         }
                         > div {
@@ -19,7 +19,7 @@ div.plantrip {
                             border-radius: 13px;
                             border: dashed 1px $primary-color;
                             cursor: pointer;
-                            @include pad-width {
+                            @include pad-760-width {
                                 width: 39px;
                                 height: 38px;
                                 padding: 1px;
@@ -34,7 +34,7 @@ div.plantrip {
                                 text-align: center;
                                 color: #fff;
                                 padding-top: 4px;
-                                @include pad-width {
+                                @include pad-760-width {
                                     width: 35px;
                                     height: 34px;
                                     font-size: $font-size-small-phone;
@@ -47,7 +47,7 @@ div.plantrip {
                     &.date_detail {
                         width: calc(100% - 57px);
                         float: right;
-                        @include pad-width {
+                        @include pad-760-width {
                             width: calc(100% - 44px);
                         }
                         > div {
@@ -59,7 +59,7 @@ div.plantrip {
                                         width: 357px;
                                         height: 60px;
                                         overflow: hidden;
-                                        @include pad-width {
+                                        @include pad-760-width {
                                             width: 225px;
                                             height: 60px;
                                         }
@@ -77,7 +77,7 @@ div.plantrip {
                                                 background-position: center
                                                     center;
                                                 background-repeat: no-repeat;
-                                                @include pad-width {
+                                                @include pad-760-width {
                                                     width: 45px;
                                                 }
                                                 > a {
@@ -89,13 +89,13 @@ div.plantrip {
                                                         line-height: 1.2rem;
                                                         &:nth-child(2) {
                                                             font-size: $font-size-medium;
-                                                            @include pad-width {
+                                                            @include pad-760-width {
                                                                 font-size: $font-size-medium-phone;
                                                             }
                                                         }
                                                         &:nth-last-child(2) {
                                                             font-size: $font-size-small;
-                                                            @include pad-width {
+                                                            @include pad-760-width {
                                                                 font-size: $font-size-small-phone;
                                                             }
                                                         }
@@ -127,7 +127,7 @@ div.plantrip {
                                             transform: rotate(180deg);
                                             float: right;
                                         }
-                                        &:hover{
+                                        &:hover {
                                             opacity: 0.8;
                                         }
                                     }
@@ -136,13 +136,13 @@ div.plantrip {
                                         line-height: 1.2rem;
                                         &:nth-child(1) {
                                             font-size: $font-size-medium;
-                                            @include pad-width {
+                                            @include pad-760-width {
                                                 font-size: $font-size-medium-phone;
                                             }
                                         }
                                         &:nth-last-child(1) {
                                             font-size: $font-size-small;
-                                            @include pad-width {
+                                            @include pad-760-width {
                                                 font-size: $font-size-small-phone;
                                             }
                                         }

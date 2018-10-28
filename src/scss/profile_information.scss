@@ -28,37 +28,62 @@ div#profile {
                         background-size: cover;
                         background-repeat: no-repeat;
                         width: 100vw;
-                        height: 55vh;
+                        height: 26.95vw;
                         background-position: center;
+                        @include pad-760-width {
+                            height: 40vw;
+                        }
                     }
                     &:nth-child(2) {
                         position: absolute;
-                        top: calc(55vh * 39 / 100);
+                        top: calc(26.95vw * 39 / 100);
                         width: 0;
                         height: 0;
                         border-style: solid;
                         border-color: #fbfbfb transparent;
-                        border-width: 0 0 calc(55vh * 61 / 100) 100vw;
+                        border-width: 0 0 calc(27vw * 61 / 100) 100vw;
+                        @include pad-760-width {
+                            top: calc(40vw * 58.8 / 100);
+                        }
                     }
                 }
             }
             &.box {
-                max-width: 1000px;
+                max-width: 1366px;
                 width: 100%;
                 margin: 0 auto;
-                padding: 5vh 0;
+                padding: 2vw;
                 > div {
                     &.top {
-                        padding-top: 22vh;
+                        padding-top: 10vw;
                         position: relative;
+                        @include web-1680-width {
+                            padding-top: 9.5vw;
+                        }
+                        @include web-1366-width {
+                            padding: 7.5vw 2vw 0;
+                        }
+                        @include pad-760-width {
+                            padding: 19vw 2vw 0;
+                        }
                         > div {
                             float: left;
                             padding: 10px;
+                            @include web-1366-width {
+                                padding: 0.75vw;
+                            }
                             &:nth-child(1) {
                                 position: absolute;
                                 right: 0;
                                 width: 87px;
                                 padding-right: 10px;
+                                @include web-1366-width {
+                                    width: 6.3vw;
+                                    padding: 0.74vw;
+                                }
+                                @include pad-760-width {
+                                    width: 9.45vw;
+                                }
                                 > div {
                                     &.add_trip {
                                         margin: 0 auto;
@@ -68,6 +93,15 @@ div#profile {
                                         border-radius: 100%;
                                         background-color: #fff;
                                         cursor: pointer;
+                                        @include web-1366-width {
+                                            width: 5vw;
+                                            height: 5vw;
+                                            padding: 0.45vw;
+                                        }
+                                        @include pad-760-width {
+                                            width: 7.25vw;
+                                            height: 7.25vw;
+                                        }
                                         > div {
                                             width: 100%;
                                             background-color: $second-color;
@@ -78,17 +112,42 @@ div#profile {
                                     }
                                 }
                             }
+                            &:nth-child(2) {
+                                @include web-1366-width {
+                                    width: 25%;
+                                }
+                                @include pad-760-width {
+                                    width: 35%;
+                                }
+                            }
                             &:nth-child(3) {
                                 width: calc(100% - 320px);
+                                @include web-1366-width {
+                                    width: 75%;
+                                }
+                                @include pad-760-width {
+                                    width: 45%;
+                                    float: right;
+                                }
                             }
                             > div {
                                 &.photo {
-                                    margin-top: 5vh;
+                                    margin-top: 2.5vw;
                                     width: 290px;
                                     height: 290px;
                                     padding: 8px;
                                     border-radius: 100%;
                                     background-color: rgba(255, 255, 255, 0.6);
+                                    @include web-1366-width {
+                                        width: 21vw;
+                                        height: 21vw;
+                                        padding: 0.57vw;
+                                    }
+                                    @include pad-760-width {
+                                        width: 30vw;
+                                        height: 30vw;
+                                        padding: 0.6vw;
+                                    }
                                     > div {
                                         width: 100%;
                                         height: 100%;
@@ -98,20 +157,40 @@ div#profile {
                                     }
                                 }
                                 &.information {
-                                    padding-top: 20vh;
+                                    padding-top: 9.8vw;
+                                    @include web-1366-width {
+                                        padding-top: 13vw;
+                                    }
                                     > ul {
                                         > li {
                                             float: left;
                                             &:nth-child(1) {
                                                 width: 60%;
                                                 padding-left: 5%;
+                                                @include pad-760-width {
+                                                    position: absolute;
+                                                    top: 5vw;
+                                                    left: 2vw;
+                                                }
                                                 > div {
                                                     line-height: 1.5em;
                                                     &:nth-child(1) {
-                                                        font-size: 37px;
+                                                        font-size: 2.3rem;
+                                                        @include web-1366-width {
+                                                            font-size: 2.7vw;
+                                                        }
+                                                        @include pad-760-width {
+                                                            font-size: 4vw;
+                                                        }
                                                     }
                                                     &:nth-child(2) {
-                                                        font-size: $font-size-medium;
+                                                        font-size: 1.125rem;
+                                                        @include web-1366-width {
+                                                            font-size: 1.32vw;
+                                                        }
+                                                        @include pad-760-width {
+                                                            font-size: 2vw;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -119,15 +198,25 @@ div#profile {
                                                 width: 40%;
                                                 text-align: center;
                                                 padding: 8px 0;
+                                                @include web-1366-width {
+                                                    padding: 0.57vw;
+                                                }
+                                                @include pad-760-width {
+                                                    width: 100%;
+                                                }
                                                 > div {
-                                                    float: left;
                                                     width: 33.3%;
+                                                    display: inline-block;
                                                     > ul {
                                                         width: 66px;
                                                         height: 66px;
                                                         border-radius: 100%;
                                                         cursor: pointer;
                                                         margin: 0 auto;
+                                                        @include web-1366-width {
+                                                            width: 53px;
+                                                            height: 53px;
+                                                        }
                                                         &.current {
                                                             background-color: rgba(
                                                                 93,
@@ -139,10 +228,22 @@ div#profile {
                                                         > li {
                                                             line-height: 1.5em;
                                                             &:nth-child(1) {
-                                                                font-size: 28px;
+                                                                font-size: 1.75rem;
+                                                                @include web-1366-width {
+                                                                    font-size: 2.1vw;
+                                                                }
+                                                                @include pad-760-width {
+                                                                    font-size: 3vw;
+                                                                }
                                                             }
                                                             &:nth-child(2) {
-                                                                font-size: 16px;
+                                                                font-size: 1rem;
+                                                                @include web-1366-width {
+                                                                    font-size: 1.17vw;
+                                                                }
+                                                                @include pad-760-width {
+                                                                    font-size: 2.1vw;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -155,13 +256,19 @@ div#profile {
                         }
                     }
                     &.bottom {
-                        padding: 5% 0 10vh;
+                        padding: 5% 0 5vw;
                         > ul {
                             > li {
                                 display: none;
                                 float: left;
                                 width: 33.3%;
                                 padding: 10px;
+                                @include web-1366-width {
+                                    padding: 0.74vw;
+                                }
+                                @include pad-760-width {
+                                    width: 50%;
+                                }
                                 > div {
                                     width: 100%;
                                     background-color: rgba(255, 255, 255, 0.5);
@@ -172,16 +279,34 @@ div#profile {
                                     box-shadow: 0 2px 10px
                                         rgba(93, 95, 119, 0.1);
                                     transition: background-color 0.5s;
+                                    @include pad-760-width {
+                                        padding: 10% 0 9%;
+                                    }
                                     > ul {
                                         > li {
                                             &:nth-child(1) {
-                                                font-size: 20px;
+                                                font-size: 1.25rem;
+                                                @include web-1366-width {
+                                                    font-size: 1.5vw;
+                                                }
+                                                @include pad-760-width {
+                                                    font-size: 1.75vw;
+                                                }
                                             }
                                             &:nth-child(2) {
-                                                font-size: 16px;
+                                                font-size: 1rem;
+                                                @include web-1366-width {
+                                                    font-size: 1.2vw;
+                                                }
+                                                @include pad-760-width {
+                                                    font-size: 1.4vw;
+                                                }
                                             }
                                             &:nth-child(3) {
                                                 padding-top: 5%;
+                                                @include pad-760-width {
+                                                    padding-top: 2%;
+                                                }
                                                 > div {
                                                     width: 50px;
                                                     height: 50px;
@@ -190,6 +315,14 @@ div#profile {
                                                     border-radius: 100%;
                                                     margin: 0 auto;
                                                     background-image: url(../img/profile_edit.svg);
+                                                    @include web-1366-width {
+                                                        width: 3.74vw;
+                                                        height: 3.74vw;
+                                                    }
+                                                    @include pad-760-width {
+                                                        width: 5vw;
+                                                        height: 5vw;
+                                                    }
                                                 }
                                             }
                                         }
