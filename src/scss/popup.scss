@@ -26,7 +26,7 @@ div.popup {
         left: 50%;
         transform: translate(-50%, -50%);
 
-        @include phone-width {
+        @include phone-420-width {
             width: 310px;
             height: 256px;
         }
@@ -40,12 +40,19 @@ div.popup {
             > h3 {
                 > div {
                     margin: 0 auto 5%;
-                    font-size: 15px;
+                    font-size: 0.9375rem;
                     color: $second-color;
                     font-family: "微軟正黑體";
+                    @include phone-420-width {
+                        font-size: 2.5vw;
+                        text-align: center;
+                    }
                     &:nth-child(1) {
-                        font-size: 24px;
+                        font-size: 1.5rem;
                         padding: 3px;
+                        @include phone-420-width {
+                            font-size: 4vw;
+                        }
                         > span {
                             display: inline-block;
                             float: right;
@@ -58,6 +65,11 @@ div.popup {
                                     center;
                                 border: solid 1px $second-color;
                                 border-radius: 100%;
+                                @include phone-420-width {
+                                    width: 20px;
+                                    height: 20px;
+                                    margin-top: 3px;
+                                }
                             }
                         }
                     }
@@ -79,7 +91,10 @@ div.popup {
                         border-radius: 4px;
                         padding: 3px;
                         cursor: pointer;
-                        &:hover{
+                        @include phone-420-width {
+                            font-size: 2.562vw;
+                        }
+                        &:hover {
                             color: #fff;
                             background: $second-gradient-color;
                             border: solid 0.5px $primary-color;

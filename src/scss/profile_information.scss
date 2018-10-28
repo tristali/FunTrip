@@ -33,6 +33,9 @@ div#profile {
                         @include pad-760-width {
                             height: 40vw;
                         }
+                        @include phone-420-width {
+                            height: 50vw;
+                        }
                     }
                     &:nth-child(2) {
                         position: absolute;
@@ -43,7 +46,10 @@ div#profile {
                         border-color: #fbfbfb transparent;
                         border-width: 0 0 calc(27vw * 61 / 100) 100vw;
                         @include pad-760-width {
-                            top: calc(40vw * 58.8 / 100);
+                            top: calc(40vw * 58.9 / 100);
+                        }
+                        @include phone-420-width {
+                            top: calc(50vw * 67.5 / 100);
                         }
                     }
                 }
@@ -66,6 +72,9 @@ div#profile {
                         @include pad-760-width {
                             padding: 19vw 2vw 0;
                         }
+                        @include phone-420-width {
+                            padding: 27vw 1.5vw 0;
+                        }
                         > div {
                             float: left;
                             padding: 10px;
@@ -83,6 +92,9 @@ div#profile {
                                 }
                                 @include pad-760-width {
                                     width: 9.45vw;
+                                }
+                                @include phone-420-width {
+                                    width: 19.45vw;
                                 }
                                 > div {
                                     &.add_trip {
@@ -102,6 +114,11 @@ div#profile {
                                             width: 7.25vw;
                                             height: 7.25vw;
                                         }
+                                        @include phone-420-width {
+                                            width: 12.5vw;
+                                            height: 12.5vw;
+                                            padding: 0.7vw;
+                                        }
                                         > div {
                                             width: 100%;
                                             background-color: $second-color;
@@ -117,7 +134,7 @@ div#profile {
                                     width: 25%;
                                 }
                                 @include pad-760-width {
-                                    width: 35%;
+                                    width: auto;
                                 }
                             }
                             &:nth-child(3) {
@@ -126,8 +143,12 @@ div#profile {
                                     width: 75%;
                                 }
                                 @include pad-760-width {
+                                    min-width: 160px;
                                     width: 45%;
                                     float: right;
+                                }
+                                @include phone-420-width {
+                                    width: 50%;
                                 }
                             }
                             > div {
@@ -147,6 +168,12 @@ div#profile {
                                         width: 30vw;
                                         height: 30vw;
                                         padding: 0.6vw;
+                                    }
+                                    @include phone-420-width {
+                                        width: 40vw;
+                                        height: 40vw;
+                                        padding: 1vw;
+                                        margin-top: 0;
                                     }
                                     > div {
                                         width: 100%;
@@ -181,6 +208,10 @@ div#profile {
                                                         }
                                                         @include pad-760-width {
                                                             font-size: 4vw;
+                                                            letter-spacing: 0;
+                                                        }
+                                                        @include phone-420-width {
+                                                            font-size: 6vw;
                                                         }
                                                     }
                                                     &:nth-child(2) {
@@ -190,6 +221,9 @@ div#profile {
                                                         }
                                                         @include pad-760-width {
                                                             font-size: 2vw;
+                                                        }
+                                                        @include phone-420-width {
+                                                            font-size: 3vw;
                                                         }
                                                     }
                                                 }
@@ -203,6 +237,9 @@ div#profile {
                                                 }
                                                 @include pad-760-width {
                                                     width: 100%;
+                                                }
+                                                @include phone-420-width {
+                                                    padding-top: 7vw;
                                                 }
                                                 > div {
                                                     width: 33.3%;
@@ -235,6 +272,9 @@ div#profile {
                                                                 @include pad-760-width {
                                                                     font-size: 3vw;
                                                                 }
+                                                                @include phone-420-width {
+                                                                    font-size: 4.5vw;
+                                                                }
                                                             }
                                                             &:nth-child(2) {
                                                                 font-size: 1rem;
@@ -242,7 +282,10 @@ div#profile {
                                                                     font-size: 1.17vw;
                                                                 }
                                                                 @include pad-760-width {
-                                                                    font-size: 2.1vw;
+                                                                    font-size: 2vw;
+                                                                }
+                                                                @include phone-420-width {
+                                                                    font-size: 3vw;
                                                                 }
                                                             }
                                                         }
@@ -290,7 +333,10 @@ div#profile {
                                                     font-size: 1.5vw;
                                                 }
                                                 @include pad-760-width {
-                                                    font-size: 1.75vw;
+                                                    font-size: 2.18vw;
+                                                }
+                                                @include phone-420-width {
+                                                    font-size: 3.27vw;
                                                 }
                                             }
                                             &:nth-child(2) {
@@ -299,7 +345,10 @@ div#profile {
                                                     font-size: 1.2vw;
                                                 }
                                                 @include pad-760-width {
-                                                    font-size: 1.4vw;
+                                                    font-size: 1.75vw;
+                                                }
+                                                @include phone-420-width {
+                                                    font-size: 2.625vw;
                                                 }
                                             }
                                             &:nth-child(3) {
@@ -322,6 +371,24 @@ div#profile {
                                                     @include pad-760-width {
                                                         width: 5vw;
                                                         height: 5vw;
+                                                        border: solid 0.5px
+                                                            rgba(
+                                                                93,
+                                                                95,
+                                                                119,
+                                                                0.5
+                                                            );
+                                                    }
+                                                    @include phone-420-width {
+                                                        width: 8vw;
+                                                        height: 8vw;
+                                                        border: solid 0.5px
+                                                            rgba(
+                                                                93,
+                                                                95,
+                                                                119,
+                                                                0.3
+                                                            );
                                                     }
                                                 }
                                             }

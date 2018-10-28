@@ -22,7 +22,7 @@ $font-family: "Century Gothic", "微軟正黑體", "Microsoft JhengHei",
 $web-1680: 1680px;
 $web-1366: 1366px;
 $pad-760-media: 760px;
-$phone-media: 420px;
+$phone-420-media: 420px;
 
 @mixin web-1680-width {
     @media (max-width: $web-1680) {
@@ -42,8 +42,8 @@ $phone-media: 420px;
     }
 }
 
-@mixin phone-width {
-    @media (max-width: $phone-media) {
+@mixin phone-420-width {
+    @media (max-width: $phone-420-media) {
         @content;
     }
 }

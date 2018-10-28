@@ -25,7 +25,7 @@ div.login_and_signup {
         left: 50%;
         transform: translate(-50%, -50%);
 
-        @include phone-width {
+        @include phone-420-width {
             width: 310px;
             height: 515px;
         }
@@ -35,7 +35,7 @@ div.login_and_signup {
             margin: 0 auto;
             padding-top: 16%;
 
-            @include phone-width {
+            @include phone-420-width {
                 width: 80%;
             }
 
@@ -52,13 +52,19 @@ div.login_and_signup {
                     float: left;
                     width: 50%;
                     text-align: center;
-                    font-size: $font-size-medium;
+                    font-size: 1.125rem;
                     font-weight: 550;
                     padding-bottom: 8px;
                     cursor: pointer;
 
-                    @include phone-width {
-                        font-size: $font-size-medium-phone;
+                    // @include web-1366-width {
+                    //     font-size: 1.32vw;
+                    // }
+                    // @include pad-760-width {
+                    //     font-size: 1.93vw;
+                    // }
+                    @include phone-420-width {
+                        font-size: 2.895vw;
                     }
 
                     &.current {
@@ -78,12 +84,18 @@ div.login_and_signup {
                         width: 100%;
                         border: solid 1px $color-light-gray-line;
                         padding: 4% 4% 4% 19%;
-                        font-size: $font-size-small;
+                        font-size: 0.875rem;
                         border-radius: 3px;
                         background: no-repeat 4% center;
 
-                        @include phone-width {
-                            font-size: $font-size-small;
+                        // @include web-1366-width {
+                        //     font-size: 1.03vw;
+                        // }
+                        // @include pad-760-width {
+                        //     font-size: 1.502vw;
+                        // }
+                        @include phone-420-width {
+                            font-size: 2.253vw;
                         }
                     }
 
@@ -109,13 +121,19 @@ div.login_and_signup {
                     padding: 2% 14%;
                     color: #fff;
                     border-radius: 3px;
-                    font-size: $font-size-medium-small;
+                    font-size: 0.93rem;
                     text-align: right;
                     cursor: pointer;
 
-                    @include phone-width {
+                    // @include web-1366-width {
+                    //     font-size: 1.1vw;
+                    // }
+                    // @include pad-760-width {
+                    //     font-size: 1.605vw;
+                    // }
+                    @include phone-420-width {
                         padding: 2% 18%;
-                        font-size: $font-size-small-phone;
+                        font-size: 2.4075vw;
                     }
                 }
 
@@ -123,7 +141,7 @@ div.login_and_signup {
                     background: url(../img/facebook.svg) no-repeat #254ea6 12%
                         center;
                     background-size: 33px 33px;
-                    @include phone-width {
+                    @include phone-420-width {
                         background-position-x: 17%;
                     }
                 }
@@ -132,7 +150,7 @@ div.login_and_signup {
                     background: url(../img/google.svg) no-repeat #d84134 15%
                         center;
                     background-size: 33px 33px;
-                    @include phone-width {
+                    @include phone-420-width {
                         background-position-x: 20%;
                     }
                 }
@@ -149,7 +167,7 @@ div.login_and_signup {
             background-size: 100% 100%;
             cursor: pointer;
 
-            @include phone-width {
+            @include phone-420-width {
                 width: 123px;
                 height: 123px;
                 bottom: 15px;

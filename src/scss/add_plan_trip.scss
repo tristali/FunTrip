@@ -10,25 +10,31 @@ div.add_plan_trip {
                         border-bottom: none;
                         li {
                             color: $primary-color;
-                            font-size: 25px;
+                            font-size: 1.5625rem;
                             text-align: left;
                         }
-                        @include phone-width {
-                            font-size: 20px;
+                        // @include web-1366-width {
+                        //     font-size: 1.83vw;
+                        // }
+                        // @include pad-760-width {
+                        //     font-size: 2.67vw;
+                        // }
+                        @include phone-420-width {
+                            font-size: 4vw;
                         }
                     }
                     &.enter_information {
                         max-width: 230px;
-                        @include phone-width {
+                        @include phone-420-width {
                             max-width: 200px;
                         }
                         > li {
                             padding: 0;
-                                border-bottom: solid 1px $color-light-gray-line;
+                            border-bottom: solid 1px $color-light-gray-line;
                             > input {
                                 border: none;
                                 border-bottom: solid 1px $color-light-gray-line;
-                                font-size: $font-size-medium-small;
+                                font-size: 0.93rem;
                                 padding: 7% 5% 7% 25%;
                                 margin: 2% 0;
                                 border-bottom: none;
@@ -36,8 +42,14 @@ div.add_plan_trip {
                                 font-family: $font-family;
                                 background: no-repeat 0 center;
                                 text-align: center;
-                                @include phone-width {
-                                    font-size: $font-size-small-phone;
+                                // @include web-1366-width {
+                                //     font-size: 1.1vw;
+                                // }
+                                // @include pad-760-width {
+                                //     font-size: 1.6vw;
+                                // }
+                                @include phone-420-width {
+                                    font-size: 2.4vw;
                                 }
                             }
                             &:nth-child(1) {
@@ -50,10 +62,9 @@ div.add_plan_trip {
                                     padding: 6% 0 6% 25%;
                                     background-image: url(../img/add_plan_trip_from.svg);
                                     &::-webkit-inner-spin-button,
-                                    &::-webkit-clear-button{
+                                    &::-webkit-clear-button {
                                         display: none;
                                     }
-
                                 }
                             }
                             &:nth-child(3) {
@@ -76,7 +87,7 @@ div.add_plan_trip {
             box-shadow: 2px 0 10px rgba(93, 95, 119, 0.1);
             border-radius: 32px;
 
-            @include phone-width {
+            @include phone-420-width {
                 width: 224px;
                 height: 50px;
                 bottom: 150px;
