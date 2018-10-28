@@ -39,8 +39,7 @@ class Login extends Component {
             }
         });
         this.props.handleStateChange({
-            stateName: "user",
-            value: userDetailState
+            user: userDetailState
         });
     }
     /* check the Login and Signup information before sending the information */

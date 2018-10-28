@@ -51,24 +51,25 @@ class Profile extends Component {
             </div>
         );
     }
-    
+
     componentDidMount() {
         /* 如果無登入則轉跳到 plan 頁面 */
         if (!this.props.state.user.uid) {
+
             this.props.handleStateChange({
-                stateName: "loading",
-                value: true
+                loading: true
             });
             this.setState({ redirect: true });
         }
     }
 
     componentDidUpdate(prevProps) {
+        /* 如果無登入則轉跳到 plan 頁面 */
         if (prevProps.state.user.uid !== this.props.state.user.uid) {
             if (!this.props.state.user.uid) {
+
                 this.props.handleStateChange({
-                    stateName: "loading",
-                    value: true
+                    loading: true
                 });
                 this.setState({ redirect: true });
             }

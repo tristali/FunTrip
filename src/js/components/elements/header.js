@@ -60,11 +60,11 @@ class Header extends Component {
             this.setState({ redirect: true });
         }
         if (location.href.includes("profile")) {
-            location.href="/profile";
+            location.href = "/profile";
         }
+
         this.props.handleStateChange({
-            stateName: "loading",
-            value: true
+            loading: true
         });
     }
 }

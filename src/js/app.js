@@ -49,7 +49,6 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.state, "ddddddddd");
         return (
             <BrowserRouter>
                 <Switch>
@@ -138,14 +137,16 @@ class App extends Component {
 
     /* 改變 state 狀態 
     { 
-        stateName : 要改變的 state 名稱, 
-        value : 要改變這個 state 名稱得值
+        要改變的 state 名稱: 要改變這個 state 名稱得值,
     } 
     */
-    handleStateChange(props) {
-        let thisState = {};
-        thisState[props.stateName] = props.value;
-        this.setState(thisState);
+    handleStateChange(object) {
+        let keys = Object.keys(object);
+        for (let i = 0; i < keys.length; i++) {
+            let thisState = {};
+            thisState[keys[i]] = object[keys[i]];
+            this.setState(thisState);
+        }
     }
 
     /* Determine if the click menu change this.state.menu */

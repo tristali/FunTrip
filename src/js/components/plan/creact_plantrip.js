@@ -321,12 +321,8 @@ class CreactPlanTrip extends Component {
             this.props.changeCreactPlantripState("hide");
 
             this.props.handleStateChange({
-                stateName: "map",
-                value: "plantrip_open"
-            });
-            this.props.handleStateChange({
-                stateName: "plan_trip_width",
-                value: "hide_creact_plantrip"
+                map: "plantrip_open",
+                plan_trip_width: "hide_creact_plantrip"
             });
         } else {
             alert("麻煩請協助填入地點名稱，謝謝");

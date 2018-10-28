@@ -115,12 +115,8 @@ class Plan extends Component {
             creact_plantrip: "hide"
         });
         this.props.handleStateChange({
-            stateName: "popup",
-            value: "hide"
-        });
-        this.props.handleStateChange({
-            stateName: "popup_state",
-            value: ""
+            popup: "hide",
+            popup_state: ""
         });
         const currentPlanID = this.props.state.current_plan;
         /* 把資料推進 Database */
@@ -141,17 +137,11 @@ class Plan extends Component {
             current_attractio: "",
             current_information: ""
         });
+
         this.props.handleStateChange({
-            stateName: "map",
-            value: "plantrip_open"
-        });
-        this.props.handleStateChange({
-            stateName: "plan_trip",
-            value: ""
-        });
-        this.props.handleStateChange({
-            stateName: "plan_trip_width",
-            value: "hide_creact_plantrip"
+            map: "plantrip_open",
+            splan_trip: "",
+            plan_trip_width: "hide_creact_plantrip"
         });
     }
 
@@ -170,20 +160,10 @@ class Plan extends Component {
     /* 刪除旅程 */
     handleDelTrip() {
         this.props.handleStateChange({
-            stateName: "plan_trip",
-            value: "hide"
-        });
-        this.props.handleStateChange({
-            stateName: "map",
-            value: ""
-        });
-        this.props.handleStateChange({
-            stateName: "popup",
-            value: "hide"
-        });
-        this.props.handleStateChange({
-            stateName: "popup_state",
-            value: ""
+            plan_trip: "hide",
+            map: "",
+            popup: "hide",
+            popup_state: ""
         });
         /* 上傳此 ID */
         let uid = this.props.state.user.uid;
@@ -209,8 +189,7 @@ class Plan extends Component {
         DB.remove(path);
 
         this.props.handleStateChange({
-            stateName: "loading",
-            value: true
+            loading: true
         });
         this.setState({ redirect: true });
     }
@@ -219,14 +198,12 @@ class Plan extends Component {
         let thisEnvironment = this;
         let uid = this.props.state.user.uid;
         if (uid) {
-            let redirectState = false;
+            let redirectState = true;
             /* 判斷 plan href 是否有 plan id */
             if (!location.href.includes("?id=")) {
-                redirectState = true;
+                this.setState({ redirect: true });
             } else {
                 let thisPlanId = this.props.state.current_plan;
-                redirectState = true;
-
                 const path = `/plans/${thisPlanId}`;
                 DB.on(path, function(snapshot) {
                     if (snapshot.val().author === uid) {
@@ -234,9 +211,9 @@ class Plan extends Component {
                     }
                 });
             }
+
             this.props.handleStateChange({
-                stateName: "loading",
-                value: true
+                loading: true
             });
             updatePlanInformation(thisEnvironment);
             this.setState({ redirect: redirectState });
@@ -267,9 +244,9 @@ class Plan extends Component {
                         }
                     });
                 }
+
                 this.props.handleStateChange({
-                    stateName: "loading",
-                    value: true
+                    loading: true
                 });
                 updatePlanInformation(thisEnvironment);
                 this.setState({ redirect: redirectState });
@@ -330,11 +307,7 @@ function updatePlanInformation(thisEnvironment) {
     });
 
     thisEnvironment.props.handleStateChange({
-        stateName: "plan_trip",
-        value: ""
-    });
-    thisEnvironment.props.handleStateChange({
-        stateName: "map",
-        value: "plantrip_open"
+        plan_trip: "",
+        map: "plantrip_open"
     });
 }

@@ -105,8 +105,7 @@ class PlanTripAllDetails extends Component {
     componentDidMount() {
         if (!this.props.planState.all_detailed_obj) {
             this.props.handleStateChange({
-                stateName: "loading",
-                value: false
+                loading: false
             });
         }
     }
@@ -215,8 +214,7 @@ class PlanTripDetails extends Component {
 
     componentDidMount() {
         this.props.handleStateChange({
-            stateName: "loading",
-            value: false
+            loading: false
         });
     }
 }

@@ -9,6 +9,9 @@
     z-index: 0;
     &.plantrip_open {
         width: calc(100vw - 470px);
+        @include pad-760-width {
+        width: calc(100vw - 320px);
+    }
     }
     &.plantrip_creactplantrip_open {
         width: calc(100vw - 470px - 400px);

@@ -114,17 +114,12 @@ class AddPlanTrip extends Component {
     handleCloseAddPlan(e) {
         if (e.target.className.split(" ")[0] === "login_and_signup") {
             this.props.handleStateChange({
-                stateName: "add_plantrip",
-                value: "hide"
+                add_plantrip: "hide"
             });
             if (location.href.includes("plan")) {
                 this.props.handleStateChange({
-                    stateName: "plan_trip",
-                    value: ""
-                });
-                this.props.handleStateChange({
-                    stateName: "map",
-                    value: "plantrip_open"
+                    plan_trip: "",
+                    map: "plantrip_open"
                 });
             }
         }
@@ -168,12 +163,8 @@ class AddPlanTrip extends Component {
                 /* 編輯旅程 */
                 key = this.props.state.add_plantrip_id;
                 this.props.handleStateChange({
-                    stateName: "plan_trip",
-                    value: ""
-                });
-                this.props.handleStateChange({
-                    stateName: "map",
-                    value: "plantrip_open"
+                    plan_trip: "",
+                    map: "plantrip_open"
                 });
             } else {
                 /* 新增旅程 */
@@ -194,16 +185,15 @@ class AddPlanTrip extends Component {
                 });
 
                 this.props.handleStateChange({
-                    stateName: "current_plan",
-                    value: key
+                    current_plan: key
                 });
                 this.setState({
                     plan_id: key
                 });
             }
+
             this.props.handleStateChange({
-                stateName: "add_plantrip",
-                value: "hide"
+                add_plantrip: "hide"
             });
             if (
                 this.props.state.add_plantrip_id &&
@@ -242,9 +232,9 @@ class AddPlanTrip extends Component {
                 this.setState({
                     redirect: true
                 });
+
                 this.props.handleStateChange({
-                    stateName: "loading",
-                    value: true
+                    loading: true
                 });
             }
         }

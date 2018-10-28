@@ -211,20 +211,10 @@ class AllTrip extends Component {
     }
     handleOpenThisPlan(plan_id) {
         this.props.handleStateChange({
-            stateName: "add_plantrip",
-            value: "hide"
-        });
-        this.props.handleStateChange({
-            stateName: "current_plan",
-            value: plan_id
-        });
-        this.props.handleStateChange({
-            stateName: "loading",
-            value: true
-        });
-        this.props.handleStateChange({
-            stateName: "menu",
-            value: ""
+            add_plantrip: "hide",
+            current_plan: plan_id,
+            loading: true,
+            menu: ""
         });
         this.setState({
             plan_id: plan_id,
@@ -233,8 +223,7 @@ class AllTrip extends Component {
     }
     componentDidMount() {
         this.props.handleStateChange({
-            stateName: "loading",
-            value: false
+            loading: false
         });
     }
 }

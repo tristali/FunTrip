@@ -76,34 +76,17 @@ class Popup extends Component {
             e.target.className.split(" ")[0] === "cancel"
         ) {
             this.props.handleStateChange({
-                stateName: "popup",
-                value: "hide"
-            });
-            this.props.handleStateChange({
-                stateName: "popup_state",
-                value: ""
-            });
-            this.props.handleStateChange({
-                stateName: "menu",
-                value: ""
-            });
-            this.props.handleStateChange({
-                stateName: "plan_trip",
-                value: ""
-            });
-            this.props.handleStateChange({
-                stateName: "map",
-                value: "plantrip_open"
+                popup: "hide",
+                popup_state: "",
+                menu: "",
+                plan_trip: "",
+                map: "plantrip_open"
             });
 
             if (this.props.state.popup_state === "del_plan") {
                 this.props.handleStateChange({
-                    stateName: "plan_trip_width",
-                    value: ""
-                });
-                this.props.handleStateChange({
-                    stateName: "map",
-                    value: "plantrip_creactplantrip_open"
+                    plan_trip_width: "",
+                    map: "plantrip_creactplantrip_open"
                 });
             }
         }

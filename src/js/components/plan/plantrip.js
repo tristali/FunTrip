@@ -151,13 +151,10 @@ class PlanTrip extends Component {
             stateName: "creact_plantrip",
             value: "Add"
         });
+
         this.props.handleStateChange({
-            stateName: "plan_trip_width",
-            value: ""
-        });
-        this.props.handleStateChange({
-            stateName: "map",
-            value: "plantrip_creactplantrip_open"
+            plan_trip_width: "",
+            map: "plantrip_creactplantrip_open"
         });
     }
 
@@ -246,13 +243,10 @@ class PlanTrip extends Component {
                 });
             }
         }
+
         this.props.handleStateChange({
-            stateName: "plan_trip_width",
-            value: ""
-        });
-        this.props.handleStateChange({
-            stateName: "map",
-            value: "plantrip_creactplantrip_open"
+            plan_trip_width: "",
+            map: "plantrip_creactplantrip_open"
         });
     }
 
@@ -270,13 +264,10 @@ class PlanTrip extends Component {
             stateName: "current_attraction",
             value: ""
         });
+
         this.props.handleStateChange({
-            stateName: "map",
-            value: "plantrip_open"
-        });
-        this.props.handleStateChange({
-            stateName: "plan_trip_width",
-            value: "hide_creact_plantrip"
+            map: "plantrip_open",
+            plan_trip_width: "hide_creact_plantrip"
         });
     }
 

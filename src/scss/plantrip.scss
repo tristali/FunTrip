@@ -15,6 +15,9 @@ div.plantrip {
     }
     &.hide_creact_plantrip {
         width: 470px;
+        @include pad-760-width {
+            width: 320px;
+        }
     }
     > div {
         float: left;
