@@ -193,14 +193,12 @@ class PlanTripDetails extends Component {
         let map_center = this.props.planState.all_detailed_obj[props.day][
             props.index
         ].location;
+
         this.props.handlePlanStateChange({
-            stateName: "map_center",
-            value: map_center
+            map_center: map_center,
+            map_zoom: 17
         });
-        this.props.handlePlanStateChange({
-            stateName: "map_zoom",
-            value: 17
-        });
+
     }
 
     /* 判斷展開或收起景點資訊 */

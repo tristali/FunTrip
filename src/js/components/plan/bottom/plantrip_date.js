@@ -122,10 +122,11 @@ class PlanTripDate extends Component {
         if (this.state.current_type !== "Day") {
             this.setState({ current_type: thisMonth });
         }
+
         this.props.handlePlanStateChange({
-            stateName: "current_tab",
-            value: current_tab
+            current_tab: current_tab
         });
+
         // this.setState({ current_tab: current_tab });
     }
     /* 改變 current_type 狀態 */

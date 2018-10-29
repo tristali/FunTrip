@@ -72,17 +72,11 @@ app.autocomplete = function(map, thisEnvironment) {
                 lat: thisLocation.lat(),
                 lng: thisLocation.lng()
             };
+
             thisEnvironment.props.handlePlanStateChange({
-                stateName: "map_zoom",
-                value: 17
-            });
-            thisEnvironment.props.handlePlanStateChange({
-                stateName: "map_center",
-                value: map_center
-            });
-            thisEnvironment.props.handlePlanStateChange({
-                stateName: "current_map_center",
-                value: map_center
+                map_zoom: 17,
+                map_center: map_center,
+                current_map_center: map_center
             });
 
             /* 自動填入名稱、營業時間、電話號碼、地址 */

@@ -136,9 +136,7 @@ class App extends Component {
     }
 
     /* 改變 state 狀態 
-    { 
-        要改變的 state 名稱: 要改變這個 state 名稱得值,
-    } 
+    { 要改變的 state 名稱: 要改變這個 state 名稱得值 } 
     */
     handleStateChange(object) {
         let keys = Object.keys(object);

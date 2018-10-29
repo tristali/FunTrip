@@ -151,10 +151,16 @@ class Plan extends Component {
         value : 要改變這個 state 名稱得值
     } 
     */
-    handlePlanStateChange(props) {
-        let thisState = {};
-        thisState[props.stateName] = props.value;
-        this.setState(thisState);
+    handlePlanStateChange(object) {
+        let keys = Object.keys(object);
+        for (let i = 0; i < keys.length; i++) {
+            let thisState = {};
+            thisState[keys[i]] = object[keys[i]];
+            this.setState(thisState);
+        }
+        // let thisState = {};
+        // thisState[props.stateName] = props.value;
+        // this.setState(thisState);
     }
 
     /* 刪除旅程 */

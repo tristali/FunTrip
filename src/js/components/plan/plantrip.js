@@ -121,35 +121,19 @@ class PlanTrip extends Component {
     */
     addPlanTrip(props) {
         this.props.handlePlanStateChange({
-            stateName: "current_information",
-            value: ""
-        });
-
-        this.props.handlePlanStateChange({
-            stateName: "current_day",
-            value: props.day
-        });
-        this.props.handlePlanStateChange({
-            stateName: "current_attraction",
-            value: props.index
+            current_information: "",
+            current_day: props.day,
+            current_attraction: props.index
         });
 
         this.setState({
             select_category: "Transport",
             category_detail: "transport"
         });
-        this.props.handlePlanStateChange({
-            stateName: "lcation_name",
-            value: ""
-        });
-        this.props.handlePlanStateChange({
-            stateName: "creact_plantrip",
-            value: "hide"
-        });
 
         this.props.handlePlanStateChange({
-            stateName: "creact_plantrip",
-            value: "Add"
+            lcation_name: "",
+            creact_plantrip: "Add"
         });
 
         this.props.handleStateChange({
@@ -170,36 +154,23 @@ class PlanTrip extends Component {
         ][props.index];
 
         this.props.handlePlanStateChange({
-            stateName: "current_information",
-            value: ""
-        });
-
-        this.props.handlePlanStateChange({
-            stateName: "current_day",
-            value: props.day
-        });
-
-        this.props.handlePlanStateChange({
-            stateName: "current_attraction",
-            value: props.index
+            current_informatione: "",
+            current_day: props.day,
+            current_attraction: props.index,
+            lcation_name: "",
+            creact_plantrip: "Edit"
         });
 
         this.setState({
             select_category: "Transport",
             category_detail: "transport"
         });
-        this.props.handlePlanStateChange({
-            stateName: "lcation_name",
-            value: ""
-        });
-        // this.props.handlePlanStateChange({
+
+        //no// this.props.handlePlanStateChange({
         //     stateName: "creact_plantrip",
         //     value: "hide"
         // });
-        this.props.handlePlanStateChange({
-            stateName: "creact_plantrip",
-            value: "Edit"
-        });
+
         /* 設定現有資料到編輯 */
         /* 填入經緯度及 location_name */
 
@@ -219,13 +190,8 @@ class PlanTrip extends Component {
         });
 
         this.props.handlePlanStateChange({
-            stateName: "lcation_name",
-            value: currentAttractionDetail.name
-        });
-
-        this.props.handlePlanStateChange({
-            stateName: "current_map_center",
-            value: currentAttractionDetail.location
+            lcation_name: currentAttractionDetail.name,
+            current_map_center: currentAttractionDetail.location
         });
 
         /* information 各項目 */
@@ -237,9 +203,9 @@ class PlanTrip extends Component {
             for (let j = 0; j < OverviewCategoryArray.length; j++) {
                 let currentAttractionInformation =
                     currentAttractionDetail.information;
+
                 this.props.handlePlanStateChange({
-                    stateName: "current_information",
-                    value: currentAttractionInformation
+                    current_information: currentAttractionInformation
                 });
             }
         }
@@ -252,17 +218,11 @@ class PlanTrip extends Component {
 
     /* 隱藏新增 / 修改 (回上一頁)) */
     handleHideCreactPlanTrip() {
+
         this.props.handlePlanStateChange({
-            stateName: "creact_plantrip",
-            value: "hide"
-        });
-        this.props.handlePlanStateChange({
-            stateName: "current_day",
-            value: ""
-        });
-        this.props.handlePlanStateChange({
-            stateName: "current_attraction",
-            value: ""
+            creact_plantrip: "hide",
+            current_day: "",
+            current_attraction: ""
         });
 
         this.props.handleStateChange({
@@ -287,17 +247,17 @@ class PlanTrip extends Component {
 
     /* 當使用者改變地點名稱時改變 this.props.planTripState.location_name */
     handleLocationChange(e) {
+
         this.props.handlePlanStateChange({
-            stateName: "lcation_name",
-            value: e.currentTarget.value
+            lcation_name: e.currentTarget.value
         });
     }
 
     /* 改變 this.state.creact_plantrip */
     changeCreactPlantripState(value) {
+
         this.props.handlePlanStateChange({
-            stateName: "creact_plantrip",
-            value: value
+            creact_plantrip: value
         });
     }
 
@@ -307,9 +267,9 @@ class PlanTrip extends Component {
             select_category: props.select_category,
             category_detail: props.category_detail
         });
+ 
         this.props.handlePlanStateChange({
-            stateName: "lcation_name",
-            value: props.lcation_name
+            lcation_name: props.lcation_name
         });
     }
 }

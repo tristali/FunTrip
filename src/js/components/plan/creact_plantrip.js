@@ -232,26 +232,20 @@ class CreactPlanTrip extends Component {
     /* 重設 新增 / 編輯 */
     handleReset() {
         /* 修改/新增行程資料清空 */
+
         this.props.handlePlanStateChange({
-            stateName: "current_information",
-            value: ""
+            current_information: ""
         });
         /* 清除 修改/新增 location 和類別 */
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",
             category_detail: "transport"
         });
+
         this.props.handlePlanStateChange({
-            stateName: "lcation_name",
-            value: ""
-        });
-        this.props.handlePlanStateChange({
-            stateName: "current_information",
-            value: {}
-        });
-        this.props.handlePlanStateChange({
-            stateName: "current_map_center",
-            value: ""
+            lcation_name: "",
+            current_information: {},
+            current_map_center: ""
         });
     }
 
@@ -296,26 +290,21 @@ class CreactPlanTrip extends Component {
             DB.set(path, data);
 
             /* 修改/新增行程資料清空 */
+
             this.props.handlePlanStateChange({
-                stateName: "current_information",
-                value: ""
+                current_information: "",
+                current_day: "",
+                current_attraction: ""
             });
-            this.props.handlePlanStateChange({
-                stateName: "current_day",
-                value: ""
-            });
-            this.props.handlePlanStateChange({
-                stateName: "current_attraction",
-                value: ""
-            });
+
             /* 清除 修改/新增 location 和類別 */
             this.props.handleCleanCategoryAndLcation({
                 select_category: "Transport",
                 category_detail: "transport"
             });
+            
             this.props.handlePlanStateChange({
-                stateName: "lcation_name",
-                value: ""
+                lcation_name: ""
             });
             /* 改變上層 creact_plantrip state */
             this.props.changeCreactPlantripState("hide");
