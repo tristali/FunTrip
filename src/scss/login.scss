@@ -57,14 +57,8 @@ div.login_and_signup {
                     padding-bottom: 8px;
                     cursor: pointer;
 
-                    // @include web-1366-width {
-                    //     font-size: 1.32vw;
-                    // }
-                    // @include pad-760-width {
-                    //     font-size: 1.93vw;
-                    // }
                     @include phone-420-width {
-                        font-size: 2.895vw;
+                        font-size: 0.918rem;
                     }
 
                     &.current {
@@ -88,14 +82,8 @@ div.login_and_signup {
                         border-radius: 3px;
                         background: no-repeat 4% center;
 
-                        // @include web-1366-width {
-                        //     font-size: 1.03vw;
-                        // }
-                        // @include pad-760-width {
-                        //     font-size: 1.502vw;
-                        // }
                         @include phone-420-width {
-                            font-size: 2.253vw;
+                            font-size: 0.714rem;
                         }
                     }
 
@@ -125,15 +113,9 @@ div.login_and_signup {
                     text-align: right;
                     cursor: pointer;
 
-                    // @include web-1366-width {
-                    //     font-size: 1.1vw;
-                    // }
-                    // @include pad-760-width {
-                    //     font-size: 1.605vw;
-                    // }
                     @include phone-420-width {
                         padding: 2% 18%;
-                        font-size: 2.4075vw;
+                        font-size: 0.759rem;
                     }
                 }
 
@@ -190,6 +172,4 @@ div.login_and_signup {
             }
         }
     }
-
-    /*login彈跳視窗結束*/
 }

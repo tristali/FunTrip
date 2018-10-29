@@ -5,11 +5,9 @@ import "../../../scss/creact_plantrip.scss";
 class InformationDetailed extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+        };
         this.list = {};
-        // this.handleCurrentInformationChange = this.handleCurrentInformationChange.bind(
-        //     this
-        // );
     }
     render() {
         let current_information = this.props.planState.current_information;
@@ -50,27 +48,18 @@ class InformationDetailed extends Component {
                         contentEditable="true"
                         dangerouslySetInnerHTML={this.handleCurrentInformation(
                             this.props.planState,
-                            this.props.informationCategory,
-                            true
+                            this.props.informationCategory
                         )}
-                        // onInput={this.handleCurrentInformationChange}
-                    />
+                    ></ div>
                 </div>
             </li>
         );
     }
 
-    // componentDidUpdate(prevProps) {
-    //     /* 抓取目前旅程 Database 資料到新增編輯彈跳視窗 */
-    //     if (
-    //         prevProps.planState.current_information !==
-    //         this.props.planState.current_information
-    //     ) {
-    //         this.handleCurrentInformation;
-    //     }
-    // }
-
-    handleCurrentInformation(planState, informationCategory, booling) {
+    handleCurrentInformation(
+        planState,
+        informationCategory
+    ) {
         let current_information_name =
             planState.current_information[informationCategory];
         let current_information_content =
@@ -80,43 +69,21 @@ class InformationDetailed extends Component {
                 informationCategory === "general_1" ||
                 informationCategory === "general_3"
             ) {
-                if (booling) {
-                    return {
-                        __html: current_information_content
-                            .slice(10)
-                            .split(">")[1]
-                            .split("<")[0]
-                    };
-                } else {
-                    return current_information_content
+                return {
+                    __html: current_information_content
                         .slice(10)
                         .split(">")[1]
-                        .split("<")[0];
-                }
-            } else {
-                if (booling) {
-                    return {
-                        __html: current_information_content.slice(10)
-                    };
-                } else {
-                    return current_information_content.slice(10);
-                }
-            }
-        }
-    }
+                        .split("<")[0]
+                };
 
-    // /* 當景點詳細資訊被改變時改變狀態 */
-    // handleCurrentInformationChange(e) {
-    //     let current_information = Object.assign(
-    //         {},
-    //         this.props.planState.current_information
-    //     );
-    //     current_information[this.props.informationCategory] =
-    //         e.currentTarget.innerHTML;
-    //     this.props.handlePlanStateChange({
-    //         stateName: "current_information",
-    //         value: current_information
-    //     });
-    // }
+            } else {
+
+                return {
+                    __html: current_information_content.slice(10)
+                };
+
+            }
+        } 
+    }
 }
 export default InformationDetailed;

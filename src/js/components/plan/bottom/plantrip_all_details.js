@@ -41,6 +41,7 @@ class PlanTripAllDetails extends Component {
                         time={detailedObj[i].information.time_0}
                         handlePlanStateChange={this.props.handlePlanStateChange}
                         handleAppStateChange={this.props.handleAppStateChange}
+                        // state={this.props.state}
                     />
                 );
             }
@@ -213,8 +214,10 @@ class PlanTripDetails extends Component {
     }
 
     componentDidMount() {
-        this.props.handleAppStateChange({
-            loading: false
-        });
+        // if (this.props.state.google) {
+            this.props.handleAppStateChange({
+                loading: false
+            });
+        // }
     }
 }

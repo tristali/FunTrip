@@ -44,14 +44,14 @@ div.popup {
                     color: $second-color;
                     font-family: "微軟正黑體";
                     @include phone-420-width {
-                        font-size: 2.5vw;
+                        font-size: 0.765rem;
                         text-align: center;
                     }
                     &:nth-child(1) {
                         font-size: 1.5rem;
                         padding: 3px;
                         @include phone-420-width {
-                            font-size: 4vw;
+                            font-size: 1.224rem;
                         }
                         > span {
                             display: inline-block;
@@ -92,7 +92,7 @@ div.popup {
                         padding: 3px;
                         cursor: pointer;
                         @include phone-420-width {
-                            font-size: 2.562vw;
+                            font-size: 0.816rem;
                         }
                         &:hover {
                             color: #fff;

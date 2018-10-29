@@ -15,9 +15,11 @@
     }
     &.plantrip_creactplantrip_open {
         width: calc(100vw - 470px - 400px);
+        @include pad-760-width {
+        width: calc(100vw - 320px- 400px);
+        }
     }
     @include pad-760-width {
-        width: calc(100vw - 320px);
         height: calc(100vh - 38px);
     }
     .map_center {

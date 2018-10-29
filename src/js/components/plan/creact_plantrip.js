@@ -232,6 +232,17 @@ class CreactPlanTrip extends Component {
     /* 重設 新增 / 編輯 */
     handleReset() {
         /* 清除 修改/新增 location 和類別 */
+        const allTextareaDOM = [...document.querySelectorAll(".textarea")];
+        const allInformationLi = [
+            ...document.querySelectorAll(".information>ul>li")
+        ];
+        allTextareaDOM.map(item => {
+            item.innerHTML = "";
+        });
+        allInformationLi.map(item => {
+            item.classList.remove("current");
+        });
+        
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",
             category_detail: "transport"

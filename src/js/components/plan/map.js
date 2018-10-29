@@ -42,37 +42,40 @@ class Map extends Component {
     render() {
         return <div className={`map ${this.props.state.map}`} />;
     }
+
     componentDidMount() {
+        let google = this.props.state.google;
+
         /* google map 初始化 */
-        if (app.get(".map") && google) {
+        if (google) {
             this.props.handleAppStateChange({
                 loading: false
             });
-
-            const state = this.props.planState;
-            let map_center = {
-                lat: state.map_center.lat,
-                lng: state.map_center.lng
-            };
-            let options = {
-                zoom: state.map_zoom,
-                center: map_center
-            };
-            let map = new google.maps.Map(app.get(".map"), options);
-
-            this.setState({
-                map: map
-            });
-
-            /* 標記地點起手式 */
-            let marker = new google.maps.Marker({
-                map: map
-            });
-
-            /* google map 自動輸入並抓取資料 */
-            let thisEnvironment = this;
-            app.autocomplete(map, thisEnvironment);
         }
+
+        const state = this.props.planState;
+        let map_center = {
+            lat: state.map_center.lat,
+            lng: state.map_center.lng
+        };
+        let options = {
+            zoom: state.map_zoom,
+            center: map_center
+        };
+        let map = new google.maps.Map(app.get(".map"), options);
+
+        this.setState({
+            map: map
+        });
+
+        /* 標記地點起手式 */
+        let marker = new google.maps.Marker({
+            map: map
+        });
+
+        /* google map 自動輸入並抓取資料 */
+        let thisEnvironment = this;
+        app.autocomplete(map, thisEnvironment);
     }
 
     /* 抓取 Database 所有此旅程資料 */
@@ -84,6 +87,7 @@ class Map extends Component {
                 this.props.planState.all_detailed_obj ||
             prevProps.planState.current_tab !== this.props.planState.current_tab
         ) {
+            let google = this.props.state.google;
             /* google map 初始化 */
             const state = this.props.planState;
             let map = this.state.map;
@@ -113,9 +117,11 @@ class Map extends Component {
             /* google map 標記多個位置 */
             let all_detailed_obj = this.props.planState.all_detailed_obj;
             if (all_detailed_obj) {
-                let locationsDayArray = Object.keys(all_detailed_obj);
+                let lastLocationsDay = Object.keys(all_detailed_obj)[
+                    Object.keys(all_detailed_obj).length - 1
+                ];
                 let locationsArray = [];
-                for (let i = 0; i < locationsDayArray.length; i++) {
+                for (let i = 0; i <= lastLocationsDay; i++) {
                     if (all_detailed_obj[i]) {
                         let locationsKeyArray = Object.keys(
                             all_detailed_obj[i]
@@ -174,7 +180,6 @@ class Map extends Component {
                         }
                     }
                 }
-
                 let markers = locationsArray.map(location => {
                     return new google.maps.Marker({
                         position: location[0].location,

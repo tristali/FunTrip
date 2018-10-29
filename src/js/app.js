@@ -38,7 +38,8 @@ class App extends Component {
             /* 彈跳視窗 DOM 狀態 */
             popup: "hide",
             popup_state: "",
-            loading: true
+            loading: true,
+            google:"",
         };
 
         this.handleMenuState = this.handleMenuState.bind(this);
@@ -46,6 +47,7 @@ class App extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.handlePopup = this.handlePopup.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
+        this.getGoogleMaps = this.getGoogleMaps.bind(this);
     }
 
     render() {
@@ -53,14 +55,6 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route path="/" component={LandingPage} exact />
-                    {/* <Route
-                        path="/"
-                        render={() => (
-                            <LandingPage
-                                handleAppStateChange={this.handleAppStateChange}
-                            />
-                        )}
-                    /> */}
                     <Route
                         path="/plan"
                         render={() => (
@@ -72,6 +66,7 @@ class App extends Component {
                                 handleAppStateChange={this.handleAppStateChange}
                                 handleSignout={this.handleSignout}
                                 handlePopup={this.handlePopup}
+                                getGoogleMaps={this.getGoogleMaps}
                             />
                         )}
                     />
@@ -167,6 +162,50 @@ class App extends Component {
         /* 儲存當前環境 */
         let thisEnvironment = this;
         DB.onAuthChanged(thisEnvironment);
+
+        this.getGoogleMaps().then(google => {
+            this.setState({ google: google });
+        });
+    }
+
+    getGoogleMaps() {
+        // If we haven't already defined the promise, define it
+        if (!this.googleMapsPromise) {
+            this.googleMapsPromise = new Promise(resolve => {
+                // Add a global handler for when the API finishes loading
+                window.resolveGoogleMapsPromise = () => {
+                    // Resolve the promise
+                    resolve(google);
+
+                    // Tidy up
+                    delete window.resolveGoogleMapsPromise;
+                };
+
+                // Load the Google Maps API
+                const script = document.createElement("script");
+                const API = "AIzaSyA6iV5lGtK4TgMFpArivccEqbAzS8kmJss";
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${API}&callback=resolveGoogleMapsPromise&libraries=places`;
+                script.async = true;
+                script.defer = true;
+                document.head.insertBefore(script, document.head.childNodes[0]);
+
+                const script2 = document.createElement("script");
+                script2.src =
+                    "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js";
+                document.head.insertBefore(
+                    script2,
+                    document.head.childNodes[1]
+                );
+            });
+        }
+
+        // Return a promise for the Google Maps API
+        return this.googleMapsPromise;
+    }
+
+    componentWillMount() {
+        // Start Google Maps API loading since we know we'll soon need it
+        this.getGoogleMaps();
     }
 }
 

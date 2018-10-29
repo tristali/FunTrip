@@ -81,7 +81,7 @@ class Plan extends Component {
                     handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
                     handleDelTrip={this.handleDelTrip}
                 />
-                {/* {this.props.state.loading && <Loading />} */}
+                {this.props.state.loading && <Loading />}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
@@ -97,7 +97,7 @@ class Plan extends Component {
                     handlePlanStateChange={this.handlePlanStateChange}
                     handlePopup={this.props.handlePopup}
                 />
-                {google && (
+                {this.props.state.google && (
                     <Map
                         state={this.props.state}
                         planState={this.state}
@@ -182,10 +182,6 @@ class Plan extends Component {
         /* 刪除此旅程資訊 */
         const path = `plans/${key}`;
         DB.remove(path);
-
-        this.props.handleAppStateChange({
-            loading: true
-        });
         this.setState({ redirect: true });
     }
 
@@ -206,12 +202,14 @@ class Plan extends Component {
                     }
                 });
             }
+            updatePlanInformation(thisEnvironment);
+            this.setState({ redirect: redirectState });
+        }
 
+        if (!this.props.state.google || uid) {
             this.props.handleAppStateChange({
                 loading: true
             });
-            updatePlanInformation(thisEnvironment);
-            this.setState({ redirect: redirectState });
         }
     }
 
@@ -266,7 +264,6 @@ function updatePlanInformation(thisEnvironment) {
                 all_day_array: plan.all_day_array,
                 all_week_array: plan.all_week_array
             });
-            console.log(plan.detailed);
             /* 抓取第一個景點經緯度 */
             // const allDetailedObj = plan.detailed;
             // if (allDetailedObj) {
