@@ -35,7 +35,7 @@ class PlanTripBottom extends Component {
                         // state={this.props.planTripState}
                         planState={this.props.planState}
                         handlePlanStateChange={this.props.handlePlanStateChange}
-                        list = {this.list}
+                        list={this.list}
                     />
                 )}
                 <PlanTripSchedule
@@ -44,7 +44,7 @@ class PlanTripBottom extends Component {
                     planTripState={this.props.planTripState}
                     planState={this.props.planState}
                     handlePlanStateChange={this.props.handlePlanStateChange}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     list={this.list}
                 />
             </div>

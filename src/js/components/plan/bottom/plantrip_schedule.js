@@ -27,7 +27,7 @@ class PlanTripSchedule extends Component {
                     number={number}
                     day={i}
                     handlePlanStateChange={this.props.handlePlanStateChange}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     list={this.props.list}
                 />
             );
@@ -51,7 +51,7 @@ class PlanTripDay extends Component {
         let thisDate = this.props.planState.all_day_array[this.props.day];
         let year = thisDate.split("/")[0];
         let month = this.props.list.MONTH_ABBEVIATION[
-            Number(thisDate.split("/")[1])-1
+            Number(thisDate.split("/")[1]) - 1
         ];
         let date = thisDate.split("/")[2];
         return (
@@ -68,7 +68,7 @@ class PlanTripDay extends Component {
                     day={this.props.day}
                     handleLocations={this.props.handleLocations}
                     handlePlanStateChange={this.props.handlePlanStateChange}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                 />
             </div>
         );

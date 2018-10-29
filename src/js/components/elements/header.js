@@ -63,7 +63,7 @@ class Header extends Component {
             location.href = "/profile";
         }
 
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             loading: true
         });
     }

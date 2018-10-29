@@ -68,15 +68,15 @@ class Plan extends Component {
             <div>
                 <Login
                     state={this.props.state}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <AddPlanTrip
                     state={this.props.state}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup
                     state={this.props.state}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     handleSignout={this.props.handleSignout}
                     handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
                     handleDelTrip={this.handleDelTrip}
@@ -86,13 +86,13 @@ class Plan extends Component {
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     handlePopup={this.props.handlePopup}
                 />
                 <PlanTrip
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     planState={this.state}
                     handlePlanStateChange={this.handlePlanStateChange}
                     handlePopup={this.props.handlePopup}
@@ -101,7 +101,7 @@ class Plan extends Component {
                     <Map
                         state={this.props.state}
                         planState={this.state}
-                        handleStateChange={this.props.handleStateChange}
+                        handleAppStateChange={this.props.handleAppStateChange}
                         handlePlanStateChange={this.handlePlanStateChange}
                     />
                 )}
@@ -114,9 +114,12 @@ class Plan extends Component {
         this.setState({
             creact_plantrip: "hide"
         });
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             popup: "hide",
-            popup_state: ""
+            popup_state: "",
+            map: "plantrip_open",
+            splan_trip: "",
+            plan_trip_width: "hide_creact_plantrip"
         });
         const currentPlanID = this.props.state.current_plan;
         /* 把資料推進 Database */
@@ -137,20 +140,9 @@ class Plan extends Component {
             current_attractio: "",
             current_information: ""
         });
-
-        this.props.handleStateChange({
-            map: "plantrip_open",
-            splan_trip: "",
-            plan_trip_width: "hide_creact_plantrip"
-        });
     }
 
-    /* 改變 state 狀態 
-    { 
-        stateName : 要改變的 state 名稱, 
-        value : 要改變這個 state 名稱得值
-    } 
-    */
+    /* 改變 Plan Component state 狀態 {key: value}*/
     handlePlanStateChange(object) {
         let keys = Object.keys(object);
         for (let i = 0; i < keys.length; i++) {
@@ -158,14 +150,11 @@ class Plan extends Component {
             thisState[keys[i]] = object[keys[i]];
             this.setState(thisState);
         }
-        // let thisState = {};
-        // thisState[props.stateName] = props.value;
-        // this.setState(thisState);
     }
 
     /* 刪除旅程 */
     handleDelTrip() {
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             plan_trip: "hide",
             map: "",
             popup: "hide",
@@ -194,7 +183,7 @@ class Plan extends Component {
         const path = `plans/${key}`;
         DB.remove(path);
 
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             loading: true
         });
         this.setState({ redirect: true });
@@ -218,7 +207,7 @@ class Plan extends Component {
                 });
             }
 
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 loading: true
             });
             updatePlanInformation(thisEnvironment);
@@ -251,7 +240,7 @@ class Plan extends Component {
                     });
                 }
 
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     loading: true
                 });
                 updatePlanInformation(thisEnvironment);
@@ -312,7 +301,7 @@ function updatePlanInformation(thisEnvironment) {
         }
     });
 
-    thisEnvironment.props.handleStateChange({
+    thisEnvironment.props.handleAppStateChange({
         plan_trip: "",
         map: "plantrip_open"
     });

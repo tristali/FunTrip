@@ -45,8 +45,7 @@ class Map extends Component {
     componentDidMount() {
         /* google map 初始化 */
         if (app.get(".map") && google) {
-            
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 loading: false
             });
 

@@ -24,11 +24,11 @@ class Profile extends Component {
             <div id="profile">
                 <AddPlanTrip
                     state={this.props.state}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup
                     state={this.props.state}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     handleSignout={this.props.handleSignout}
                 />
                 {/* {this.props.state.loading && <Loading />} */}
@@ -36,7 +36,7 @@ class Profile extends Component {
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     handleChangeTripDisplay={this.handleChangeTripDisplay}
                     handlePopup={this.props.handlePopup}
                 />
@@ -44,9 +44,9 @@ class Profile extends Component {
                     state={this.props.state}
                     profileState={this.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                     handleChangeTripDisplay={this.handleChangeTripDisplay}
-                    handleStateChange={this.props.handleStateChange}
+                    handleAppStateChange={this.props.handleAppStateChange}
                 />
             </div>
         );
@@ -55,8 +55,7 @@ class Profile extends Component {
     componentDidMount() {
         /* 如果無登入則轉跳到 plan 頁面 */
         if (!this.props.state.user.uid) {
-
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 loading: true
             });
             this.setState({ redirect: true });
@@ -67,8 +66,7 @@ class Profile extends Component {
         /* 如果無登入則轉跳到 plan 頁面 */
         if (prevProps.state.user.uid !== this.props.state.user.uid) {
             if (!this.props.state.user.uid) {
-
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     loading: true
                 });
                 this.setState({ redirect: true });

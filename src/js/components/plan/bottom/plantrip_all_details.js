@@ -40,7 +40,7 @@ class PlanTripAllDetails extends Component {
                         day={this.props.day}
                         time={detailedObj[i].information.time_0}
                         handlePlanStateChange={this.props.handlePlanStateChange}
-                        handleStateChange={this.props.handleStateChange}
+                        handleAppStateChange={this.props.handleAppStateChange}
                     />
                 );
             }
@@ -104,7 +104,7 @@ class PlanTripAllDetails extends Component {
     }
     componentDidMount() {
         if (!this.props.planState.all_detailed_obj) {
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 loading: false
             });
         }
@@ -198,7 +198,6 @@ class PlanTripDetails extends Component {
             map_center: map_center,
             map_zoom: 17
         });
-
     }
 
     /* 判斷展開或收起景點資訊 */
@@ -211,7 +210,7 @@ class PlanTripDetails extends Component {
     }
 
     componentDidMount() {
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             loading: false
         });
     }

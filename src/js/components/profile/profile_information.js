@@ -42,7 +42,9 @@ class ProfileInformation extends Component {
                             id={allTrip[item].plan_id}
                             key={`all_trip_${index}`}
                             state={this.props.state}
-                            handleStateChange={this.props.handleStateChange}
+                            handleAppStateChange={
+                                this.props.handleAppStateChange
+                            }
                             thisTripState={thisTripState}
                         />
                     );
@@ -173,7 +175,7 @@ class ProfileInformation extends Component {
     }
     // componentDidMount() {
     //     if (!this.props.state.user.plan) {
-    //         this.props.handleStateChange({
+    //         this.props.handleAppStateChange({
     //             stateName: "loading",
     //             value: false
     //         });
@@ -210,7 +212,7 @@ class AllTrip extends Component {
         );
     }
     handleOpenThisPlan(plan_id) {
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             add_plantrip: "hide",
             current_plan: plan_id,
             loading: true,
@@ -222,7 +224,7 @@ class AllTrip extends Component {
         });
     }
     componentDidMount() {
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             loading: false
         });
     }

@@ -113,11 +113,11 @@ class AddPlanTrip extends Component {
     /* 關閉新增旅程 */
     handleCloseAddPlan(e) {
         if (e.target.className.split(" ")[0] === "login_and_signup") {
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 add_plantrip: "hide"
             });
             if (location.href.includes("plan")) {
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     plan_trip: "",
                     map: "plantrip_open"
                 });
@@ -162,7 +162,7 @@ class AddPlanTrip extends Component {
             ) {
                 /* 編輯旅程 */
                 key = this.props.state.add_plantrip_id;
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     plan_trip: "",
                     map: "plantrip_open"
                 });
@@ -184,7 +184,7 @@ class AddPlanTrip extends Component {
                     DB.update(path, data);
                 });
 
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     current_plan: key
                 });
                 this.setState({
@@ -192,7 +192,7 @@ class AddPlanTrip extends Component {
                 });
             }
 
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 add_plantrip: "hide"
             });
             if (
@@ -233,7 +233,7 @@ class AddPlanTrip extends Component {
                     redirect: true
                 });
 
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     loading: true
                 });
             }

@@ -75,7 +75,7 @@ class Popup extends Component {
             e.target.className.split(" ")[0] === "popup" ||
             e.target.className.split(" ")[0] === "cancel"
         ) {
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 popup: "hide",
                 popup_state: "",
                 menu: "",
@@ -84,7 +84,7 @@ class Popup extends Component {
             });
 
             if (this.props.state.popup_state === "del_plan") {
-                this.props.handleStateChange({
+                this.props.handleAppStateChange({
                     plan_trip_width: "",
                     map: "plantrip_creactplantrip_open"
                 });

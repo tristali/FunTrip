@@ -231,11 +231,6 @@ class CreactPlanTrip extends Component {
 
     /* 重設 新增 / 編輯 */
     handleReset() {
-        /* 修改/新增行程資料清空 */
-
-        this.props.handlePlanStateChange({
-            current_information: ""
-        });
         /* 清除 修改/新增 location 和類別 */
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",
@@ -294,7 +289,9 @@ class CreactPlanTrip extends Component {
             this.props.handlePlanStateChange({
                 current_information: "",
                 current_day: "",
-                current_attraction: ""
+                current_attraction: "",
+                lcation_name: "",
+                creact_plantrip: "hide"
             });
 
             /* 清除 修改/新增 location 和類別 */
@@ -302,14 +299,8 @@ class CreactPlanTrip extends Component {
                 select_category: "Transport",
                 category_detail: "transport"
             });
-            
-            this.props.handlePlanStateChange({
-                lcation_name: ""
-            });
-            /* 改變上層 creact_plantrip state */
-            this.props.changeCreactPlantripState("hide");
 
-            this.props.handleStateChange({
+            this.props.handleAppStateChange({
                 map: "plantrip_open",
                 plan_trip_width: "hide_creact_plantrip"
             });

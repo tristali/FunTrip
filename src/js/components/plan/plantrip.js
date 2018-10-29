@@ -42,9 +42,6 @@ class PlanTrip extends Component {
         this.handleHideCreactPlanTrip = this.handleHideCreactPlanTrip.bind(
             this
         );
-        this.changeCreactPlantripState = this.changeCreactPlantripState.bind(
-            this
-        );
 
         this.handleSelectCategory = this.handleSelectCategory.bind(this);
         this.handleDetailedCategory = this.handleDetailedCategory.bind(this);
@@ -67,7 +64,7 @@ class PlanTrip extends Component {
                         planTripState={this.state}
                         handleDelTrip={this.props.handleDelTrip}
                         planState={this.props.planState}
-                        handleStateChange={this.props.handleStateChange}
+                        handleAppStateChange={this.props.handleAppStateChange}
                         handleOpenAddPlan={this.props.handleOpenAddPlan}
                         handlePopup={this.props.handlePopup}
                     />
@@ -77,7 +74,7 @@ class PlanTrip extends Component {
                         planTripState={this.state}
                         planState={this.props.planState}
                         handlePlanStateChange={this.props.handlePlanStateChange}
-                        handleStateChange={this.props.handleStateChange}
+                        handleAppStateChange={this.props.handleAppStateChange}
                     />
                 </div>
                 <div className={this.props.planState.creact_plantrip}>
@@ -87,16 +84,13 @@ class PlanTrip extends Component {
                         handleHideCreactPlanTrip={this.handleHideCreactPlanTrip}
                         state={this.props.state}
                         planTripState={this.state}
-                        changeCreactPlantripState={
-                            this.changeCreactPlantripState
-                        }
                         handleLocationChange={this.handleLocationChange}
                         handleSelectCategory={this.handleSelectCategory}
                         handleDetailedCategory={this.handleDetailedCategory}
                         handleCleanCategoryAndLcation={
                             this.handleCleanCategoryAndLcation
                         }
-                        handleStateChange={this.props.handleStateChange}
+                        handleAppStateChange={this.props.handleAppStateChange}
                         handleDelCreactPlanTrip={
                             this.props.handleDelCreactPlanTrip
                         }
@@ -136,7 +130,7 @@ class PlanTrip extends Component {
             creact_plantrip: "Add"
         });
 
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             plan_trip_width: "",
             map: "plantrip_creactplantrip_open"
         });
@@ -210,7 +204,7 @@ class PlanTrip extends Component {
             }
         }
 
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             plan_trip_width: "",
             map: "plantrip_creactplantrip_open"
         });
@@ -218,14 +212,13 @@ class PlanTrip extends Component {
 
     /* 隱藏新增 / 修改 (回上一頁)) */
     handleHideCreactPlanTrip() {
-
         this.props.handlePlanStateChange({
             creact_plantrip: "hide",
             current_day: "",
             current_attraction: ""
         });
 
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             map: "plantrip_open",
             plan_trip_width: "hide_creact_plantrip"
         });
@@ -247,17 +240,8 @@ class PlanTrip extends Component {
 
     /* 當使用者改變地點名稱時改變 this.props.planTripState.location_name */
     handleLocationChange(e) {
-
         this.props.handlePlanStateChange({
             lcation_name: e.currentTarget.value
-        });
-    }
-
-    /* 改變 this.state.creact_plantrip */
-    changeCreactPlantripState(value) {
-
-        this.props.handlePlanStateChange({
-            creact_plantrip: value
         });
     }
 
@@ -267,7 +251,7 @@ class PlanTrip extends Component {
             select_category: props.select_category,
             category_detail: props.category_detail
         });
- 
+
         this.props.handlePlanStateChange({
             lcation_name: props.lcation_name
         });

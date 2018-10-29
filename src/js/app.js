@@ -43,7 +43,7 @@ class App extends Component {
 
         this.handleMenuState = this.handleMenuState.bind(this);
         this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this);
-        this.handleStateChange = this.handleStateChange.bind(this);
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.handlePopup = this.handlePopup.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
     }
@@ -61,7 +61,7 @@ class App extends Component {
                                 handleMenuState={this.handleMenuState}
                                 menu={this.state.menu}
                                 handleOpenAddPlan={this.handleOpenAddPlan}
-                                handleStateChange={this.handleStateChange}
+                                handleAppStateChange={this.handleAppStateChange}
                                 handleSignout={this.handleSignout}
                                 handlePopup={this.handlePopup}
                             />
@@ -75,7 +75,7 @@ class App extends Component {
                                 handleMenuState={this.handleMenuState}
                                 menu={this.state.menu}
                                 handleOpenAddPlan={this.handleOpenAddPlan}
-                                handleStateChange={this.handleStateChange}
+                                handleAppStateChange={this.handleAppStateChange}
                                 handleSignout={this.handleSignout}
                                 handlePopup={this.handlePopup}
                             />
@@ -135,10 +135,8 @@ class App extends Component {
         DB.signOut();
     }
 
-    /* 改變 state 狀態 
-    { 要改變的 state 名稱: 要改變這個 state 名稱得值 } 
-    */
-    handleStateChange(object) {
+    /* 改變 App Component state 狀態 {key: value}*/
+    handleAppStateChange(object) {
         let keys = Object.keys(object);
         for (let i = 0; i < keys.length; i++) {
             let thisState = {};

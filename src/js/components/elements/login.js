@@ -38,7 +38,7 @@ class Login extends Component {
                 userDetailState[i] = e.currentTarget.value;
             }
         });
-        this.props.handleStateChange({
+        this.props.handleAppStateChange({
             user: userDetailState
         });
     }
