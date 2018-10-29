@@ -53,6 +53,14 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route path="/" component={LandingPage} exact />
+                    {/* <Route
+                        path="/"
+                        render={() => (
+                            <LandingPage
+                                handleAppStateChange={this.handleAppStateChange}
+                            />
+                        )}
+                    /> */}
                     <Route
                         path="/plan"
                         render={() => (

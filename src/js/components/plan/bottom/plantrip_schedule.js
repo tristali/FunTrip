@@ -22,7 +22,6 @@ class PlanTripSchedule extends Component {
                 <PlanTripDay
                     key={`PlanTripDay_${i}`}
                     editPlanTrip={this.props.editPlanTrip}
-                    addPlanTrip={this.props.addPlanTrip}
                     planState={this.props.planState}
                     number={number}
                     day={i}
@@ -64,7 +63,6 @@ class PlanTripDay extends Component {
                 <PlanTripAllDetails
                     planState={this.props.planState}
                     editPlanTrip={this.props.editPlanTrip}
-                    addPlanTrip={this.props.addPlanTrip}
                     day={this.props.day}
                     handleLocations={this.props.handleLocations}
                     handlePlanStateChange={this.props.handlePlanStateChange}

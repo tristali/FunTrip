@@ -56,9 +56,10 @@ class PlanTripAllDetails extends Component {
                             : "add"
                     }
                     onClick={() =>
-                        this.props.addPlanTrip({
+                        this.props.editPlanTrip({
                             day: this.props.day,
-                            index: thisDayPlanDetailsCount + 1
+                            index: thisDayPlanDetailsCount + 1,
+                            action: "Add"
                         })
                     }
                     id={`D_${this.props.day}_NO_${thisDayPlanDetailsCount + 1}`}
@@ -83,9 +84,10 @@ class PlanTripAllDetails extends Component {
                             : "add"
                     }
                     onClick={() =>
-                        this.props.addPlanTrip({
+                        this.props.editPlanTrip({
                             day: this.props.day,
-                            index: 0
+                            index: 0,
+                            action: "Add"
                         })
                     }
                     id={`D_${this.props.day}_NO_0`}
@@ -169,7 +171,8 @@ class PlanTripDetails extends Component {
                         onClick={() =>
                             this.props.editPlanTrip({
                                 day: this.props.day,
-                                index: this.props.index
+                                index: this.props.index,
+                                action: "Edit"
                             })
                         }
                     />

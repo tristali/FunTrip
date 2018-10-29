@@ -32,14 +32,12 @@ class PlanTripBottom extends Component {
                 {/* 判斷當前是否有旅程資料 */ this.props.planState
                     .all_day_array && (
                     <PlanTripDate
-                        // state={this.props.planTripState}
                         planState={this.props.planState}
                         handlePlanStateChange={this.props.handlePlanStateChange}
                         list={this.list}
                     />
                 )}
                 <PlanTripSchedule
-                    addPlanTrip={this.props.addPlanTrip}
                     editPlanTrip={this.props.editPlanTrip}
                     planTripState={this.props.planTripState}
                     planState={this.props.planState}

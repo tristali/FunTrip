@@ -31,7 +31,7 @@ class Profile extends Component {
                     handleAppStateChange={this.props.handleAppStateChange}
                     handleSignout={this.props.handleSignout}
                 />
-                {/* {this.props.state.loading && <Loading />} */}
+                {this.props.state.loading && <Loading />}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}

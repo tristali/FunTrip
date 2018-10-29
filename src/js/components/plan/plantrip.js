@@ -37,7 +37,6 @@ class PlanTrip extends Component {
             }
         };
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.addPlanTrip = this.addPlanTrip.bind(this);
         this.editPlanTrip = this.editPlanTrip.bind(this);
         this.handleHideCreactPlanTrip = this.handleHideCreactPlanTrip.bind(
             this
@@ -69,7 +68,6 @@ class PlanTrip extends Component {
                         handlePopup={this.props.handlePopup}
                     />
                     <PlanTripBottom
-                        addPlanTrip={this.addPlanTrip}
                         editPlanTrip={this.editPlanTrip}
                         planTripState={this.state}
                         planState={this.props.planState}
@@ -107,102 +105,70 @@ class PlanTrip extends Component {
         this.setState({ category: category_name });
     }
 
-    /* 新增景點 顯示為目前點擊景點資料 
+    /* 新增 編輯景點 顯示為目前點擊景點資料 
     {
         day : 天數 index,
-        index : 景點 index
-    }
-    */
-    addPlanTrip(props) {
-        this.props.handlePlanStateChange({
-            current_information: "",
-            current_day: props.day,
-            current_attraction: props.index
-        });
-
-        this.setState({
-            select_category: "Transport",
-            category_detail: "transport"
-        });
-
-        this.props.handlePlanStateChange({
-            lcation_name: "",
-            creact_plantrip: "Add"
-        });
-
-        this.props.handleAppStateChange({
-            plan_trip_width: "",
-            map: "plantrip_creactplantrip_open"
-        });
-    }
-
-    /* 改變 修改景點 顯示為目前點擊景點資料 
-    {
-        day : 天數 index,
-        index : 景點 index
+        index : 景點 index,
+        action: "Add" | "Edit"
     }
     */
     editPlanTrip(props) {
-        let currentAttractionDetail = this.props.planState.all_detailed_obj[
-            props.day
-        ][props.index];
-
         this.props.handlePlanStateChange({
-            current_informatione: "",
+            current_information: "",
             current_day: props.day,
             current_attraction: props.index,
             lcation_name: "",
-            creact_plantrip: "Edit"
+            creact_plantrip: props.action
         });
+
+        if (props.action === "Edit") {
+            /* 設定現有資料到編輯 */
+            /* 填入經緯度及 location_name */
+            let currentAttractionDetail = this.props.planState.all_detailed_obj[
+                props.day
+            ][props.index];
+
+            let currentAttractionCategory = currentAttractionDetail.category;
+
+            /* 大類別 */
+            let selectCategory =
+                currentAttractionCategory.split("_")[0][0].toUpperCase() +
+                currentAttractionCategory.split("_")[0].slice(1);
+
+            /* 小類別 */
+            let categoryDetail = currentAttractionCategory.split("_")[1];
+
+            this.setState({
+                select_category: selectCategory,
+                category_detail: categoryDetail
+            });
+
+            this.props.handlePlanStateChange({
+                lcation_name: currentAttractionDetail.name,
+                current_map_center: currentAttractionDetail.location
+            });
+
+            /* information 各項目 */
+            let OverviewObjKey = Object.keys(this.list.INFORMATION_OBJ);
+            for (let i = 0; i < OverviewObjKey.length; i++) {
+                let OverviewCategoryArray = this.list.INFORMATION_OBJ[
+                    OverviewObjKey[i]
+                ];
+                for (let j = 0; j < OverviewCategoryArray.length; j++) {
+                    let currentAttractionInformation =
+                        currentAttractionDetail.information;
+
+                    this.props.handlePlanStateChange({
+                        current_information: currentAttractionInformation
+                    });
+                }
+            }
+        }
 
         this.setState({
             select_category: "Transport",
             category_detail: "transport"
         });
-
-        //no// this.props.handlePlanStateChange({
-        //     stateName: "creact_plantrip",
-        //     value: "hide"
-        // });
-
-        /* 設定現有資料到編輯 */
-        /* 填入經緯度及 location_name */
-
-        let currentAttractionCategory = currentAttractionDetail.category;
-
-        /* 大類別 */
-        let selectCategory =
-            currentAttractionCategory.split("_")[0][0].toUpperCase() +
-            currentAttractionCategory.split("_")[0].slice(1);
-
-        /* 小類別 */
-        let categoryDetail = currentAttractionCategory.split("_")[1];
-
-        this.setState({
-            select_category: selectCategory,
-            category_detail: categoryDetail
-        });
-
-        this.props.handlePlanStateChange({
-            lcation_name: currentAttractionDetail.name,
-            current_map_center: currentAttractionDetail.location
-        });
-
-        /* information 各項目 */
-        let OverviewObjKey = Object.keys(this.list.INFORMATION_OBJ);
-        for (let i = 0; i < OverviewObjKey.length; i++) {
-            let OverviewCategoryArray = this.list.INFORMATION_OBJ[
-                OverviewObjKey[i]
-            ];
-            for (let j = 0; j < OverviewCategoryArray.length; j++) {
-                let currentAttractionInformation =
-                    currentAttractionDetail.information;
-
-                this.props.handlePlanStateChange({
-                    current_information: currentAttractionInformation
-                });
-            }
-        }
 
         this.props.handleAppStateChange({
             plan_trip_width: "",
