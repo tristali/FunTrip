@@ -21,21 +21,21 @@ class App extends Component {
                 plan: ""
             },
             /* 所有旅程 */
-            all_plan: "",
+            all_trip: "",
 
             /* 正在編輯的旅程 */
-            current_plan: "",
+            current_trip: "",
 
             /* 新增或修改旅程 */
             /* DOM 狀態 */
-            add_plantrip: "hide",
+            add_trip: "hide",
             /* 旅程 ID */
-            add_plantrip_id: "",
+            add_trip_id: "",
 
             /* Plan 顯示正在編輯旅程的景點 */
             /* DOM 狀態 */
-            plan_trip: "hide",
-            plan_trip_width: "hide_creact_plantrip",
+            trip_attractions: "hide",
+            trip_attractions_width: "hide_creact_plantrip",
 
             /* 選單 */
             /* DOM 狀態 */
@@ -138,17 +138,17 @@ class App extends Component {
     }
 
     /* 打開新增旅程視窗
-    { value: 要改變 add_plantrip state 名稱得值, id: 要編輯旅程的 id } */
+    { value: 要改變 add_trip state 名稱得值, id: 要編輯旅程的 id } */
     handleOpenAddPlan(props) {
         let planId = "";
         if (props.value === "EDIT") {
-            planId = this.state.current_plan;
+            planId = this.state.current_trip;
         }
         this.setState({
-            add_plantrip: props.value,
-            add_plantrip_id: planId,
-            plan_trip: "hide",
-            plan_trip_width: "hide_creact_plantrip",
+            add_trip: props.value,
+            add_trip_id: planId,
+            trip_attractions: "hide",
+            trip_attractions_width: "hide_creact_plantrip",
             menu: "",
             map: ""
         });
@@ -156,18 +156,18 @@ class App extends Component {
 
     /* 開啟彈跳視窗，判斷是否為刪除景點 */
     handlePopup(value) {
-        let plan_trip = this.state.plan_trip;
+        let trip_attractions = this.state.trip_attractions;
         let map = this.state.map;
 
         if (value !== "del_plan") {
-            plan_trip = "hide";
+            trip_attractions = "hide";
             map = "";
         }
 
         this.setState({
             popup: "",
             popup_state: value,
-            plan_trip: plan_trip,
+            trip_attractions: trip_attractions,
             map: map,
             menu: ""
         });

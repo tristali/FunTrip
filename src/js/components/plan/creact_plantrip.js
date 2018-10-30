@@ -242,7 +242,7 @@ class CreactPlanTrip extends Component {
         allInformationLi.map(item => {
             item.classList.remove("current");
         });
-        
+
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",
             category_detail: "transport"
@@ -257,7 +257,7 @@ class CreactPlanTrip extends Component {
 
     /* Datebase 資料更新 */
     handleSetDatebase() {
-        const currentPlanID = this.props.state.current_plan;
+        const currentPlanID = this.props.state.current_trip;
         if (this.props.planState.lcation_name) {
             /* name */
             const inputDOM = app.get(".search_input");
@@ -313,7 +313,7 @@ class CreactPlanTrip extends Component {
 
             this.props.handleAppStateChange({
                 map: "plantrip_open",
-                plan_trip_width: "hide_creact_plantrip"
+                trip_attractions_width: "hide_creact_plantrip"
             });
         } else {
             alert("麻煩請協助填入地點名稱，謝謝");

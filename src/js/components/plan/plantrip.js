@@ -50,12 +50,11 @@ class PlanTrip extends Component {
         );
     }
     render() {
-
         return (
             <div
-                className={`plantrip clearfix ${this.props.state.plan_trip} ${
-                    this.props.state.plan_trip_width
-                }`}
+                className={`plantrip clearfix ${
+                    this.props.state.trip_attractions
+                    } ${this.props.state.trip_attractions_width}`}
             >
                 <div>
                     <PlanTripTop
@@ -188,7 +187,7 @@ class PlanTrip extends Component {
         });
 
         this.props.handleAppStateChange({
-            plan_trip_width: "",
+            trip_attractions_width: "",
             map: "plantrip_creactplantrip_open"
         });
     }
@@ -203,7 +202,7 @@ class PlanTrip extends Component {
 
         this.props.handleAppStateChange({
             map: "plantrip_open",
-            plan_trip_width: "hide_creact_plantrip"
+            trip_attractions_width: "hide_creact_plantrip"
         });
     }
 

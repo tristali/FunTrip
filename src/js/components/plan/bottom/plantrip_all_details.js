@@ -27,7 +27,7 @@ class PlanTripAllDetails extends Component {
                 planDetailsDOM.push(
                     <PlanTripDetails
                         planState={this.props.planState}
-                        key={`plan_trip_details_${i}`}
+                        key={`trip_attractions_details_${i}`}
                         name={detailedObj[i].name}
                         category={`${detailedCategoryArray[0]} ${
                             detailedCategoryArray[1]

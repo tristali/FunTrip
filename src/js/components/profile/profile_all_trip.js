@@ -31,8 +31,8 @@ class ProfileAllTrip extends Component {
     }
     handleOpenThisPlan(plan_id) {
         this.props.handleAppStateChange({
-            add_plantrip: "hide",
-            current_plan: plan_id,
+            add_trip: "hide",
+            current_trip: plan_id,
             loading: true,
             menu: ""
         });

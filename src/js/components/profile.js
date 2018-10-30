@@ -5,7 +5,7 @@ import Loading from "./loading";
 import Header from "./elements/header";
 import ProfileInformation from "./profile/profile_information";
 import Popup from "./elements/popup";
-import AddPlanTrip from "./elements/add_plantrip";
+import AddTrip from "./elements/add_trip";
 
 class Profile extends Component {
     constructor(props) {
@@ -22,11 +22,11 @@ class Profile extends Component {
         }
         return (
             <div id="profile">
-                <AddPlanTrip
+                <AddTrip
                     uid={this.props.state.user.uid}
-                    addPlantrip={this.props.state.add_plantrip}
-                    currentPlan={this.props.state.current_plan}
-                    addPlantripId={this.props.state.add_plantrip_id}
+                    addTrip={this.props.state.add_trip}
+                    currentPlan={this.props.state.current_trip}
+                    addTripId={this.props.state.add_trip_id}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup

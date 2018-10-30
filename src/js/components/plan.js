@@ -5,7 +5,7 @@ import Login from "./elements/login";
 import Header from "./elements/header";
 import PlanTrip from "./plan/plantrip";
 import Map from "./plan/map";
-import AddPlanTrip from "./elements/add_plantrip";
+import AddTrip from "./elements/add_trip";
 import Popup from "./elements/popup";
 import Loading from "./loading";
 import app from "../lib";
@@ -70,11 +70,11 @@ class Plan extends Component {
                     state={this.props.state}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
-                <AddPlanTrip
+                <AddTrip
                     uid={this.props.state.user.uid}
-                    addPlantrip={this.props.state.add_plantrip}
-                    currentPlan={this.props.state.current_plan}
-                    addPlantripId={this.props.state.add_plantrip_id}
+                    addTrip={this.props.state.add_trip}
+                    currentPlan={this.props.state.current_trip}
+                    addTripId={this.props.state.add_trip_id}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup
@@ -122,10 +122,10 @@ class Plan extends Component {
             popup: "hide",
             popup_state: "",
             map: "plantrip_open",
-            splan_trip: "",
-            plan_trip_width: "hide_creact_plantrip"
+            trip_attractions: "",
+            trip_attractions_width: "hide_creact_plantrip"
         });
-        const currentPlanID = this.props.state.current_plan;
+        const currentPlanID = this.props.state.current_trip;
         /* 把資料推進 Database */
         let path = `plans/${currentPlanID}/detailed`;
 
@@ -159,7 +159,7 @@ class Plan extends Component {
     /* 刪除旅程 */
     handleDelTrip() {
         this.props.handleAppStateChange({
-            plan_trip: "hide",
+            trip_attractions: "hide",
             map: "",
             popup: "hide",
             popup_state: ""
@@ -167,7 +167,7 @@ class Plan extends Component {
         /* 上傳此 ID */
         let uid = this.props.state.user.uid;
         let planArray;
-        let key = this.props.state.current_plan;
+        let key = this.props.state.current_trip;
         /* 上傳此旅程 ID 到此使用者資料 */
         const userPath = `users/${uid}`;
         DB.once(userPath, snapshot => {
@@ -196,7 +196,7 @@ class Plan extends Component {
             if (!location.href.includes("?id=")) {
                 this.setState({ redirect: true });
             } else {
-                let thisPlanId = this.props.state.current_plan;
+                let thisPlanId = this.props.state.current_trip;
                 const path = `/plans/${thisPlanId}`;
                 DB.on(path, function(snapshot) {
                     if (snapshot.val().author === uid) {
@@ -218,7 +218,7 @@ class Plan extends Component {
     componentDidUpdate(prevProps) {
         /* 抓取 Database 所有此旅程資料 */
         if (
-            prevProps.state.current_plan !== this.props.state.current_plan ||
+            prevProps.state.current_trip !== this.props.state.current_trip ||
             prevProps.state.user.uid !== this.props.state.user.uid
         ) {
             let thisEnvironment = this;
@@ -229,7 +229,7 @@ class Plan extends Component {
                 if (!location.href.includes("?id=")) {
                     redirectState = true;
                 } else {
-                    let thisPlanId = this.props.state.current_plan;
+                    let thisPlanId = this.props.state.current_trip;
                     redirectState = true;
 
                     const path = `/plans/${thisPlanId}`;
@@ -253,7 +253,7 @@ class Plan extends Component {
 export default Plan;
 
 function updatePlanInformation(thisEnvironment) {
-    const path = `plans/${thisEnvironment.props.state.current_plan}`;
+    const path = `plans/${thisEnvironment.props.state.current_trip}`;
     DB.on(path, snapshot => {
         const plan = snapshot.val();
         if (plan) {
@@ -301,7 +301,7 @@ function updatePlanInformation(thisEnvironment) {
     });
 
     thisEnvironment.props.handleAppStateChange({
-        plan_trip: "",
+        trip_attractions: "",
         map: "plantrip_open"
     });
 }

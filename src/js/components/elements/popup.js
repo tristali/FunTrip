@@ -79,13 +79,13 @@ class Popup extends Component {
                 popup: "hide",
                 popup_state: "",
                 menu: "",
-                plan_trip: "",
+                trip_attractions: "",
                 map: "plantrip_open"
             });
 
             if (this.props.state.popup_state === "del_plan") {
                 this.props.handleAppStateChange({
-                    plan_trip_width: "",
+                    trip_attractions_width: "",
                     map: "plantrip_creactplantrip_open"
                 });
             }

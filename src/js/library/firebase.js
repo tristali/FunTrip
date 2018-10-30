@@ -81,7 +81,7 @@ export const DB = {
                     .equalTo(firebaseUser.uid)
                     .on("value", function(snapshot) {
                         const plan = snapshot.val();
-                        thisEnvironment.setState({ all_plan: plan });
+                        thisEnvironment.setState({ all_trip: plan });
                     });
 
                 thisEnvironment.setState({
@@ -101,7 +101,7 @@ export const DB = {
                 thisEnvironment.setState({
                     user: thisStateUser,
                     menu: "",
-                    plan_trip: "hide",
+                    trip_attractions: "hide",
                     login_and_signup: "",
                     map: ""
                 });

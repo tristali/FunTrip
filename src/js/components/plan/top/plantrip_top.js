@@ -37,7 +37,7 @@ class PlanTripTop extends Component {
                             onClick={() =>
                                 this.props.handleOpenAddPlan({
                                     value: "EDIT",
-                                    id: this.props.state.current_plan
+                                    id: this.props.state.current_trip
                                 })
                             }
                         >

@@ -12,7 +12,7 @@ class ProfileInformation extends Component {
         /* creact 每個旅程 */
         let allTripArray;
         let allPlan = this.props.state.user.plan;
-        let allTrip = this.props.state.all_plan;
+        let allTrip = this.props.state.all_trip;
         let finishCount = 0;
         let unfinishCount = 0;
         let triping = 0;
