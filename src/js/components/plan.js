@@ -5,7 +5,7 @@ import Login from "./elements/login";
 import Header from "./elements/header";
 import PlanTrip from "./plan/plantrip";
 import Map from "./plan/map";
-import AddTrip from "./elements/add_trip";
+import EditTrip from "./elements/edit_trip";
 import Popup from "./elements/popup";
 import Loading from "./loading";
 import app from "../lib";
@@ -70,11 +70,11 @@ class Plan extends Component {
                     state={this.props.state}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
-                <AddTrip
+                <EditTrip
                     uid={this.props.state.user.uid}
-                    addTrip={this.props.state.add_trip}
+                    editTrip={this.props.state.edit_trip}
                     currentPlan={this.props.state.current_trip}
-                    addTripId={this.props.state.add_trip_id}
+                    editTripId={this.props.state.edit_trip_id}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup

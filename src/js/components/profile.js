@@ -5,12 +5,13 @@ import Loading from "./loading";
 import Header from "./elements/header";
 import ProfileInformation from "./profile/profile_information";
 import Popup from "./elements/popup";
-import AddTrip from "./elements/add_trip";
+import EditTrip from "./elements/edit_trip";
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            /* 旅行中 | 待出發 | 回憶錄 狀態 */
             trip_display: "all",
             redirect: false
         };
@@ -22,11 +23,11 @@ class Profile extends Component {
         }
         return (
             <div id="profile">
-                <AddTrip
+                <EditTrip
                     uid={this.props.state.user.uid}
-                    addTrip={this.props.state.add_trip}
+                    editTrip={this.props.state.edit_trip}
                     currentPlan={this.props.state.current_trip}
-                    addTripId={this.props.state.add_trip_id}
+                    editTripId={this.props.state.edit_trip_id}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup

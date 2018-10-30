@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import "../../../scss/add_plan_trip.scss";
 import { DB } from "../../library/firebase";
 
-class AddTrip extends Component {
+class EditTrip extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,19 +27,19 @@ class AddTrip extends Component {
     }
 
     render() {
-        let addTrip = this.props.addTrip;
+        let editTrip = this.props.editTrip;
         if (this.state.redirect) {
             return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
         }
         return (
             <div
-                className={`login_and_signup add_plan_trip ${addTrip}`}
+                className={`login_and_signup add_plan_trip ${editTrip}`}
                 onClick={this.handleCloseAddPlan}
             >
                 <div>
                     <div>
                         <ul className="clearfix tab">
-                            <li>{addTrip} TRIP</li>
+                            <li>{editTrip} TRIP</li>
                         </ul>
                         <ul className="enter_information">
                             <li>
@@ -86,10 +86,10 @@ class AddTrip extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        let addTrip = this.props.addTrip;
+        let editTrip = this.props.editTrip;
         /* 抓取目前旅程 Database 資料到新增編輯彈跳視窗 */
-        if (prevProps.addTrip !== addTrip) {
-            if (addTrip === "EDIT") {
+        if (prevProps.editTrip !== editTrip) {
+            if (editTrip === "EDIT") {
                 let thisEnvironment = this;
                 const path = `plans/${this.props.currentPlan}`;
                 DB.on(path, snapshot => {
@@ -107,7 +107,7 @@ class AddTrip extends Component {
                     });
                 });
             }
-            if (addTrip === "NEW") {
+            if (editTrip === "NEW") {
                 this.setState({
                     trip_name: "",
                     start_date: this.getToday(),
@@ -121,7 +121,7 @@ class AddTrip extends Component {
     handleCloseAddPlan(e) {
         if (e.target.className.split(" ")[0] === "login_and_signup") {
             this.props.handleAppStateChange({
-                add_trip: "hide"
+                edit_trip: "hide"
             });
             if (location.href.includes("plan")) {
                 this.props.handleAppStateChange({
@@ -135,8 +135,8 @@ class AddTrip extends Component {
     /* 新增旅程推到 database */
     handleAddPlan() {
         let state = this.state;
-        let addTrip = this.props.addTrip;
-        let addTripId = this.props.addTripId;
+        let editTrip = this.props.editTrip;
+        let editTripId = this.props.editTripId;
         if (!state.trip_name || !state.start_date || !state.day) {
             alert("OOOpps! 有欄位忘記填囉!");
         } else {
@@ -165,9 +165,9 @@ class AddTrip extends Component {
             let uid = this.props.uid;
             let planArray;
             let key;
-            if (addTripId && addTrip === "EDIT") {
+            if (editTripId && editTrip === "EDIT") {
                 /* 編輯旅程 */
-                key = addTripId;
+                key = editTripId;
                 this.props.handleAppStateChange({
                     trip_attractions: "",
                     map: "plantrip_open"
@@ -199,9 +199,9 @@ class AddTrip extends Component {
             }
 
             this.props.handleAppStateChange({
-                add_trip: "hide"
+                edit_trip: "hide"
             });
-            if (addTripId && addTrip === "EDIT") {
+            if (editTripId && editTrip === "EDIT") {
                 /* 上傳此旅程資訊 */
                 const path = `plans/${key}`;
                 const data = {
@@ -231,7 +231,7 @@ class AddTrip extends Component {
                 DB.set(path, data);
             }
 
-            if (addTrip === "NEW") {
+            if (editTrip === "NEW") {
                 this.setState({
                     redirect: true
                 });
@@ -264,7 +264,7 @@ class AddTrip extends Component {
         this.setState(thisState);
     }
 }
-export default AddTrip;
+export default EditTrip;
 
 /* 把日跟月補到兩位數 */
 function beTwoDigitNumber(number) {

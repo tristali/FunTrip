@@ -6,5 +6,6 @@ node_modules/
 
 # Optional eslint cache
 .eslintcache
+.gitignore
 
 config.js

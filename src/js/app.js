@@ -27,10 +27,10 @@ class App extends Component {
             current_trip: "",
 
             /* 新增或修改旅程 */
-            /* DOM 狀態 */
-            add_trip: "hide",
+            /* DOM 狀態 hide | NEW | EDIT */
+            edit_trip: "hide",
             /* 旅程 ID */
-            add_trip_id: "",
+            edit_trip_id: "",
 
             /* Plan 顯示正在編輯旅程的景點 */
             /* DOM 狀態 */
@@ -138,15 +138,15 @@ class App extends Component {
     }
 
     /* 打開新增旅程視窗
-    { value: 要改變 add_trip state 名稱得值, id: 要編輯旅程的 id } */
+    { value: 要改變 edit_trip state 名稱得值, id: 要編輯旅程的 id } */
     handleOpenAddPlan(props) {
         let planId = "";
         if (props.value === "EDIT") {
             planId = this.state.current_trip;
         }
         this.setState({
-            add_trip: props.value,
-            add_trip_id: planId,
+            edit_trip: props.value,
+            edit_trip_id: planId,
             trip_attractions: "hide",
             trip_attractions_width: "hide_creact_plantrip",
             menu: "",
@@ -156,18 +156,18 @@ class App extends Component {
 
     /* 開啟彈跳視窗，判斷是否為刪除景點 */
     handlePopup(value) {
-        let trip_attractions = this.state.trip_attractions;
+        let tripAttractions = this.state.trip_attractions;
         let map = this.state.map;
 
         if (value !== "del_plan") {
-            trip_attractions = "hide";
+            tripAttractions = "hide";
             map = "";
         }
 
         this.setState({
             popup: "",
             popup_state: value,
-            trip_attractions: trip_attractions,
+            trip_attractions: tripAttractions,
             map: map,
             menu: ""
         });
@@ -195,7 +195,7 @@ class App extends Component {
                     delete window.resolveGoogleMapsPromise;
                 };
 
-                const googleScript = document.createElement("script");
+                let googleScript = document.createElement("script");
                 googleScript.src = `https://maps.googleapis.com/maps/api/js?key=${
                     config.google
                 }&callback=resolveGoogleMapsPromise&libraries=places`;
@@ -206,7 +206,7 @@ class App extends Component {
                     document.head.childNodes[0]
                 );
 
-                const markerScript = document.createElement("script");
+                let markerScript = document.createElement("script");
                 markerScript.src =
                     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js";
                 document.head.insertBefore(
