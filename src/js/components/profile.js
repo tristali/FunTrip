@@ -23,7 +23,10 @@ class Profile extends Component {
         return (
             <div id="profile">
                 <AddPlanTrip
-                    state={this.props.state}
+                    uid={this.props.state.user.uid}
+                    addPlantrip={this.props.state.add_plantrip}
+                    currentPlan={this.props.state.current_plan}
+                    addPlantripId={this.props.state.add_plantrip_id}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup

@@ -126,8 +126,6 @@ class PlanTripDate extends Component {
         this.props.handlePlanStateChange({
             current_tab: current_tab
         });
-
-        // this.setState({ current_tab: current_tab });
     }
     /* 改變 current_type 狀態 */
     handleCurrentType() {

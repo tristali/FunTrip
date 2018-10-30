@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Redirect } from "react-router-dom";
+import ProfileAllTrip from "./profile_all_trip";
 import "../../../scss/profile_information.scss";
 
 class ProfileInformation extends Component {
@@ -35,13 +35,13 @@ class ProfileInformation extends Component {
                     }
 
                     allTripArray.unshift(
-                        <AllTrip
+                        <ProfileAllTrip
                             name={allTrip[item].name}
                             start={allTrip[item].start}
                             end={allTrip[item].end}
                             id={allTrip[item].plan_id}
                             key={`all_trip_${index}`}
-                            state={this.props.state}
+                            // state={this.props.state}
                             handleAppStateChange={
                                 this.props.handleAppStateChange
                             }
@@ -183,49 +183,3 @@ class ProfileInformation extends Component {
     // }
 }
 export default ProfileInformation;
-
-class AllTrip extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirect: false,
-            plan_id: ""
-        };
-        this.handleOpenThisPlan = this.handleOpenThisPlan.bind(this);
-    }
-    render() {
-        if (this.state.redirect) {
-            return <Redirect to={`/plan?id=${this.state.plan_id}`} />;
-        }
-        return (
-            <li className={this.props.thisTripState}>
-                <div onClick={() => this.handleOpenThisPlan(this.props.id)}>
-                    <ul className={this.props.className}>
-                        <li>{this.props.name}</li>
-                        <li>{`${this.props.start} - ${this.props.end}`}</li>
-                        <li>
-                            <div />
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        );
-    }
-    handleOpenThisPlan(plan_id) {
-        this.props.handleAppStateChange({
-            add_plantrip: "hide",
-            current_plan: plan_id,
-            loading: true,
-            menu: ""
-        });
-        this.setState({
-            plan_id: plan_id,
-            redirect: true
-        });
-    }
-    componentDidMount() {
-        this.props.handleAppStateChange({
-            loading: false
-        });
-    }
-}

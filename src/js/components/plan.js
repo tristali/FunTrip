@@ -71,7 +71,10 @@ class Plan extends Component {
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <AddPlanTrip
-                    state={this.props.state}
+                    uid={this.props.state.user.uid}
+                    addPlantrip={this.props.state.add_plantrip}
+                    currentPlan={this.props.state.current_plan}
+                    addPlantripId={this.props.state.add_plantrip_id}
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup
@@ -81,12 +84,13 @@ class Plan extends Component {
                     handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
                     handleDelTrip={this.handleDelTrip}
                 />
-                {this.props.state.loading && <Loading />}
+                {/* {this.props.state.loading && <Loading />} */}
                 <Header
                     handleMenuState={this.props.handleMenuState}
                     state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleAppStateChange={this.props.handleAppStateChange}
+                    handleChangeTripDisplay={this.handleChangeTripDisplay}
                     handlePopup={this.props.handlePopup}
                 />
                 <PlanTrip
@@ -173,8 +177,6 @@ class Plan extends Component {
             if (index > -1) {
                 planArray.splice(index, 1);
             }
-
-            // const path = `users/${uid}`;
             const data = { plan: planArray };
             DB.update(userPath, data);
         });

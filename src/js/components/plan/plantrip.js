@@ -69,7 +69,6 @@ class PlanTrip extends Component {
                         handlePopup={this.props.handlePopup}
                     />
                     <PlanTripBottom
-                        // state={this.props.state}
                         editPlanTrip={this.editPlanTrip}
                         planTripState={this.state}
                         planState={this.props.planState}
