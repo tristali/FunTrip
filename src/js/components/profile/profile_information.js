@@ -31,7 +31,6 @@ class ProfileInformation extends Component {
             allTripArray = [];
             allPlan.map((item, index) => {
                 let trip = allTrip[item];
-                // console.log(trip, "triptrip");
 
                 /* triping | unfinish | finish 判斷對照表 */
                 const CATEGORY_CONDITION_ARRAY = [
@@ -142,18 +141,6 @@ class ProfileInformation extends Component {
 
     /* 分類旅程類別 */
     handleTripCategory(props) {
-        // let CATEGORY_OBJ;
-        // let thisTripState;
-        // let CATEGORY_OBJ_KEY = Object.keys(props.CATEGORY_OBJ);
-        // for (let i = 0; i < CATEGORY_OBJ_KEY.length; i++) {
-        //     if (props.CATEGORY_CONDITION_ARRAY[i]) {
-        //         props.CATEGORY_OBJ[CATEGORY_OBJ_KEY[i]][0] += 1;
-
-        //         CATEGORY_OBJ = props.CATEGORY_OBJ;
-        //         thisTripState = props.thisTripState = CATEGORY_OBJ_KEY[i];
-        //         return { CATEGORY_OBJ, thisTripState };
-        //     }
-        // }
         return handleTripCategory(props);
     }
 
@@ -169,19 +156,3 @@ class ProfileInformation extends Component {
 }
 
 export default ProfileInformation;
-
-// function handleTripCategory(props) {
-//     let CATEGORY_OBJ;
-//     let thisTripState;
-//     let CATEGORY_OBJ_KEY = Object.keys(props.CATEGORY_OBJ);
-//     for (let i = 0; i < CATEGORY_OBJ_KEY.length; i++) {
-//         if (props.CATEGORY_CONDITION_ARRAY[i]) {
-//             props.CATEGORY_OBJ[CATEGORY_OBJ_KEY[i]][0] += 1;
-
-//             CATEGORY_OBJ = props.CATEGORY_OBJ;
-//             thisTripState = props.thisTripState = CATEGORY_OBJ_KEY[i];
-//             return { CATEGORY_OBJ, thisTripState };
-//         }
-//     }
-// }
-// module.exports = handleTripCategory;
