@@ -1,6 +1,4 @@
 # Dependency directories
-.firebase/
-.vscode/
 dist/
 node_modules/
 

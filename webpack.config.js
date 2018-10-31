@@ -44,7 +44,7 @@ module.exports = {
                     }
                 ]
             }
-        ],
+        ]
         // //
         // loaders: [
         //     { exclude: ["node_modules"], loader: "babel", test: /\.jsx?$/ },
@@ -61,7 +61,7 @@ module.exports = {
             template: "./src/index.html",
             filename: "./index.html"
         })
-    ],
+    ]
     // //
     // resolve: {
     //     alias: {
