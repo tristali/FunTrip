@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { NavLink } from "react-router-dom";
+import React from "react";
 import "../../scss/loading.scss";
 
 const Loading = () => {

@@ -1,55 +1,82 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import ProfileAllTrip from "./profile_all_trip";
+import ProfileTripCategory from "./profile_trip_category";
+import {handleTripCategory} from "../../library/handle_trip_category";
 import "../../../scss/profile_information.scss";
 
 class ProfileInformation extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handleTripCategory = this.handleTripCategory.bind(this);
     }
     render() {
+        let triping = 0;
+        let unfinish = 0;
+        let finish = 0;
+        let CATEGORY_OBJ = {
+            triping: [triping, "旅行中"],
+            unfinish: [unfinish, "待出發"],
+            finish: [finish, "回憶錄"]
+        };
+
         /* creact 每個旅程 */
+        let ProfileTripCategoryArray = [];
         let allTripArray;
         let allPlan = this.props.state.user.plan;
         let allTrip = this.props.state.all_trip;
-        let finishCount = 0;
-        let unfinishCount = 0;
-        let triping = 0;
         let thisTripState = "";
+
         if (allPlan && allTrip) {
             allTripArray = [];
             allPlan.map((item, index) => {
-                if (allTrip[item]) {
-                    /* 已規劃且完成旅程 */
-                    if (new Date() > new Date(allTrip[item].end)) {
-                        finishCount += 1;
-                        thisTripState = "finish";
-                    } else if (new Date() <= new Date(allTrip[item].start)) {
-                        /* 已規劃但未出發旅程 */
-                        unfinishCount += 1;
-                        thisTripState = "unfinish";
-                    } else {
-                        triping += 1;
-                        thisTripState = "triping";
-                    }
+                let trip = allTrip[item];
+                // console.log(trip, "triptrip");
+
+                /* triping | unfinish | finish 判斷對照表 */
+                const CATEGORY_CONDITION_ARRAY = [
+                    new Date() >= new Date(trip.start) &&
+                        new Date() <= new Date(trip.end),
+                    new Date() < new Date(trip.start),
+                    new Date() > new Date(trip.end)
+                ];
+
+                if (trip) {
+                    let tripCategory = this.handleTripCategory({
+                        CATEGORY_OBJ: CATEGORY_OBJ,
+                        CATEGORY_CONDITION_ARRAY: CATEGORY_CONDITION_ARRAY,
+                        thisTripState: thisTripState
+                    });
+                    CATEGORY_OBJ = tripCategory.CATEGORY_OBJ;
+                    thisTripState = tripCategory.thisTripState;
 
                     allTripArray.unshift(
                         <ProfileAllTrip
-                            name={allTrip[item].name}
-                            start={allTrip[item].start}
-                            end={allTrip[item].end}
-                            id={allTrip[item].plan_id}
+                            state={this.props.state}
                             key={`all_trip_${index}`}
-                            // state={this.props.state}
+                            id={trip.plan_id}
+                            name={trip.name}
+                            thisTripState={thisTripState}
+                            start={trip.start}
+                            end={trip.end}
                             handleAppStateChange={
                                 this.props.handleAppStateChange
                             }
-                            thisTripState={thisTripState}
                         />
                     );
                 }
             });
+        }
+        for (let i = 0; i < Object.keys(CATEGORY_OBJ).length; i++) {
+            ProfileTripCategoryArray.push(
+                <ProfileTripCategory
+                    key={`profile_trip_category${i}`}
+                    index={i}
+                    profileState={this.props.profileState}
+                    categoryObj={CATEGORY_OBJ}
+                    handleChangeTripDisplay={this.props.handleChangeTripDisplay}
+                />
+            );
         }
         return (
             <div className="profile_information">
@@ -94,68 +121,7 @@ class ProfileInformation extends Component {
                                         <div>{this.props.state.user.name}</div>
                                         <div>{this.props.state.user.email}</div>
                                     </li>
-                                    <li>
-                                        <div
-                                            onClick={() =>
-                                                this.props.handleChangeTripDisplay(
-                                                    "triping"
-                                                )
-                                            }
-                                        >
-                                            <ul
-                                                className={
-                                                    this.props.profileState
-                                                        .trip_display ===
-                                                    "triping"
-                                                        ? "current"
-                                                        : ""
-                                                }
-                                            >
-                                                <li>{triping}</li>
-                                                <li>旅行中</li>
-                                            </ul>
-                                        </div>
-                                        <div
-                                            onClick={() =>
-                                                this.props.handleChangeTripDisplay(
-                                                    "unfinish"
-                                                )
-                                            }
-                                        >
-                                            <ul
-                                                className={
-                                                    this.props.profileState
-                                                        .trip_display ===
-                                                    "unfinish"
-                                                        ? "current"
-                                                        : ""
-                                                }
-                                            >
-                                                <li>{unfinishCount}</li>
-                                                <li>待出發</li>
-                                            </ul>
-                                        </div>
-                                        <div
-                                            onClick={() =>
-                                                this.props.handleChangeTripDisplay(
-                                                    "finish"
-                                                )
-                                            }
-                                        >
-                                            <ul
-                                                className={
-                                                    this.props.profileState
-                                                        .trip_display ===
-                                                    "finish"
-                                                        ? "current"
-                                                        : ""
-                                                }
-                                            >
-                                                <li>{finishCount}</li>
-                                                <li>回憶錄</li>
-                                            </ul>
-                                        </div>
-                                    </li>
+                                    <li>{ProfileTripCategoryArray}</li>
                                 </ul>
                             </div>
                         </div>
@@ -173,13 +139,49 @@ class ProfileInformation extends Component {
             </div>
         );
     }
-    // componentDidMount() {
-    //     if (!this.props.state.user.plan) {
-    //         this.props.handleAppStateChange({
-    //             stateName: "loading",
-    //             value: false
-    //         });
-    //     }
-    // }
+
+    /* 分類旅程類別 */
+    handleTripCategory(props) {
+        // let CATEGORY_OBJ;
+        // let thisTripState;
+        // let CATEGORY_OBJ_KEY = Object.keys(props.CATEGORY_OBJ);
+        // for (let i = 0; i < CATEGORY_OBJ_KEY.length; i++) {
+        //     if (props.CATEGORY_CONDITION_ARRAY[i]) {
+        //         props.CATEGORY_OBJ[CATEGORY_OBJ_KEY[i]][0] += 1;
+
+        //         CATEGORY_OBJ = props.CATEGORY_OBJ;
+        //         thisTripState = props.thisTripState = CATEGORY_OBJ_KEY[i];
+        //         return { CATEGORY_OBJ, thisTripState };
+        //     }
+        // }
+        return handleTripCategory(props);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.state.all_trip !== this.props.state.all_trip) {
+            if (this.props.state.all_trip === null) {
+                this.props.handleAppStateChange({
+                    loading: false
+                });
+            }
+        }
+    }
 }
+
 export default ProfileInformation;
+
+// function handleTripCategory(props) {
+//     let CATEGORY_OBJ;
+//     let thisTripState;
+//     let CATEGORY_OBJ_KEY = Object.keys(props.CATEGORY_OBJ);
+//     for (let i = 0; i < CATEGORY_OBJ_KEY.length; i++) {
+//         if (props.CATEGORY_CONDITION_ARRAY[i]) {
+//             props.CATEGORY_OBJ[CATEGORY_OBJ_KEY[i]][0] += 1;
+
+//             CATEGORY_OBJ = props.CATEGORY_OBJ;
+//             thisTripState = props.thisTripState = CATEGORY_OBJ_KEY[i];
+//             return { CATEGORY_OBJ, thisTripState };
+//         }
+//     }
+// }
+// module.exports = handleTripCategory;

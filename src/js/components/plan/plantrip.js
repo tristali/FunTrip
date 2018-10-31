@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import PlanTripTop from "./top/plantrip_top";
 import PlanTripBottom from "./bottom/plantrip_bottom";
 import CreactPlanTrip from "./creact_plantrip";
-import app from "../../lib";
 import "../../../scss/plantrip.scss";
 
 class PlanTrip extends Component {

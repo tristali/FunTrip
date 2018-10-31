@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import InformationDetailed from "./creact_plantrip_information_detailed";
-import app from "../../lib";
+import {app} from "../../lib";
 import "../../../scss/creact_plantrip.scss";
 import { DB } from "../../library/firebase";
 

@@ -1,4 +1,4 @@
-let app = {};
+export const app = {};
 
 /* Get Element */
 app.get = function(selector) {
@@ -133,4 +133,4 @@ app.autocomplete = function(map, thisEnvironment) {
     });
 };
 
-export default app;
+// export default app;

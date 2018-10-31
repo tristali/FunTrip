@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Logo from "../../../img/funtrip_logo.svg";
@@ -14,6 +13,7 @@ class Header extends Component {
         this.handleRedirect = this.handleRedirect.bind(this);
     }
     render() {
+        let menu = this.props.menu;
         if (this.state.redirect) {
             return <Redirect to="/profile" />;
         }
@@ -26,7 +26,7 @@ class Header extends Component {
                         </h1>
                     </li>
                     <li
-                        className={`menu_icon ${this.props.state.menu}`}
+                        className={`menu_icon ${menu}`}
                         onClick={this.props.handleMenuState}
                     >
                         <div />
@@ -34,7 +34,7 @@ class Header extends Component {
                         <div />
                     </li>
                 </ul>
-                <div className={`menu ${this.props.state.menu}`}>
+                <div className={`menu ${menu}`}>
                     <ul>
                         <li
                             onClick={() =>

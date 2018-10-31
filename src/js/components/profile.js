@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import Loading from "./loading";
 import Header from "./elements/header";
@@ -16,6 +15,7 @@ class Profile extends Component {
             redirect: false
         };
         this.handleChangeTripDisplay = this.handleChangeTripDisplay.bind(this);
+        this.handleNoLogin = this.handleNoLogin.bind(this);
     }
     render() {
         if (this.state.redirect) {
@@ -31,17 +31,17 @@ class Profile extends Component {
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup
-                    state={this.props.state}
+                    popup={this.props.state.popup}
+                    popupState={this.props.state.popup_state}
                     handleAppStateChange={this.props.handleAppStateChange}
                     handleSignout={this.props.handleSignout}
                 />
                 {this.props.state.loading && <Loading />}
                 <Header
+                    menu={this.props.state.menu}
                     handleMenuState={this.props.handleMenuState}
-                    state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleAppStateChange={this.props.handleAppStateChange}
-                    handleChangeTripDisplay={this.handleChangeTripDisplay}
                     handlePopup={this.props.handlePopup}
                 />
                 <ProfileInformation
@@ -57,30 +57,28 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        /* 如果無登入則轉跳到 plan 頁面 */
-        if (!this.props.state.user.uid) {
-            this.props.handleAppStateChange({
-                loading: true
-            });
-            this.setState({ redirect: true });
-        }
+        this.handleNoLogin();
     }
 
     componentDidUpdate(prevProps) {
-        /* 如果無登入則轉跳到 plan 頁面 */
         if (prevProps.state.user.uid !== this.props.state.user.uid) {
-            if (!this.props.state.user.uid) {
-                this.props.handleAppStateChange({
-                    loading: true
-                });
-                this.setState({ redirect: true });
-            }
+            this.handleNoLogin();
         }
     }
 
     /* 改變目前 trip_display 狀態 */
     handleChangeTripDisplay(this_category) {
         this.setState({ trip_display: this_category });
+    }
+
+    /* 會員無登入轉址到 plan 頁面 */
+    handleNoLogin() {
+        if (!this.props.state.user.uid) {
+            this.props.handleAppStateChange({
+                loading: true
+            });
+            this.setState({ redirect: true });
+        }
     }
 }
 

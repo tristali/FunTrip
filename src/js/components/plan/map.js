@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "../../../scss/map.scss";
-import app from "../../lib";
+import {app} from "../../lib";
 
 /* locations icon */
 import activity from "../../../img/location_icon/activity.png";

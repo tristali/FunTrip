@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "../../../scss/login.scss";
 import * as firebase from "firebase";
 import { DB } from "../../library/firebase";

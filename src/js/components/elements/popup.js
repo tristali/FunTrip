@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "../../../scss/popup.scss";
 
 class Popup extends Component {
@@ -10,11 +9,12 @@ class Popup extends Component {
     }
 
     render() {
+        let popupState = this.props.popupState;
         let popup_title;
         let popup_text;
         let popup_button;
         let popup_onclick;
-        if (this.props.state.popup_state === "signout") {
+        if (popupState === "signout") {
             popup_title = "確定要登出嗎";
             popup_text = "好吧 就期待下次的相會囉";
             popup_button = "登出";
@@ -24,17 +24,17 @@ class Popup extends Component {
             popup_text = "會像青春的小鳥 Say Bye";
             popup_button = "刪除";
             /* 確認刪除旅程 */
-            if (this.props.state.popup_state === "del_trip") {
+            if (popupState === "del_trip") {
                 popup_onclick = this.props.handleDelTrip;
             }
             /* 確認刪除景點 */
-            if (this.props.state.popup_state === "del_plan") {
+            if (popupState === "del_plan") {
                 popup_onclick = this.props.handleDelCreactPlanTrip;
             }
         }
         return (
             <div
-                className={`popup ${this.props.state.popup}`}
+                className={`popup ${this.props.popup}`}
                 onClick={this.handleCloseAddPlan}
             >
                 <div>
@@ -83,7 +83,7 @@ class Popup extends Component {
                 map: "plantrip_open"
             });
 
-            if (this.props.state.popup_state === "del_plan") {
+            if (this.props.popupState === "del_plan") {
                 this.props.handleAppStateChange({
                     trip_attractions_width: "",
                     map: "plantrip_creactplantrip_open"

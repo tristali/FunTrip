@@ -65,6 +65,10 @@ export const DB = {
                     }
                     if (snapshot.val().plan) {
                         thisStateUser.plan = snapshot.val().plan;
+                    } else {
+                        thisEnvironment.setState({
+                            all_trip: null
+                        });
                     }
                     thisEnvironment.setState({
                         user: thisStateUser,

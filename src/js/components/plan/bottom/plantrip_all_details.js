@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import PlanTripDetails from "./plantrip_details";
 
 class PlanTripAllDetails extends Component {

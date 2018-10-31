@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import Login from "./elements/login";
 import Header from "./elements/header";
@@ -8,7 +7,7 @@ import Map from "./plan/map";
 import EditTrip from "./elements/edit_trip";
 import Popup from "./elements/popup";
 import Loading from "./loading";
-import app from "../lib";
+import {app} from "../lib";
 import { DB } from "../library/firebase";
 
 class Plan extends Component {
@@ -78,7 +77,8 @@ class Plan extends Component {
                     handleAppStateChange={this.props.handleAppStateChange}
                 />
                 <Popup
-                    state={this.props.state}
+                    popup={this.props.state.popup}
+                    popupState={this.props.state.popup_state}
                     handleAppStateChange={this.props.handleAppStateChange}
                     handleSignout={this.props.handleSignout}
                     handleDelCreactPlanTrip={this.handleDelCreactPlanTrip}
@@ -86,11 +86,10 @@ class Plan extends Component {
                 />
                 {/* {this.props.state.loading && <Loading />} */}
                 <Header
+                    menu={this.props.state.menu}
                     handleMenuState={this.props.handleMenuState}
-                    state={this.props.state}
                     handleOpenAddPlan={this.props.handleOpenAddPlan}
                     handleAppStateChange={this.props.handleAppStateChange}
-                    handleChangeTripDisplay={this.handleChangeTripDisplay}
                     handlePopup={this.props.handlePopup}
                 />
                 <PlanTrip

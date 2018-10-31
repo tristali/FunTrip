@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "../../../scss/creact_plantrip.scss";
 
 class InformationDetailed extends Component {

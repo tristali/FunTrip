@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Redirect } from "react-router-dom";
 import "../../../scss/add_plan_trip.scss";
 import { DB } from "../../library/firebase";
