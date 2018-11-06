@@ -9,7 +9,10 @@ A trip planning website that can see all kinds of markers of interesting events,
 
  * When a user starts typing a name of location, FunTrip integrated with the Place Library of Google Maps API that suggests the most relevant location options for users.
 
+![1](./screenshot/autocomplete.jpg)
+
  * While a user makes a plan of visiting more than one places, Funtrip provides a visual connection between those places  with Polyline of Google Maps AIP.
+![2](./screenshot/polyline.jpg)
 
  * With Firebase Realtime Database, any modifications of any trip plan will be updated immediately.
 
