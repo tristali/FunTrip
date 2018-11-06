@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../../scss/map.scss";
-import {app} from "../../lib";
+import { app } from "../../library/lib";
+import { googleMaps } from "../../library/google";
 
 /* locations icon */
 import activity from "../../../img/location_icon/activity.png";
@@ -74,7 +75,7 @@ class Map extends Component {
 
         /* google map 自動輸入並抓取資料 */
         let thisEnvironment = this;
-        app.autocomplete(map, thisEnvironment);
+        googleMaps.autocomplete(map, thisEnvironment);
     }
 
     /* 抓取 Database 所有此旅程資料 */

@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LandingPage from "./components/landingpage";
 import Plan from "./components/plan";
 import Profile from "./components/profile";
+import { googleMaps } from "./library/google";
 import { DB } from "./library/firebase";
 import { config } from "./library/config";
 
@@ -68,7 +69,6 @@ class App extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.handlePopup = this.handlePopup.bind(this);
         this.handleSignout = this.handleSignout.bind(this);
-        this.getGoogleMaps = this.getGoogleMaps.bind(this);
     }
 
     render() {
@@ -87,7 +87,6 @@ class App extends Component {
                                 handleOpenAddPlan={this.handleOpenAddPlan}
                                 handleSignout={this.handleSignout}
                                 handlePopup={this.handlePopup}
-                                getGoogleMaps={this.getGoogleMaps}
                             />
                         )}
                     />
@@ -109,14 +108,16 @@ class App extends Component {
         );
     }
     componentWillMount() {
-        this.getGoogleMaps();
+        const thisEnvironment = this;
+        googleMaps.get(thisEnvironment);
     }
 
     componentDidMount() {
         /* 判斷當前會員登入狀態，決定登入視窗是否顯示 */
         let thisEnvironment = this;
-        DB.onAuthChanged(thisEnvironment);
-        this.getGoogleMaps().then(google => {
+        DB.determineAuthFirst(thisEnvironment);
+
+        googleMaps.get(thisEnvironment).then(google => {
             this.setState({ google: google });
         });
     }
@@ -182,42 +183,6 @@ class App extends Component {
             popup: "hide",
             popup_state: ""
         });
-    }
-
-    /* 取得 GOOGLE MAP API */
-    getGoogleMaps() {
-        if (!this.googleMapsPromise) {
-            this.googleMapsPromise = new Promise(resolve => {
-                // Add a global handler for when the API finishes loading
-                window.resolveGoogleMapsPromise = () => {
-                    // Resolve the promise
-                    resolve(google);
-                    // Tidy up
-                    delete window.resolveGoogleMapsPromise;
-                };
-
-                let googleScript = document.createElement("script");
-                googleScript.src = `https://maps.googleapis.com/maps/api/js?key=${
-                    config.google
-                }&callback=resolveGoogleMapsPromise&libraries=places`;
-                googleScript.async = true;
-                googleScript.defer = true;
-                document.head.insertBefore(
-                    googleScript,
-                    document.head.childNodes[0]
-                );
-
-                let markerScript = document.createElement("script");
-                markerScript.src =
-                    "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js";
-                document.head.insertBefore(
-                    markerScript,
-                    document.head.childNodes[1]
-                );
-            });
-        }
-
-        return this.googleMapsPromise;
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import InformationDetailed from "./creact_plantrip_information_detailed";
-import {app} from "../../lib";
+import {app} from "../../library/lib";
 import "../../../scss/creact_plantrip.scss";
 import { DB } from "../../library/firebase";
 
@@ -230,17 +230,6 @@ class CreactPlanTrip extends Component {
 
     /* 重設 新增 / 編輯 */
     handleReset() {
-        /* 清除 修改/新增 location 和類別 */
-        const allTextareaDOM = [...document.querySelectorAll(".textarea")];
-        const allInformationLi = [
-            ...document.querySelectorAll(".information>ul>li")
-        ];
-        allTextareaDOM.map(item => {
-            item.innerHTML = "";
-        });
-        allInformationLi.map(item => {
-            item.classList.remove("current");
-        });
 
         this.props.handleCleanCategoryAndLcation({
             select_category: "Transport",

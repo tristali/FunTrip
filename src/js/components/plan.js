@@ -7,7 +7,7 @@ import Map from "./plan/map";
 import EditTrip from "./elements/edit_trip";
 import Popup from "./elements/popup";
 import Loading from "./loading";
-import {app} from "../lib";
+import {app} from "../library/lib";
 import { DB } from "../library/firebase";
 
 class Plan extends Component {

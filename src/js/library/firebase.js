@@ -42,75 +42,17 @@ export const DB = {
             .ref(path)
             .once("value", action);
     },
-    /* 第一次判斷 */
-    onAuthChanged: thisEnvironment => {
-        firebaseApp.auth().onAuthStateChanged(firebaseUser => {
-            /* 判斷登入狀態決定登入視窗是否顯示*/
-            let thisStateUser;
-            let thisStateMap = "";
-            if (firebaseUser) {
-                thisStateUser = Object.assign({}, thisEnvironment.state.user, {
-                    email: firebaseUser.email,
-                    uid: firebaseUser.uid,
-                    password: "",
-                    photoURL: firebaseUser.photoURL
-                });
-                /* 取得使用者資料 */
-                const path = `/users/${firebaseUser.uid}`;
-                DB.on(path, function(snapshot) {
-                    thisStateUser.name = snapshot.val().name;
-                    /* 較高畫質大頭貼 */
-                    if (snapshot.val().photoURL) {
-                        thisStateUser.photoURL = snapshot.val().photoURL;
-                    }
-                    if (snapshot.val().plan) {
-                        thisStateUser.plan = snapshot.val().plan;
-                    } else {
-                        thisEnvironment.setState({
-                            all_trip: null
-                        });
-                    }
-                    thisEnvironment.setState({
-                        user: thisStateUser,
-                        map: thisStateMap
-                    });
-                });
-
-                /* 取得此使用者旅程資料 */
-                firebaseApp
-                    .database()
-                    .ref()
-                    .child("plans")
-                    .orderByChild("author")
-                    .equalTo(firebaseUser.uid)
-                    .on("value", function(snapshot) {
-                        const plan = snapshot.val();
-                        thisEnvironment.setState({ all_trip: plan });
-                    });
-
-                thisEnvironment.setState({
-                    user: thisStateUser,
-                    login_and_signup: "hide"
-                });
-            } else {
-                /* 沒有登入狀態 */
-                thisStateUser = Object.assign({}, thisEnvironment.state.user, {
-                    name: "",
-                    email: "",
-                    password: "",
-                    uid: "",
-                    photoURL: "",
-                    plan: ""
-                });
-                thisEnvironment.setState({
-                    user: thisStateUser,
-                    menu: "",
-                    trip_attractions: "hide",
-                    login_and_signup: "",
-                    map: ""
-                });
-            }
-        });
+    filterPlansAuthorValue: (value, action) => {
+        firebaseApp
+            .database()
+            .ref()
+            .child("plans")
+            .orderByChild("author")
+            .equalTo(value)
+            .on("value", action);
+    },
+    onAuthChanged: action => {
+        firebaseApp.auth().onAuthStateChanged(action);
     },
     /* 帳號密碼註冊 */
     createUserWithEmailAndPassword: thisStateUser => {
@@ -175,5 +117,70 @@ export const DB = {
     /* 登出 */
     signOut: () => {
         DB.auth.signOut();
+    },
+    determineAuthFirst: thisEnvironment => {
+        DB.onAuthChanged(firebaseUser => {
+            /* 判斷登入狀態決定登入視窗是否顯示*/
+            let thisStateUser;
+            let thisStateMap = "";
+            if (firebaseUser) {
+                thisStateUser = Object.assign({}, thisEnvironment.state.user, {
+                    email: firebaseUser.email,
+                    uid: firebaseUser.uid,
+                    password: "",
+                    photoURL: firebaseUser.photoURL
+                });
+                /* 取得使用者資料 */
+                const path = `/users/${firebaseUser.uid}`;
+                DB.on(path, function(snapshot) {
+                    thisStateUser.name = snapshot.val().name;
+                    /* 較高畫質大頭貼 */
+                    if (snapshot.val().photoURL) {
+                        thisStateUser.photoURL = snapshot.val().photoURL;
+                    }
+                    if (snapshot.val().plan) {
+                        thisStateUser.plan = snapshot.val().plan;
+                    } else {
+                        thisEnvironment.setState({
+                            all_trip: null
+                        });
+                    }
+                    thisEnvironment.setState({
+                        user: thisStateUser,
+                        map: thisStateMap
+                    });
+                });
+
+                /* 取得此使用者所有旅程資料 */
+                let authorValue = firebaseUser.uid;
+                let action = function(snapshot) {
+                    const plan = snapshot.val();
+                    thisEnvironment.setState({ all_trip: plan });
+                };
+                DB.filterPlansAuthorValue(authorValue, action);
+
+                thisEnvironment.setState({
+                    user: thisStateUser,
+                    login_and_signup: "hide"
+                });
+            } else {
+                /* 沒有登入狀態 */
+                thisStateUser = Object.assign({}, thisEnvironment.state.user, {
+                    name: "",
+                    email: "",
+                    password: "",
+                    uid: "",
+                    photoURL: "",
+                    plan: ""
+                });
+                thisEnvironment.setState({
+                    user: thisStateUser,
+                    menu: "",
+                    trip_attractions: "hide",
+                    login_and_signup: "",
+                    map: ""
+                });
+            }
+        });
     }
 };

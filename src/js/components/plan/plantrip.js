@@ -111,16 +111,6 @@ class PlanTrip extends Component {
     }
     */
     editPlanTrip(props) {
-        const allTextareaDOM = [...document.querySelectorAll(".textarea")];
-        const allInformationLi = [
-            ...document.querySelectorAll(".information>ul>li")
-        ];
-        allTextareaDOM.map(item => {
-            item.innerHTML = "";
-        });
-        allInformationLi.map(item => {
-            item.classList.remove("current");
-        });
         this.props.handlePlanStateChange({
             current_information: "",
             current_day: props.day,
