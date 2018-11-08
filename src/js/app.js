@@ -45,6 +45,7 @@ class App extends Component {
             /* 登入 */
             /* DOM 狀態 */
             login_and_signup: "",
+            signup: false,
 
             /* 地圖 */
             /* DOM 狀態 */

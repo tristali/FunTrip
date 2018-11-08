@@ -36,7 +36,7 @@ class Profile extends Component {
                     handleAppStateChange={this.props.handleAppStateChange}
                     handleSignout={this.props.handleSignout}
                 />
-                {this.props.state.loading && <Loading />}
+                {/* {this.props.state.loading && <Loading />} */}
                 <Header
                     menu={this.props.state.menu}
                     handleMenuState={this.props.handleMenuState}
@@ -78,6 +78,9 @@ class Profile extends Component {
                 loading: true
             });
             this.setState({ redirect: true });
+        }
+        if (this.props.state.signup) {
+            this.setState({ redirect: false });
         }
     }
 }

@@ -80,6 +80,9 @@ class Login extends Component {
                     promise
                         .then(function() {
                             DB.setMemberInformation(thisStateUser);
+                            this.props.handleAppStateChange({
+                                signup: true
+                            });
                         })
                         .catch(function(e) {
                             if (

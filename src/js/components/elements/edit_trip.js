@@ -250,16 +250,18 @@ class EditTrip extends Component {
 
     /* 如果 input 改變 及 判斷天數是否介於 1-99 */
     handleInputChange(e, item) {
+        let value = e.currentTarget.value;
         if (item === "day") {
-            if (e.currentTarget.value < 1) {
-                e.currentTarget.value = 1;
+            value = Math.round(value);
+            if (value < 1) {
+                value = 1;
             }
-            if (e.currentTarget.value > 99) {
-                e.currentTarget.value = 99;
+            if (value > 99) {
+                value = 99;
             }
         }
         let thisState = {};
-        thisState[item] = e.currentTarget.value;
+        thisState[item] = value;
         this.setState(thisState);
     }
 }
