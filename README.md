@@ -1,11 +1,12 @@
 # FunTrip
 
 A trip planning website that can see all kinds of markers of interesting events, locations, including lodges and restaurants related to current trip on map.
-[Try it](https://funtrip-3d235.firebaseapp.com/)
 
-Test account:
-visitor@gmail.com
-test1234
+ * Test account:<br />
+visitor@gmail.com<br />
+test1234<br />
+
+[Try it](https://funtrip-3d235.firebaseapp.com/)
 
 ## Implementation
 
