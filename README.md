@@ -3,6 +3,10 @@
 A trip planning website that can see all kinds of markers of interesting events, locations, including lodges and restaurants related to current trip on map.
 [Try it](https://funtrip-3d235.firebaseapp.com/)
 
+Test account:
+visitor@gmail.com
+test1234
+
 ## Implementation
 
  * Users can identify locations of any trip on the map with Markers of Google Maps API.
